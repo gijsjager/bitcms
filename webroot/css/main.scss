@@ -1,0 +1,81 @@
+/**
+ * @author Dotbits
+ */
+@import "elements/jquery.kenburnsy";
+@import "owl_carousel/owl.carousel";
+@import "owl_carousel/owl.theme";
+@import "theme";
+@import "responsive";
+
+
+/*-----
+  Import BitCMS top nav */
+@import "bitcms";
+
+$transition-speed: .3s;
+$transition-speed-slow: .6s;
+$transition-ease-out: cubic-bezier(0.165, 0.84, 0.44, 1);;
+
+/*-----
+ Fonts */
+@import 'picon';
+@import 'icomoon';
+@import 'ion_icon';
+@import 'et-line';
+@import 'https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700';
+@import 'https://fonts.googleapis.com/css?family=Lekton:400,700,400italic';
+$font_base: 'Ubuntu', sans-serif;
+$font_special: 'Lekton', sans-serif;
+
+/*-----
+ Colors */
+$black: #111;
+$gray: #a1a2a6;
+$light-gray: #e6e6e6;
+$dark-gray: #939393;
+$red: #D08D8B;
+$brown: #b6b3ab;
+$light-brown: #eeedec;
+$blue: #87B3C0;
+$green: #7f7e65;
+
+/*-----
+  Global styling */
+@import "mixins";
+
+body {
+    font-family: $font_base;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 24px;
+    background: white;
+    @include breakpoint(sm){
+        font-size: 18px;
+        line-height: 27px;
+    }
+    &.no-scroll {
+        overflow: hidden;
+    }
+}
+.animate-hidden,
+.animate-in,
+.animated {
+    opacity: 0;
+}
+.bitcms-logged-in {
+    padding-top: 62px;
+}
+
+/*-----
+  Content */
+.our-story-content {
+    width: 50%;
+    margin-left: -150px;
+    padding: 60px 30px;
+}
+
+/*-----
+  Footer */
+.copyright-mark {
+    font-size: 14px;
+}

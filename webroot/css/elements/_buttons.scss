@@ -1,0 +1,44 @@
+/**
+ * Buttons
+ */
+
+.btn {
+    transition: background $transition-speed ease, color $transition-speed ease;
+    border: 0;
+    outline: none;
+    padding: 15px 30px;
+    text-transform: uppercase;
+    border-radius: 0;
+    font-family: $font_montserrat;
+    font-size: 0.8rem;
+}
+
+.btn-primary {
+    background: $black;
+    color: white;
+    &:focus,
+    &:hover {
+        background: white;
+        color: $black;
+    }
+}
+
+.btn-secondary {
+    background: white;
+    color: $black;
+    &:focus,
+    &:hover {
+        background: $black;
+        color: white;
+    }
+}
+
+.btn-ghost {
+    border: 1px solid white;
+    color: white;
+    background: transparent;
+    &:hover {
+        background: white;
+        color: $black;
+    }
+}

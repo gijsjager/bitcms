@@ -1,0 +1,76 @@
+.videos {
+    background: #f0efe8;
+
+    .big-video {
+        width: 100%;
+        height: calc(80vh - 80px);
+        background: #ccc no-repeat center center;
+        background-size: cover;
+        position: relative;
+        .btn-play {
+            position: absolute;
+            top: 50%; left: 50%;
+            z-index: 10;
+            width: 50px; height: 50px;
+            margin: -25px;
+            display: block;
+            border-radius: 50px;
+            border: 2px solid white;
+            background: rgba($black, .25);
+            text-align: center;
+            line-height: 42px;
+            transition: background $transition-speed ease, color $transition-speed ease;
+            img {
+                margin-right: -3px;
+            }
+            &:hover {
+                text-decoration: none;
+                background: $black;
+                border-color: $black;
+            }
+        }
+
+        @include breakpoint(md){
+            height: 800px;
+        }
+    }
+
+    .small-videos {
+
+        .thumbnail {
+            width: 100%;
+            height: 220px;
+            position: relative;
+            margin-bottom: 20px;
+            background: #ccc no-repeat center center;
+            background-size: cover;
+            a {
+                font-family: $font_montserrat;
+                font-size: 0.8rem;
+                text-transform: uppercase;
+                position: absolute;
+                top: 50%; left: 50%;
+                z-index: 10;
+                transform: translateX(-50%) translateY(-50%);
+                display: block;
+                border: 2px solid white;
+                color: white;
+                white-space: nowrap;
+                padding: 15px 30px;
+                background: rgba($black, .25);
+                transition: background $transition-speed ease, color $transition-speed ease;
+                &:hover {
+                    text-decoration: none;
+                    background: $black;
+                    border-color: $black;
+                }
+            }
+        }
+        .title {
+            text-transform: uppercase;
+            color: $black;
+            margin-bottom: 20px;
+        }
+    }
+
+}

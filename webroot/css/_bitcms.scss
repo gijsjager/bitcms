@@ -1,0 +1,852 @@
+/**
+ * BitCMS topnav front-end
+ */
+#bitcms {
+  .mai-top-header {
+    border: 0;
+    margin-bottom: 0;
+    background-color: #323232;
+    padding: 0;
+    position: fixed; top: 0; left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  @media (max-width: 767px) {
+    .mai-top-header {
+      background-color: #2cc185;
+    }
+  }
+  .mai-top-header > .container {
+    padding: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  @media (max-width: 575px) {
+    .mai-top-header > .container {
+      -webkit-box-pack: justify;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+    }
+  }
+  .mai-top-header .dropdown-toggle:after {
+    display: none;
+  }
+  .mai-top-header .dropdown-menu {
+    margin-top: 0;
+  }
+  .mai-top-header .navbar-brand {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    color: #FFFFFF;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 62px;
+    height: 62px;
+    width: 133px;
+    margin-right: 45px;
+  }
+  @media (max-width: 991px) {
+    .mai-top-header .navbar-brand {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1 1 100%;
+      -ms-flex: 1 1 100%;
+      flex: 1 1 100%;
+    }
+  }
+  @media (max-width: 767px) {
+    .mai-top-header .navbar-brand {
+      display: none;
+    }
+  }
+  @media (max-width: 575px) {
+    .mai-top-header .navbar-brand {
+      display: none;
+    }
+  }
+  .mai-top-header .navbar-nav {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+  .mai-top-header .mai-top-nav {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 0%;
+    -ms-flex: 1 1 0%;
+    flex: 1 1 0%;
+  }
+  @media (max-width: 767px) {
+    .mai-top-header .mai-top-nav {
+      display: none;
+    }
+  }
+  @media (max-width: 575px) {
+    .mai-top-header .mai-top-nav {
+      display: none;
+    }
+  }
+  @media (max-width: 991px) {
+    .mai-top-header .mai-top-nav {
+      display: none;
+    }
+  }
+  .mai-top-header .mai-top-nav .nav-link {
+    padding: 0 18px;
+  }
+  .mai-top-header .navbar-collapse {
+    padding-right: 45px;
+  }
+
+  .mai-top-header .mai-icons-nav {
+    margin-right: 10px;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+  }
+  @media (max-width: 767px) {
+    .mai-top-header .mai-icons-nav {
+      -webkit-box-ordinal-group: 3;
+      -webkit-order: 2;
+      -ms-flex-order: 2;
+      order: 2;
+    }
+  }
+  @media (max-width: 767px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown {
+      position: static;
+    }
+  }
+  @media (max-width: 575px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown {
+      position: static;
+    }
+  }
+  .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link {
+    padding: 0 9px;
+    position: relative;
+  }
+  .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link .icon {
+    font-size: 25px;
+    vertical-align: middle;
+    color: #707070;
+  }
+  @media (max-width: 767px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link .icon {
+      color: #FFFFFF;
+    }
+  }
+  @media (max-width: 575px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link .icon {
+      color: #FFFFFF;
+    }
+  }
+  .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link .indicator {
+    background: #2cc185;
+    border-radius: 50%;
+    display: block;
+    height: 6px;
+    width: 6px;
+    position: absolute;
+    top: 19px;
+    right: 7px;
+  }
+  @media (max-width: 767px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link .indicator {
+      background-color: #FFFFFF;
+    }
+  }
+  @media (max-width: 575px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link .indicator {
+      background-color: #FFFFFF;
+    }
+  }
+  .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link:hover .icon {
+    color: #7f7f7f;
+  }
+  @media (max-width: 767px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link:hover .icon {
+      color: #FFFFFF;
+    }
+  }
+  @media (max-width: 575px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link:hover .icon {
+      color: #FFFFFF;
+    }
+  }
+  .mai-top-header .mai-icons-nav > .nav-item.dropdown.show > a, .mai-top-header .mai-icons-nav > .nav-item.dropdown.show:hover > a {
+    background-color: transparent;
+  }
+  .mai-top-header .mai-icons-nav > .nav-item.dropdown.show > a .icon, .mai-top-header .mai-icons-nav > .nav-item.dropdown.show:hover > a .icon {
+    color: #29b57c;
+  }
+  @media (max-width: 767px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown.show > a .icon, .mai-top-header .mai-icons-nav > .nav-item.dropdown.show:hover > a .icon {
+      color: #FFFFFF;
+    }
+  }
+  @media (max-width: 575px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown.show > a .icon, .mai-top-header .mai-icons-nav > .nav-item.dropdown.show:hover > a .icon {
+      color: #FFFFFF;
+    }
+  }
+  .mai-top-header .mai-icons-nav > .nav-item.dropdown.show > a:after, .mai-top-header .mai-icons-nav > .nav-item.dropdown.show:hover > a:after {
+    position: absolute;
+    content: "";
+    display: inline-block;
+    border-bottom: 10px solid #3b3b3b;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 0;
+    right: 50%;
+    bottom: -1px;
+    margin-right: -10px;
+  }
+  .mai-top-header .mai-icons-nav .mai-messages > .dropdown-menu, .mai-top-header .mai-icons-nav .mai-notifications > .dropdown-menu, .mai-top-header .mai-icons-nav .mai-settings > .dropdown-menu {
+    width: 330px;
+    border-radius: 5px;
+    left: auto;
+    margin-right: -165px;
+    right: 50%;
+    padding: 0;
+  }
+  @media (max-width: 767px) {
+    .mai-top-header .mai-icons-nav .mai-messages > .dropdown-menu, .mai-top-header .mai-icons-nav .mai-notifications > .dropdown-menu, .mai-top-header .mai-icons-nav .mai-settings > .dropdown-menu {
+      right: 0;
+      margin-right: 0;
+    }
+  }
+  @media (max-width: 575px) {
+    .mai-top-header .mai-icons-nav .mai-messages > .dropdown-menu, .mai-top-header .mai-icons-nav .mai-notifications > .dropdown-menu, .mai-top-header .mai-icons-nav .mai-settings > .dropdown-menu {
+      width: 100%;
+      left: 0;
+    }
+  }
+  .mai-top-header .mai-icons-nav .mai-messages > .dropdown-menu .title, .mai-top-header .mai-icons-nav .mai-notifications > .dropdown-menu .title, .mai-top-header .mai-icons-nav .mai-settings > .dropdown-menu .title {
+    font-family: "Raleway", sans-serif;
+    font-size: 1.154rem;
+    color: #949494;
+    background-color: #3b3b3b;
+    text-align: center;
+    padding: 14px 0 14px;
+  }
+  .mai-top-header .mai-icons-nav .mai-messages > .dropdown-menu .footer a, .mai-top-header .mai-icons-nav .mai-notifications > .dropdown-menu .footer a, .mai-top-header .mai-icons-nav .mai-settings > .dropdown-menu .footer a {
+    font-family: "Raleway", sans-serif;
+    font-size: 1rem;
+    color: #949494;
+    background-color: #3b3b3b;
+    text-align: center;
+    padding: 10px 0 10px;
+    display: block;
+  }
+  .mai-top-header .mai-icons-nav .mai-messages > .dropdown-menu .footer a:hover, .mai-top-header .mai-icons-nav .mai-notifications > .dropdown-menu .footer a:hover, .mai-top-header .mai-icons-nav .mai-settings > .dropdown-menu .footer a:hover {
+    background-color: #383838;
+    color: #b2b2b2;
+  }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller {
+    position: relative;
+    height: 252px;
+  }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li {
+    overflow: hidden;
+    border-bottom: 1px solid #414141;
+    background-color: #3d3d3d;
+  }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a {
+    padding: 15px;
+    display: block;
+    overflow: hidden;
+  }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a .icon, .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a .img, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .icon, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .img {
+    margin-top: 3px;
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    background-color: #2e2e2e;
+    float: left;
+    text-align: center;
+  }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a .icon > span, .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a .img > span, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .icon > span, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .img > span {
+    font-size: 1.846rem;
+    color: #2cc185;
+    line-height: 34px;
+  }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a .content, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .content {
+    padding-left: 50px;
+    line-height: 14px;
+  }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a .content .desc, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .content .desc {
+    color: #cbcbcb;
+    font-size: 1rem;
+    line-height: 17px;
+  }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a .content .desc strong, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .content .desc strong {
+    font-weight: 600;
+  }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a .content .date, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .content .date {
+    color: #8a8a8a;
+    display: block;
+    font-size: 0.9231rem;
+    font-style: italic;
+    font-weight: 300;
+    margin-top: 5px;
+  }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li:hover, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li:hover {
+    background-color: #2ab97f;
+  }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li:hover > a, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li:hover > a {
+    color: #FFFFFF;
+  }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li:hover > a .icon, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li:hover > a .icon {
+    background-color: #26a874;
+  }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li:hover > a .icon > span, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li:hover > a .icon > span {
+    color: #FFFFFF;
+  }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li:hover > a .content .desc, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li:hover > a .content .desc {
+    color: #FFFFFF;
+  }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li:hover > a .content .date, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li:hover > a .content .date {
+    color: #1c7a54;
+  }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li:last-child, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li:last-child {
+    border-bottom: 0;
+  }
+  .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .img {
+    width: 36px;
+    height: 36px;
+    background-color: transparent;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 1px;
+  }
+  .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .img > img {
+    max-width: 100%;
+  }
+  .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a > .content .date {
+    float: right;
+    margin-top: 1px;
+  }
+  .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a > .content .name {
+    font-family: "Raleway", sans-serif;
+    font-size: 1.077rem;
+    font-weight: 500;
+    color: #cbcbcb;
+    display: block;
+    margin-bottom: 5px;
+  }
+  .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a > .content .desc {
+    color: #9e9e9e;
+  }
+  .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li:hover > a .content .name {
+    color: #FFFFFF;
+  }
+  .mai-top-header .mai-icons-nav .mai-settings .dropdown-menu .content ul {
+    padding: 0;
+  }
+  .mai-top-header .mai-icons-nav .mai-settings .dropdown-menu .content ul li {
+    display: block;
+    overflow: hidden;
+    list-style: none;
+    padding: 15px 20px;
+    line-height: 34px;
+    border-bottom: 1px solid #424242;
+    vertical-align: middle;
+    background-color: #3d3d3d;
+  }
+  .mai-top-header .mai-icons-nav .mai-settings .dropdown-menu .content ul li > span {
+    font-family: "Raleway", sans-serif;
+    color: #cbcbcb;
+    font-weight: 500;
+    font-size: 1.154rem;
+  }
+  .mai-top-header .mai-icons-nav .mai-settings .dropdown-menu .content ul li .switch-button {
+    vertical-align: middle;
+    background-color: #323232;
+  }
+  .mai-top-header .mai-icons-nav .mai-settings .dropdown-menu .content ul li .switch-button label:before {
+    color: #cbcbcb;
+  }
+  .mai-top-header .mai-icons-nav .mai-settings .dropdown-menu .content ul li .switch-button input[type="checkbox"]:checked + span label:before {
+    color: #FFFFFF;
+  }
+  .mai-top-header .mai-icons-nav .mai-settings .dropdown-menu .content ul li:hover {
+    background-color: #404040;
+  }
+  .mai-top-header .mai-icons-nav .mai-settings .dropdown-menu .content ul li:last-child {
+    border-bottom: 0;
+  }
+
+  .mai-top-header .navbar-nav > .nav-item + .nav-item {
+    margin-left: 0;
+  }
+
+  .mai-top-header .navbar-nav > .nav-item > .nav-link {
+    line-height: 62px;
+    font-family: "Raleway", sans-serif;
+    font-size: 1.077rem;
+    padding: 0 18px;
+    outline: none;
+  }
+  @media (max-width: 767px) {
+    .mai-top-header .navbar-nav > .nav-item > .nav-link {
+      line-height: 74px;
+    }
+  }
+
+  .mai-top-header .navbar-nav > .nav-item.dropdown > a .angle-down {
+    position: relative;
+    font-size: 2.077rem;
+    vertical-align: middle;
+    width: 27px;
+    display: inline-block;
+    line-height: inherit;
+  }
+
+  .mai-top-header .navbar-nav > .nav-item.dropdown .dropdown-menu {
+    border: 0;
+    border-radius: 0 0 3px 3px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-color: #323232;
+    min-width: 184px;
+  }
+  .mai-top-header .navbar-nav > .nav-item.dropdown .dropdown-menu > .dropdown-item {
+    font-size: 1rem;
+    color: #adadad;
+    padding: 9px 20px;
+    min-width: 175px;
+    font-family: "Raleway", sans-serif;
+  }
+  .mai-top-header .navbar-nav > .nav-item.dropdown .dropdown-menu > .dropdown-item:hover {
+    background-color: #29b57c;
+    color: #FFFFFF;
+  }
+  .mai-top-header .navbar-nav > .nav-item.dropdown .dropdown-menu > .dropdown-item:focus {
+    background-color: transparent;
+  }
+
+
+
+  .mai-user-nav {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto; }
+  @media (max-width: 767px) {
+    .mai-user-nav {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1 1 100%;
+      -ms-flex: 1 1 100%;
+      flex: 1 1 100%;
+      -webkit-box-ordinal-group: 2;
+      -webkit-order: 1;
+      -ms-flex-order: 1;
+      order: 1; } }
+  @media (max-width: 575px) {
+    .mai-user-nav {
+      -webkit-box-flex: 0;
+      -webkit-flex: 0 1 auto;
+      -ms-flex: 0 1 auto;
+      flex: 0 1 auto;
+      overflow: hidden; } }
+  @media (max-width: 575px) {
+    .mai-user-nav > .nav-item.dropdown {
+      width: 100%; } }
+  .mai-user-nav > .nav-item.dropdown.show > a .angle-down:after, .mai-user-nav > .nav-item.dropdown.show:hover > a .angle-down:after {
+    position: absolute;
+    content: "";
+    display: inline-block;
+    border-bottom: 10px solid #323232;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 0;
+    right: 50%;
+    bottom: 0;
+    margin-right: -10px; }
+  .mai-user-nav > .nav-item.dropdown > .nav-link {
+    color: #FFFFFF;
+    padding-right: 0;
+    font-size: 1.231rem; }
+  @media (max-width: 767px) {
+    .mai-user-nav > .nav-item.dropdown > .nav-link {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center; } }
+  @media (max-width: 575px) {
+    .mai-user-nav > .nav-item.dropdown > .nav-link {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center; } }
+  .mai-user-nav > .nav-item.dropdown > .nav-link img {
+    max-width: 30px;
+    max-height: 30px;
+    border-radius: 3px; }
+  @media (max-width: 767px) {
+    .mai-user-nav > .nav-item.dropdown > .nav-link img {
+      -webkit-box-flex: 0;
+      -webkit-flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+      flex: 0 0 auto; } }
+  @media (max-width: 575px) {
+    .mai-user-nav > .nav-item.dropdown > .nav-link img {
+      -webkit-box-flex: 0;
+      -webkit-flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+      flex: 0 0 auto; } }
+  .mai-user-nav > .nav-item.dropdown > .nav-link .user-name {
+    margin-left: 10px; }
+  @media (max-width: 575px) {
+    .mai-user-nav > .nav-item.dropdown > .nav-link .user-name {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1 1 100%;
+      -ms-flex: 1 1 100%;
+      flex: 1 1 100%;
+      overflow: hidden;
+      text-overflow: ellipsis; } }
+  @media (max-width: 767px) {
+    .mai-user-nav > .nav-item.dropdown > .nav-link .user-name {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1 1 100%;
+      -ms-flex: 1 1 100%;
+      flex: 1 1 100%;
+      overflow: hidden;
+      text-overflow: ellipsis; } }
+  @media (max-width: 575px) {
+    .mai-user-nav > .nav-item.dropdown .dropdown-menu {
+      position: fixed;
+      top: 74px; } }
+  .mai-user-nav > .nav-item.dropdown .dropdown-menu .dropdown-item .icon {
+    font-size: 1.538rem;
+    vertical-align: middle; }
+  .mai-user-nav > .nav-item.dropdown .dropdown-menu:after {
+    left: auto;
+    right: 20px; }
+
+
+
+  .mai-top-header {
+    border: 0;
+    margin-bottom: 0;
+    background-color: #323232;
+    padding: 0; }
+  @media (max-width: 767px) {
+    .mai-top-header {
+      background-color: #4db8ea; } }
+  .mai-top-header > .container {
+    padding: 0;
+    display: flex; }
+  @media (max-width: 575px) {
+    .mai-top-header > .container {
+      justify-content: space-between; } }
+  .mai-top-header .dropdown-toggle:after {
+    display: none; }
+  .mai-top-header .dropdown-menu {
+    margin-top: 0; }
+  .mai-top-header .navbar-brand {
+    flex: 0 0 auto;
+    color: #FFFFFF;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 62px;
+    height: 62px;
+    width: 133px;
+    background-image: url("../../img/logo.png");
+    background-repeat: no-repeat;
+    background-position: 0 center;
+    margin-right: 45px; }
+  @media (max-width: 991px) {
+    .mai-top-header .navbar-brand {
+      flex: 1 1 100%; } }
+  @media (max-width: 767px) {
+    .mai-top-header .navbar-brand {
+      display: none; } }
+  @media (max-width: 575px) {
+    .mai-top-header .navbar-brand {
+      display: none; } }
+  .mai-top-header .navbar-nav {
+    flex-direction: row; }
+  .mai-top-header .mai-top-nav {
+    flex: 1 1; }
+  @media (max-width: 767px) {
+    .mai-top-header .mai-top-nav {
+      display: none; } }
+  @media (max-width: 575px) {
+    .mai-top-header .mai-top-nav {
+      display: none; } }
+  @media (max-width: 991px) {
+    .mai-top-header .mai-top-nav {
+      display: none; } }
+  .mai-top-header .mai-top-nav .nav-link {
+    padding: 0 18px; }
+  .mai-top-header .navbar-collapse {
+    padding-right: 45px; }
+
+  .mai-top-header .mai-icons-nav {
+    margin-right: 10px;
+    flex: 0 0 auto; }
+  @media (max-width: 767px) {
+    .mai-top-header .mai-icons-nav {
+      order: 2; } }
+  @media (max-width: 767px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown {
+      position: static; } }
+  @media (max-width: 575px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown {
+      position: static; } }
+  .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link {
+    padding: 0 9px;
+    position: relative; }
+  .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link .icon {
+    font-size: 25px;
+    vertical-align: middle;
+    color: #707070; }
+  @media (max-width: 767px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link .icon {
+      color: #FFFFFF; } }
+  @media (max-width: 575px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link .icon {
+      color: #FFFFFF; } }
+  .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link .indicator {
+    background: #4db8ea;
+    border-radius: 50%;
+    display: block;
+    height: 6px;
+    width: 6px;
+    position: absolute;
+    top: 19px;
+    right: 7px; }
+  @media (max-width: 767px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link .indicator {
+      background-color: #FFFFFF; } }
+  @media (max-width: 575px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link .indicator {
+      background-color: #FFFFFF; } }
+  .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link:hover .icon {
+    color: #7f7f7f; }
+  @media (max-width: 767px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link:hover .icon {
+      color: #FFFFFF; } }
+  @media (max-width: 575px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown > .nav-link:hover .icon {
+      color: #FFFFFF; } }
+  .mai-top-header .mai-icons-nav > .nav-item.dropdown.show > a, .mai-top-header .mai-icons-nav > .nav-item.dropdown.show:hover > a {
+    background-color: transparent; }
+  .mai-top-header .mai-icons-nav > .nav-item.dropdown.show > a .icon, .mai-top-header .mai-icons-nav > .nav-item.dropdown.show:hover > a .icon {
+    color: #3fb3e8; }
+  @media (max-width: 767px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown.show > a .icon, .mai-top-header .mai-icons-nav > .nav-item.dropdown.show:hover > a .icon {
+      color: #FFFFFF; } }
+  @media (max-width: 575px) {
+    .mai-top-header .mai-icons-nav > .nav-item.dropdown.show > a .icon, .mai-top-header .mai-icons-nav > .nav-item.dropdown.show:hover > a .icon {
+      color: #FFFFFF; } }
+  .mai-top-header .mai-icons-nav > .nav-item.dropdown.show > a:after, .mai-top-header .mai-icons-nav > .nav-item.dropdown.show:hover > a:after {
+    position: absolute;
+    content: "";
+    display: inline-block;
+    border-bottom: 10px solid #3b3b3b;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 0;
+    right: 50%;
+    bottom: -1px;
+    margin-right: -10px; }
+  .mai-top-header .mai-icons-nav .mai-messages > .dropdown-menu, .mai-top-header .mai-icons-nav .mai-notifications > .dropdown-menu, .mai-top-header .mai-icons-nav .mai-settings > .dropdown-menu {
+    width: 330px;
+    border-radius: 5px;
+    left: auto;
+    margin-right: -165px;
+    right: 50%;
+    padding: 0; }
+  @media (max-width: 767px) {
+    .mai-top-header .mai-icons-nav .mai-messages > .dropdown-menu, .mai-top-header .mai-icons-nav .mai-notifications > .dropdown-menu, .mai-top-header .mai-icons-nav .mai-settings > .dropdown-menu {
+      right: 0;
+      margin-right: 0; } }
+  @media (max-width: 575px) {
+    .mai-top-header .mai-icons-nav .mai-messages > .dropdown-menu, .mai-top-header .mai-icons-nav .mai-notifications > .dropdown-menu, .mai-top-header .mai-icons-nav .mai-settings > .dropdown-menu {
+      width: 100%;
+      left: 0; } }
+  .mai-top-header .mai-icons-nav .mai-messages > .dropdown-menu .title, .mai-top-header .mai-icons-nav .mai-notifications > .dropdown-menu .title, .mai-top-header .mai-icons-nav .mai-settings > .dropdown-menu .title {
+    font-family: "Raleway", sans-serif;
+    font-size: 1.154rem;
+    color: #949494;
+    background-color: #3b3b3b;
+    text-align: center;
+    padding: 14px 0 14px; }
+  .mai-top-header .mai-icons-nav .mai-messages > .dropdown-menu .footer a, .mai-top-header .mai-icons-nav .mai-notifications > .dropdown-menu .footer a, .mai-top-header .mai-icons-nav .mai-settings > .dropdown-menu .footer a {
+    font-family: "Raleway", sans-serif;
+    font-size: 1rem;
+    color: #949494;
+    background-color: #3b3b3b;
+    text-align: center;
+    padding: 10px 0 10px;
+    display: block; }
+  .mai-top-header .mai-icons-nav .mai-messages > .dropdown-menu .footer a:hover, .mai-top-header .mai-icons-nav .mai-notifications > .dropdown-menu .footer a:hover, .mai-top-header .mai-icons-nav .mai-settings > .dropdown-menu .footer a:hover {
+    background-color: #383838;
+    color: #b2b2b2; }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller {
+    position: relative;
+    height: 252px; }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul {
+    list-style: none;
+    padding-left: 0; }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li {
+    overflow: hidden;
+    border-bottom: 1px solid #414141;
+    background-color: #3d3d3d; }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a {
+    padding: 15px;
+    display: block;
+    overflow: hidden; }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a .icon, .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a .img, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .icon, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .img {
+    margin-top: 3px;
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    background-color: #2e2e2e;
+    float: left;
+    text-align: center; }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a .icon > span, .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a .img > span, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .icon > span, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .img > span {
+    font-size: 1.846rem;
+    color: #4db8ea;
+    line-height: 34px; }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a .content, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .content {
+    padding-left: 50px;
+    line-height: 14px; }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a .content .desc, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .content .desc {
+    color: #cbcbcb;
+    font-size: 1rem;
+    line-height: 17px; }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a .content .desc strong, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .content .desc strong {
+    font-weight: 600; }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li > a .content .date, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .content .date {
+    color: #8a8a8a;
+    display: block;
+    font-size: 0.9231rem;
+    font-style: italic;
+    font-weight: 300;
+    margin-top: 5px; }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li:hover, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li:hover {
+    background-color: #44b4e9; }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li:hover > a, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li:hover > a {
+    color: #FFFFFF; }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li:hover > a .icon, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li:hover > a .icon {
+    background-color: #32ade7; }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li:hover > a .icon > span, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li:hover > a .icon > span {
+    color: #FFFFFF; }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li:hover > a .content .desc, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li:hover > a .content .desc {
+    color: #FFFFFF; }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li:hover > a .content .date, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li:hover > a .content .date {
+    color: #1890c9; }
+  .mai-top-header .mai-icons-nav .mai-notifications .mai-scroller > .content > ul > li:last-child, .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li:last-child {
+    border-bottom: 0; }
+  .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .img {
+    width: 36px;
+    height: 36px;
+    background-color: transparent;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 1px; }
+  .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a .img > img {
+    max-width: 100%; }
+  .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a > .content .date {
+    float: right;
+    margin-top: 1px; }
+  .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a > .content .name {
+    font-family: "Raleway", sans-serif;
+    font-size: 1.077rem;
+    font-weight: 500;
+    color: #cbcbcb;
+    display: block;
+    margin-bottom: 5px; }
+  .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li > a > .content .desc {
+    color: #9e9e9e; }
+  .mai-top-header .mai-icons-nav .mai-messages .mai-scroller > .content > ul > li:hover > a .content .name {
+    color: #FFFFFF; }
+  .mai-top-header .mai-icons-nav .mai-settings .dropdown-menu .content ul {
+    padding: 0; }
+  .mai-top-header .mai-icons-nav .mai-settings .dropdown-menu .content ul li {
+    display: block;
+    overflow: hidden;
+    list-style: none;
+    padding: 15px 20px;
+    line-height: 34px;
+    border-bottom: 1px solid #424242;
+    vertical-align: middle;
+    background-color: #3d3d3d; }
+  .mai-top-header .mai-icons-nav .mai-settings .dropdown-menu .content ul li > span {
+    font-family: "Raleway", sans-serif;
+    color: #cbcbcb;
+    font-weight: 500;
+    font-size: 1.154rem; }
+  .mai-top-header .mai-icons-nav .mai-settings .dropdown-menu .content ul li .switch-button {
+    vertical-align: middle;
+    background-color: #323232; }
+  .mai-top-header .mai-icons-nav .mai-settings .dropdown-menu .content ul li .switch-button label:before {
+    color: #cbcbcb; }
+  .mai-top-header .mai-icons-nav .mai-settings .dropdown-menu .content ul li .switch-button input[type="checkbox"]:checked + span label:before {
+    color: #FFFFFF; }
+  .mai-top-header .mai-icons-nav .mai-settings .dropdown-menu .content ul li:hover {
+    background-color: #404040; }
+  .mai-top-header .mai-icons-nav .mai-settings .dropdown-menu .content ul li:last-child {
+    border-bottom: 0; }
+
+  .mai-top-header .navbar-nav > .nav-item + .nav-item {
+    margin-left: 0; }
+
+  .mai-top-header .navbar-nav > .nav-item > .nav-link {
+    line-height: 62px;
+    font-family: "Raleway", sans-serif;
+    font-size: 1.077rem;
+    padding: 0 18px;
+    outline: none; }
+  @media (max-width: 767px) {
+    .mai-top-header .navbar-nav > .nav-item > .nav-link {
+      line-height: 74px; } }
+
+  .mai-top-header .navbar-nav > .nav-item.dropdown > a .angle-down {
+    position: relative;
+    font-size: 2.077rem;
+    vertical-align: middle;
+    width: 27px;
+    display: inline-block;
+    line-height: inherit; }
+
+  .mai-top-header .navbar-nav > .nav-item.dropdown .dropdown-menu {
+    border: 0;
+    border-radius: 0 0 3px 3px;
+    box-shadow: none;
+    background-color: #323232;
+    min-width: 184px; }
+  .mai-top-header .navbar-nav > .nav-item.dropdown .dropdown-menu > .dropdown-item {
+    font-size: 1rem;
+    color: #adadad;
+    padding: 9px 20px;
+    min-width: 175px;
+    font-family: "Raleway", sans-serif; }
+  .mai-top-header .navbar-nav > .nav-item.dropdown .dropdown-menu > .dropdown-item:hover {
+    background-color: #3fb3e8;
+    color: #FFFFFF; }
+  .mai-top-header .navbar-nav > .nav-item.dropdown .dropdown-menu > .dropdown-item:focus {
+    background-color: transparent; }
+}

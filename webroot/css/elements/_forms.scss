@@ -1,0 +1,17 @@
+/**
+ * Forms
+ */
+
+form {
+    .form-control {
+        font-family: $font_open_sans;
+        font-size: 1rem;
+        border-radius: 0;
+        background: $light-brown;
+        border: 0;
+        transition: all $transition-speed ease;
+        &:focus {
+            background: $brown;
+        }
+    }
+}

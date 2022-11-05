@@ -1,0 +1,42 @@
+.carousel {
+    width: 100%;
+    @include breakpoint(md){
+        width: 1100px;
+    }
+    margin: 30px auto;
+
+    .slick-list {
+        padding-top: 80px !important;
+        padding-bottom: 80px !important;
+    }
+    button {
+        display: none;
+    }
+
+    .slick-slide {
+        position: relative;
+        background: no-repeat center;
+        background-size: contain;
+        transform: scale(1);
+        opacity: 0.2;
+        transition: all .3s ease;
+        width: 20%;
+        padding: 0;
+        margin: 0;
+        height: 175px;
+    }
+
+    .slick-active+.slick-active {
+        transform: scale(1.25);
+        opacity: 0.4;
+    }
+    .slick-active+.slick-active+.slick-active+.slick-active+.slick-active {
+        transform: scale(1);
+        opacity: 0.2;
+    }
+
+    .slick-center {
+        opacity: 1 !important;
+        transform: scale(1.75) !important;
+    }
+}
