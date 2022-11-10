@@ -128,7 +128,7 @@ echo $this->Flash->render();
                                 <tr>
                                     <td <?php if(!empty($setting->info)) echo 'data-toggle="popover"'; ?> data-content="<?= $setting->info; ?>" data-title="<?= __('What is this?!'); ?>"><?= $setting->title; ?></td>
                                     <td <?php if(strlen($setting->value) > 30) echo 'data-toggle="popover"'; ?> data-content="<?= nl2br($setting->value) ?>" data-title="<?= __('Content'); ?>">
-                                        <?= $this->Text->truncate(h($setting->value), 30); ?>
+                                        <?= $setting->value ? $this->Text->truncate(h($setting->value), 30) : ''; ?>
                                     </td>
                                     <td class="text-right">
                                         <?= $this->Html->link('<i class="icon s7-tools"></i>', ['controller' => 'Settings', 'action' => 'edit', $setting->id], ['class' => 'btn btn-primary', 'escape' => false]); ?>

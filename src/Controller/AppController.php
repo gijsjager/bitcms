@@ -12,7 +12,6 @@ class AppController extends BaseController
 {
     public function initialize(): void
     {
-        $this->viewBuilder()->setLayout('bitcms');
         $this->loadHelpers();
 
         $this->loadComponent('RequestHandler');
@@ -22,7 +21,8 @@ class AppController extends BaseController
             'loginAction' => [
                 'plugin' => 'Bitcms',
                 'controller' => 'Users',
-                'action' => 'login'
+                'action' => 'login',
+                'prefix' => false
             ],
             'authenticate' => [
                 AuthComponent::ALL => ['userModel' => 'Bitcms.Users'],
@@ -42,6 +42,7 @@ class AppController extends BaseController
         $this->set('maxUploadSize', $this->getMaxFileUploadSize());
         $this->set('bitcms', $this->getConfig());
         $this->setLanguages();
+        $this->viewBuilder()->setLayout('Bitcms.bitcms');
     }
 
     /**

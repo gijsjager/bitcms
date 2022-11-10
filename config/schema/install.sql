@@ -256,49 +256,6 @@ CREATE TABLE `pages` (
 
 
 
-# Dump of table product_categories
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `product_categories`;
-
-CREATE TABLE `product_categories` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) DEFAULT NULL,
-  `online` tinyint(1) DEFAULT '0',
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `slug` varchar(255) NOT NULL DEFAULT '',
-  `content` text,
-  `seo_title` varchar(255) DEFAULT NULL,
-  `seo_description` varchar(255) DEFAULT NULL,
-  `position` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-# Dump of table products
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `products`;
-
-CREATE TABLE `products` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `product_category_id` int(11) DEFAULT NULL,
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `slug` varchar(255) NOT NULL DEFAULT '',
-  `size` varchar(10) DEFAULT NULL,
-  `squarefeet` varchar(255) DEFAULT NULL,
-  `content` text,
-  `general_information` text,
-  `key_features` text,
-  `seo_title` varchar(255) DEFAULT NULL,
-  `seo_description` varchar(255) DEFAULT NULL,
-  `position` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
 # Dump of table redirects
 # ------------------------------------------------------------
 

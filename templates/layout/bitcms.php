@@ -1,13 +1,13 @@
-<?= $this->Element('Html/html_head'); ?>
+<?= $this->Element('Bitcms.Html/html_head'); ?>
 <body>
-    <?= $this->Element('Html/topnav'); ?>
-    <?= $this->Element('Html/nav'); ?>
+    <?= $this->Element('Bitcms.Html/topnav'); ?>
+    <?= $this->Element('Bitcms.Html/nav'); ?>
 
     <div class="mai-wrapper">
         <?= $this->fetch('content'); ?>
     </div>
 
-    <?= $this->Element('Html/translations'); ?>
+    <?= $this->Element('Bitcms.Html/translations'); ?>
     <?= $this->Html->script([
         'Bitcms.../lib/jquery/jquery.min',
         'Bitcms.../lib/jquery-ui/jquery-ui.min',

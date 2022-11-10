@@ -8,16 +8,19 @@
             <div id="mai-navbar-collapse" class="navbar-collapse collapse mai-nav-tabs">
                 <ul class="nav navbar-nav">
                     <li class="nav-item parent <?= ($this->request->getParam('controller') == 'Dashboard') ? 'open' : '' ?>">
-                        <?= $this->Html->link('<span class="icon s7-home"></span><span>'.__('Home').'</span>', ['controller' => 'Dashboard', 'action' => 'index'], ['class' => 'nav-link', 'escape' => false, 'role' => 'button']); ?>
+                        <?= $this->Html->link(
+                            '<span class="icon s7-home"></span><span>'.__('Home').'</span>',
+                            ['controller' => 'Dashboard', 'action' => 'index', 'plugin' => 'Bitcms', 'prefix' => false],
+                            ['class' => 'nav-link', 'escape' => false, 'role' => 'button']); ?>
                     </li>
 
                     <?php
                     if(!empty($bitcms['modules'])){
                         foreach($bitcms['modules'] as $module){ ?>
-                            <li class="nav-item parent <?= ($this->request->getParam('controller') == $module['controller']) ? 'open' : '' ?>">
+                            <li class="nav-item parent <?= ($this->request->getParam('controller') == $module['route']['controller']) ? 'open' : '' ?>">
                                 <?= $this->Html->link(
                                     '<span class="icon s7-'.$module['icon'].'"></span><span>'.$module['title'].'</span>',
-                                    ['controller' => $module['controller'], 'action' => 'index'],
+                                    $module['route'],
                                     ['class' => 'nav-link', 'escape' => false, 'role' => 'button']); ?>
                             </li>
                             <?php

@@ -5,7 +5,7 @@
         </a>
         <!--Left Menu-->
         <ul class="nav navbar-nav mai-top-nav">
-            <li class="nav-item"><?= $this->Html->link('Dashboard', ['controller' => 'Dashboard', 'action' => 'index', 'plugin' => 'Bitcms'], ['class' => 'nav-link']); ?></li>
+            <li class="nav-item"><?= $this->Html->link('Dashboard', ['controller' => 'Dashboard', 'action' => 'index', 'plugin' => 'Bitcms', 'prefix' => false], ['class' => 'nav-link']); ?></li>
             <li class="nav-item"><?= $this->Html->link(__('My website'), '/', ['class' => 'nav-link']); ?></li>
             <li class="nav-item"><?= $this->Html->link(__('Support'), 'mailto:support@dotbits.nl', ['class' => 'nav-link']); ?></li>
         </ul>
@@ -24,15 +24,15 @@
                     <span class="angle-down s7-angle-down"></span>
                 </a>
                 <div role="menu" class="dropdown-menu">
-                    <?= $this->Html->link('<span class="icon s7-user"> </span> ' . __('My Account'), ['controller' => 'Users', 'action' => 'edit', $authUser->id, 'plugin' => 'Bitcms'], ['escape' => false, 'class' => 'dropdown-item']); ?>
+                    <?= $this->Html->link('<span class="icon s7-user"> </span> ' . __('My Account'), ['controller' => 'Users', 'action' => 'edit', $authUser->id, 'plugin' => 'Bitcms', 'prefix' => false], ['escape' => false, 'class' => 'dropdown-item']); ?>
                     <?php
                     if( $authUser->role == 'admin' ){
-                        echo $this->Html->link('<span class="icon s7-users"> </span> ' . __('List users'), ['controller' => 'Users', 'action' => 'index', 'plugin' => 'Bitcms'], ['escape' => false, 'class' => 'dropdown-item']);
+                        echo $this->Html->link('<span class="icon s7-users"> </span> ' . __('List users'), ['controller' => 'Users', 'action' => 'index', 'plugin' => 'Bitcms', 'prefix' => false], ['escape' => false, 'class' => 'dropdown-item']);
                     }
                     ?>
-                    <?= $this->Html->link('<span class="icon s7-trash"> </span> ' . __('Clear cache'), ['controller' => 'Dashboard', 'action' => 'clearCache', 'plugin' => 'Bitcms'], ['escape' => false, 'class' => 'dropdown-item']); ?>
-                    <?= $this->Html->link('<span class="icon s7-tools"> </span> ' . __('Settings'), ['controller' => 'Settings', 'action' => 'index', 'plugin' => 'Bitcms'], ['escape' => false, 'class' => 'dropdown-item']); ?>
-                    <?= $this->Html->link('<span class="icon s7-power"> </span> ' . __('Log out'), ['controller' => 'Users', 'action' => 'logout', 'plugin' => 'Bitcms'], ['escape' => false, 'class' => 'dropdown-item']); ?>
+                    <?= $this->Html->link('<span class="icon s7-trash"> </span> ' . __('Clear cache'), ['controller' => 'Dashboard', 'action' => 'clearCache', 'plugin' => 'Bitcms', 'prefix' => false], ['escape' => false, 'class' => 'dropdown-item']); ?>
+                    <?= $this->Html->link('<span class="icon s7-tools"> </span> ' . __('Settings'), ['controller' => 'Settings', 'action' => 'index', 'plugin' => 'Bitcms', 'prefix' => false], ['escape' => false, 'class' => 'dropdown-item']); ?>
+                    <?= $this->Html->link('<span class="icon s7-power"> </span> ' . __('Log out'), ['controller' => 'Users', 'action' => 'logout', 'plugin' => 'Bitcms', 'prefix' => false], ['escape' => false, 'class' => 'dropdown-item']); ?>
                 </div>
             </li>
         </ul>
