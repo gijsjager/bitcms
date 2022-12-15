@@ -85,7 +85,7 @@ echo $this->Flash->render();
         <div id="block-configuration-content">
             <?php
             foreach ($page->block_groups as $key => $block_group) { ?>
-                <div class="row block-group-add no-gutters" data-class="<?= $block_group->class ?>">
+                <div class="row block-group-add no-gutters" id="block-group-<?= $block_group->id ?>" data-class="<?= $block_group->class ?>">
                     <?php
                     if (!empty($block_group->blocks)) {
 
@@ -102,6 +102,7 @@ echo $this->Flash->render();
                                         echo $this->Form->control('blocks[' . $block_group->id . '][class]', ['label' => __('Class'), 'value' => $block_group->class]);
                                         echo $this->Form->control('blocks[' . $block_group->id . '][wrapper_class]', ['label' => __('Wrapper class'), 'value' => $block_group->wrapper_class]);
                                         echo $this->Form->control('blocks[' . $block_group->id . '][position]', ['label' => __('Position'), 'value' => $block_group->position]);
+                                        echo $this->Form->button(__('Delete block group'), ['type' => 'button', 'class' => 'btn btn-default', 'onclick' => 'deleteBlockGroup('.$block_group->id.')'])
                                         ?>
                                     </div>
                                 </div>

@@ -70,7 +70,7 @@ echo $this->Flash->render();
                 </div>
                 <div class="panel-body">
                     <?php
-                    if( $redirects->isEmpty() ){
+                    if( $redirects->all()->isEmpty() ){
                         echo '<div class="alert alert-info">'.__('No redirects found yet.').'</div>';
                     } else {
                         ?>

@@ -10,8 +10,10 @@ use Cake\Core\ContainerInterface;
 use Cake\Core\PluginApplicationInterface;
 use Cake\Http\MiddlewareQueue;
 use Cake\Routing\Middleware\AssetMiddleware;
-use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
+
+require_once 'Utilities/translations.php';
+
 
 /**
  * Plugin for Bitcms

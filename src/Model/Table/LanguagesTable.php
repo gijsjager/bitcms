@@ -55,6 +55,6 @@ class LanguagesTable extends Table
     }
 
     public function beforeFind($event, $query){
-        $query->order(['position' => 'asc']);
+        $query->order(['is_default' => 'desc']);
     }
 }

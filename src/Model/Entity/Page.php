@@ -1,8 +1,10 @@
 <?php
 namespace Bitcms\Model\Entity;
 
+use Cake\I18n\I18n;
 use Cake\ORM\Entity;
 use Cake\ORM\Behavior\Translate\TranslateTrait;
+use Cake\ORM\TableRegistry;
 
 /**
  * Page Entity
@@ -37,4 +39,22 @@ class Page extends Entity
         '*' => true,
         'id' => false
     ];
+
+    /**
+     * Get full URL
+     * @return string
+     */
+    protected function _getUrl(): string
+    {
+        $languages = TableRegistry::getTableLocator()->get('Bitcms.Languages');
+        $langs = $languages->find()->where(['active' => 1]);
+
+        $url = '/';
+
+        if($langs->count() > 1){
+            $lang = $langs->where(['locale' => I18n::getLocale()])->first();
+            $url .= $lang->abbreviation . '/';
+        }
+        return $url . $this->slug;
+    }
 }

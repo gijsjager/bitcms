@@ -354,6 +354,16 @@ CREATE TABLE `visitors` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+create table translations
+(
+    id      int(11) unsigned auto_increment not null,
+    locale  varchar(50) not null,
+    content longtext    not null,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+create index translations_locale_index on translations (locale);
+
 
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

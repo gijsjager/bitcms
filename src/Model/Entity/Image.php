@@ -1,4 +1,5 @@
 <?php
+
 namespace Bitcms\Model\Entity;
 
 use Cake\ORM\Entity;
@@ -38,20 +39,40 @@ class Image extends Entity
 
     protected function _getUrl()
     {
-        $basePath = '/files/' . $this->_properties['model'] . '/';
-        if( Router::getRequest()->is('mobile') ){
-            if( file_exists( WWW_ROOT . $basePath . 'responsive/mobile/' . $this->_properties['filename'] ) ){
-                return Router::url( $basePath . 'responsive/mobile/' . $this->_properties['filename'] );
+        $basePath = '/files/' . $this->get('model') . '/';
+        if (Router::getRequest()->is('mobile')) {
+            if (file_exists(WWW_ROOT . $basePath . 'responsive/mobile/webp/' . $this->webp())) {
+                return Router::url($basePath . 'responsive/mobile/webp/' . $this->webp());
+            }
+            if (file_exists(WWW_ROOT . $basePath . 'responsive/mobile/' . $this->filename)) {
+                return Router::url($basePath . 'responsive/mobile/' . $this->filename);
             }
         }
 
-        if( Router::getRequest()->is('tablet') ){
-            if( file_exists( WWW_ROOT . $basePath . 'responsive/tablet/' . $this->_properties['filename'] ) ){
-                return Router::url( $basePath . 'responsive/tablet/' . $this->_properties['filename'] );
+        if (Router::getRequest()->is('tablet')) {
+            if (file_exists(WWW_ROOT . $basePath . 'responsive/tablet/webp/' . $this->webp())) {
+                return Router::url($basePath . 'responsive/mobile/webp/' . $this->webp());
+            }
+            if (file_exists(WWW_ROOT . $basePath . 'responsive/tablet/' . $this->filename)) {
+                return Router::url($basePath . 'responsive/tablet/' . $this->filename);
             }
         }
 
-        return Router::url( $basePath . $this->_properties['filename']);
+        if (file_exists(WWW_ROOT . $basePath . 'webp/' . $this->webp())) {
+            return Router::url($basePath . 'webp/' . $this->webp());
+        }
+
+        return Router::url($basePath . $this->filename);
+    }
+
+    /**
+     * Get webp variant of filename
+     * @return array|string|string[]
+     */
+    protected function webp()
+    {
+        $ext = pathinfo($this->filename, PATHINFO_EXTENSION);
+        return str_replace('.' . $ext, '.webp', $this->filename);
     }
 
     /**
@@ -64,13 +85,13 @@ class Image extends Entity
         $model = $this->model;
         $entity_id = $this->entity_id;
 
-        if( $this->model == 'Blocks' ){
+        if ($this->model == 'Blocks') {
 
             $BlockGroups = TableRegistry::getTableLocator()->get('Bitcms.BlockGroups');
 
-            if( $blockGroup = $BlockGroups->findById( $this->entity_id )->first() ){
-                $Table = TableRegistry::getTableLocator()->get('Bitcms.'.$blockGroup->model);
-                if( $item = $Table->findById($blockGroup->entity_id)->first() ){
+            if ($blockGroup = $BlockGroups->findById($this->entity_id)->first()) {
+                $Table = TableRegistry::getTableLocator()->get('Bitcms.' . $blockGroup->model);
+                if ($item = $Table->findById($blockGroup->entity_id)->first()) {
                     return Router::url(['controller' => $blockGroup->model, 'action' => 'edit', $item->id]);
                 }
             }

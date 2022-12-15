@@ -123,6 +123,8 @@ class ImagesController extends AppController
                 $file->write(base64_decode($imagePart[1]) );
                 $file->close();
 
+                $this->createNextGen($image->model, $image->filename, $type);
+
                 // clear prev
                 $this->Images->ImageResponsive->deleteAll([
                     'image_id' => $id,
@@ -251,6 +253,7 @@ class ImagesController extends AppController
             $imageLibrary->resize(2000, 2000, ZEBRA_IMAGE_NOT_BOXED);
         }
 
+        $this->createNextGen($model, $name);
         $this->createThumbnail($model, $name);
 
 
@@ -289,6 +292,31 @@ class ImagesController extends AppController
     }
 
     /**
+     * Create next gen image
+     * @param string $model
+     * @param string $name
+     * @return bool
+     */
+    protected function createNextGen(string $model, string $name, string $responsive = ''): bool
+    {
+        if (!empty($responsive)){
+            $dir = new Folder(WWW_ROOT . 'files' . DS . $model . DS . 'responsive'. DS . $responsive . DS . 'webp', true, 0775);
+        } else {
+            $dir = new Folder(WWW_ROOT . 'files' . DS . $model . DS . 'webp', true, 0775);
+        }
+
+        $ext = pathinfo($name, PATHINFO_EXTENSION);
+        $nextGen = str_replace('.' . $ext, '.webp', $name);
+
+        $imageLibrary = new \Zebra_Image();
+        $imageLibrary->auto_handle_exif_orientation = true;
+        $imageLibrary->source_path = WWW_ROOT . DS . 'files' . DS . $model . DS . $name;
+        $imageLibrary->target_path = $dir->path . DS . $nextGen;
+        $imageLibrary->webp_quality = 80;
+        return $imageLibrary->resize();
+    }
+
+    /**
      * Crop image
      *
      * @param $id
@@ -308,11 +336,10 @@ class ImagesController extends AppController
 
         $croppedImage = $this->request->getData('croppedImage');
 
-        if (move_uploaded_file($croppedImage['tmp_name'], WWW_ROOT . DS . 'files' . DS . $image->model . DS . $image->filename)) {
-            $this->Flash->success(__('Image cropped successfully'));
-        } else {
-            $this->Flash->error(__('Could not edit image'));
-        }
+        $croppedImage->moveTo(WWW_ROOT . DS . 'files' . DS . $image->model . DS . $image->filename);
 
+        $this->createNextGen($image->model, $image->filename);
+
+        $this->Flash->success(__('Image cropped successfully'));
     }
 }

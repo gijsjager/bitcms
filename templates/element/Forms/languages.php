@@ -2,7 +2,12 @@
 echo $this->Form->create($language);
 
 echo $this->Form->control('active', ['class' => 'custom-control-input']);
-echo $this->Form->control('is_default', ['class' => 'custom-control-input']);
+
+echo '<div title="'.__('Only the site builder is alowed to change this value. Otherwise the website will break.').'" style="opacity: 0.25">';
+echo $this->Form->control('is_default', [
+    'class' => 'custom-control-input', 'disabled',
+]);
+echo '</div>';
 echo '<br/><br/>';
 echo $this->Form->control('name');
 echo $this->Form->control('abbreviation', ['label' => __('Abbreviation (example: nl)')]);

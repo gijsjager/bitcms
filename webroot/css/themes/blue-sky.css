@@ -1,6 +1,6 @@
 /*!
  * maisonnette-admin v0.0.1 (https://foxythemes.net)
- * Copyright 2017 Foxy Themes all rights reserved 
+ * Copyright 2017 Foxy Themes all rights reserved
  */
 
 @charset "UTF-8";
@@ -6169,9 +6169,9 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
     display: none !important; } }
 
 /* General styles for the modal */
-/* 
+/*
 Styles for the html/body for special modal where we want 3d effects
-Note that we need a container wrapping all content on the page for the 
+Note that we need a container wrapping all content on the page for the
 perspective effects (not including the modals and the overlay).
 */
 .modal-open {
@@ -13034,6 +13034,9 @@ form.dropzone {
     padding: 10px 12px;
     margin-top: 6px;
     border-radius: 0; }
+  .note-editor.note-frame .note-editable ul {
+      font-size: 1.077rem;
+  }
   .note-editor.note-frame .note-editing-area .note-editable {
     color: #545454; }
 

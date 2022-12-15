@@ -76,7 +76,7 @@ class UsersController extends AppController
      */
     public function add()
     {
-        $user = $this->Users->newEntity();
+        $user = $this->Users->newEntity([]);
 
         if ($this->request->is('post')) {
 
@@ -209,7 +209,7 @@ class UsersController extends AppController
 
         if ($this->request->is(['post', 'put'])) {
             $user = $this->Users->findByEmail($this->request->getData('email'))->where(['role' => 'admin']);
-            if ($user->isEmpty()) {
+            if ($user->all()->isEmpty()) {
                 $this->Flash->error( __('We can\'t find a user with the e-mail: {0}', [$this->request->getData('email')]));
             } else {
 

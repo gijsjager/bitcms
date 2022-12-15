@@ -36,6 +36,6 @@ class File extends Entity
 
     protected function _getUrl()
     {
-        return Router::url('/files/' . $this->_properties['model'] . '/' . $this->_properties['filename']);
+        return Router::url('/files/' . $this->model . '/' . $this->filename);
     }
 }

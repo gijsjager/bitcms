@@ -30,7 +30,7 @@ class FilesController extends AppController
             }
         }
 
-        $this->set('languages', $this->Languages->find('list'));
+        $this->set('languages', $this->fetchTable('Bitcms.Languages')->find('list'));
         $this->set('file', $file);
     }
 
@@ -113,17 +113,15 @@ class FilesController extends AppController
         $modelFolder = new Folder(WWW_ROOT . DS . 'files' . DS . $model, true, 0775);
 
         // check if name already exist
-        $name   = $file['name'];
-        $ext    = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $name   = $file->getClientFilename();
+        $ext    = pathinfo($name, PATHINFO_EXTENSION);
         while( file_exists( $modelFolder->path . DS . $name ) ){
             $nameWithoutExtension = str_replace('.'.$ext, '', $name);
             $name = $nameWithoutExtension . '_copy.' . $ext;
         }
 
         // upload file
-        if( move_uploaded_file( $file['tmp_name'], $modelFolder->path . DS . $name ) ){
-
-        }
+        $file->moveTo($modelFolder->path . DS . $name);
 
         // add to database
         $position = $this->Files->find()->where(['model' => $model,  'entity_id' => $entity_id])->count();

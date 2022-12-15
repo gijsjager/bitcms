@@ -32,6 +32,7 @@
                     ?>
                     <?= $this->Html->link('<span class="icon s7-trash"> </span> ' . __('Clear cache'), ['controller' => 'Dashboard', 'action' => 'clearCache', 'plugin' => 'Bitcms', 'prefix' => false], ['escape' => false, 'class' => 'dropdown-item']); ?>
                     <?= $this->Html->link('<span class="icon s7-tools"> </span> ' . __('Settings'), ['controller' => 'Settings', 'action' => 'index', 'plugin' => 'Bitcms', 'prefix' => false], ['escape' => false, 'class' => 'dropdown-item']); ?>
+                    <?= $this->Html->link('<span class="icon s7-flag"> </span> ' . __('Site texts'), ['controller' => 'Translations', 'action' => 'index', 'plugin' => 'Bitcms', 'prefix' => false], ['escape' => false, 'class' => 'dropdown-item']); ?>
                     <?= $this->Html->link('<span class="icon s7-power"> </span> ' . __('Log out'), ['controller' => 'Users', 'action' => 'logout', 'plugin' => 'Bitcms', 'prefix' => false], ['escape' => false, 'class' => 'dropdown-item']); ?>
                 </div>
             </li>

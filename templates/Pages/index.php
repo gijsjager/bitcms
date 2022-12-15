@@ -22,7 +22,7 @@ echo $this->Flash->render();
     </div>
 
     <?php
-    if( !$pages->isEmpty() ){ ?>
+    if( !$pages->all()->isEmpty() ){ ?>
     <div class="panel panel-default mt-5">
         <div class="panel-body">
             <div id="list2" class="dd" data-url="<?= $this->Url->build(['action' => 'savePositions']); ?>">
@@ -39,6 +39,9 @@ echo $this->Flash->render();
                                     <?= ($page->menu == false) ? '<span class="badge badge-info">' .__('hidden') . '</span>' : ''; ?>
                                 </div>
                                 <div class="col-sm-6 text-right">
+                                    <button type="button" data-toggle="tooltip" title="<?= __('Copy page') ?>" class="btn btn-default btn-space">
+                                        <span class="icon s7-copy-file"></span>
+                                    </button>
                                     <?php
                                     if( count($languages) > 1 ){
                                         ?>
@@ -46,7 +49,7 @@ echo $this->Flash->render();
                                             <button type="button" class="btn btn-primary btn-space" data-toggle="dropdown" aria-haspopup="true"><?= __('Edit'); ?> <span class="icon-dropdown s7-angle-down"></span></button>
                                             <div class="dropdown-menu" role="menu">
                                                 <?php foreach($languages as $language){
-                                                    echo $this->Html->link(__('Edit in {0}', [$language->name]), ['action' => 'edit', $page->id, 'language' => $language->abbreviation], ['class' => 'dropdown-item']);
+                                                    echo $this->Html->link(__('Edit in {0}', [$language->name]), ['action' => 'edit', $page->id, '?' => ['language' => $language->abbreviation]], ['class' => 'dropdown-item']);
                                                 } ?>
                                             </div>
                                         </div>
@@ -76,11 +79,13 @@ echo $this->Flash->render();
                                                 <?php
                                                 if( count($languages) > 1 ){
                                                     ?>
-                                                    <button type="button" class="btn btn-primary btn-space" data-toggle="dropdown" aria-haspopup="true"><?= __('Edit'); ?></button>
-                                                    <div class="dropdown">
-                                                        <?php foreach($languages as $language){
-                                                            echo $this->Html->link(__('Edit in {0}', [$language->name]), ['action' => 'edit', $child->id, 'language' => $language->abbreviation]);
-                                                        } ?>
+                                                    <div class="edit-group" style="display: inline-block; position: relative;">
+                                                        <button type="button" class="btn btn-primary btn-space" data-toggle="dropdown" aria-haspopup="true"><?= __('Edit'); ?> <span class="icon-dropdown s7-angle-down"></span></button>
+                                                        <div class="dropdown-menu" role="menu">
+                                                            <?php foreach($languages as $language){
+                                                                echo $this->Html->link(__('Edit in {0}', [$language->name]), ['action' => 'edit', $child->id, '?' => ['language' => $language->abbreviation]], ['class' => 'dropdown-item']);
+                                                            } ?>
+                                                        </div>
                                                     </div>
                                                     <?php
                                                 } else {

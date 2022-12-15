@@ -7,6 +7,7 @@ use App\Controller\AppController as BaseController;
 use Cake\Controller\Component\AuthComponent;
 use Cake\Core\Configure;
 use Cake\I18n\I18n;
+use Cake\Utility\Text;
 
 class AppController extends BaseController
 {
@@ -111,19 +112,8 @@ class AppController extends BaseController
                 'checkbox' => '<input type="checkbox" name="{{name}}" value="{{value}}"{{attrs}}><span class="custom-control-indicator custom-control-color"></span>',
                 'nestingLabel' => '{{hidden}}{{input}}<label{{attrs}}>{{text}}</label>'],
         ]);
-        $this->viewBuilder()->addHelper('Paginator', [
-            'className' => 'Bootstrap.Paginator',
-            'templates' => [
-                'nextActive' => '<li class="page-item"><a class="page-link" href="{{url}}">{{text}}</a></li>',
-                'nextDisabled' => '<li class="page-item disabled"><a class="page-link">{{text}}</a></li>',
-                'prevActive' => '<li class="page-item"><a class="page-link" href="{{url}}">{{text}}</a></li>',
-                'prevDisabled' => '<li class="page-item disabled"><a class="page-link">{{text}}</a></li>',
-                'first' => '<li class="page-item"><a class="page-link" href="{{url}}">{{text}}</a></li>',
-                'last' => '<li class="page-item"><a class="page-link" href="{{url}}">{{text}}</a></li>',
-                'number' => '<li class="page-item"><a class="page-link" href="{{url}}">{{text}}</a></li>',
-                'current' => '<li class="page-item active"><a class="page-link" href="{{url}}">{{text}}</a></li>',
-            ]
-        ]);
+
+        $this->viewBuilder()->addHelper('Paginator', ['templates' => 'Bitcms.paginator-templates']);
 
         $this->viewBuilder()->addHelper('Time');
         $this->viewBuilder()->addHelper('Bitcms.Content');
@@ -172,7 +162,7 @@ class AppController extends BaseController
      * Get BitCMS config
      * @return array
      */
-    protected function getConfig(): array
+    public function getConfig(): array
     {
         if (file_exists(CONFIG . 'bitcms.php')){
             return include_once CONFIG . 'bitcms.php';

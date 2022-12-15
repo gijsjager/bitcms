@@ -71,9 +71,18 @@ class BlockGroupsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $blockGroup = $this->BlockGroups->get($id);
         if ($this->BlockGroups->delete($blockGroup)) {
-            $this->Flash->success(__('The block group has been deleted.'));
+            if($this->getRequest()->is('ajax')){
+                die('success');
+            } else {
+                $this->Flash->success(__('The block group has been deleted.'));
+            }
         } else {
-            $this->Flash->error(__('The block group could not be deleted. Please, try again.'));
+            if($this->getRequest()->is('ajax')){
+                die('error');
+            } else {
+                $this->Flash->error(__('The block group could not be deleted. Please, try again.'));
+            }
+
         }
 
         return $this->redirect(['action' => 'index']);

@@ -24,8 +24,8 @@ if( !empty($files) ){ ?>
                     <td style="position: relative;">
                         <button type="button" class="btn btn-xs btn-secondary" aria-haspopup="true" data-toggle="dropdown"><?= __('Actions'); ?><span class="icon s7-angle-down"></span></button>
                         <div class="dropdown-menu">
-                            <?= $this->Html->link( '<span class="icon s7-search"></span> ' . __('Edit'), ['controller' => 'Files', 'action' => 'edit', $file->id], ['class' => 'btn-file-edit dropdown-item', 'data-entity-id' => $entity_id, 'data-model' => $model, 'escape' => false]); ?>
-                            <?= $this->Html->link( '<span class="icon s7-trash"></span> ' . __('Delete'), ['controller' => 'Files', 'action' => 'delete', $file->id], ['class' => 'dropdown-item btn-delete-file', 'data-id' => $file->id, 'escape' => false]); ?>
+                            <?= $this->Html->link( '<span class="icon s7-search"></span> ' . __('Edit'), ['controller' => 'Files', 'action' => 'edit', $file->id, 'plugin' => 'Bitcms', 'prefix' => false], ['class' => 'btn-file-edit dropdown-item', 'data-entity-id' => $entity_id, 'data-model' => $model, 'escape' => false]); ?>
+                            <?= $this->Html->link( '<span class="icon s7-trash"></span> ' . __('Delete'), ['controller' => 'Files', 'action' => 'delete', $file->id, 'plugin' => 'Bitcms', 'prefix' => false], ['class' => 'dropdown-item btn-delete-file', 'data-id' => $file->id, 'escape' => false]); ?>
                         </div>
                     </td>
                 </tr> <?php
@@ -35,6 +35,6 @@ if( !empty($files) ){ ?>
     </div>
 <?php
 } else {
-    echo '<div class="alert alert-info">'. __('No files found yet. Upload your file image now!') . '</div>';
+    echo '<div class="alert alert-info">'. __('No files found yet. Upload your file now!') . '</div>';
 }
 ?>

@@ -169,22 +169,31 @@ BitCMS = (function () {
     function runHtmlEditors() {
         // html editors
         $('.html-editor').each(function () {
-            $(this).summernote({
-                height: 250,
-                dialogsInBody: true,
-                lang: locale,
-                toolbar: [
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                    ['para', ['style', 'ul', 'ol', 'paragraph']],
-                    ['insert', ['video', 'picture', 'link', 'table']],
-                    ['misc', ['fullscreen', 'codeview']]
+
+            tinymce.init({
+                selector: '.html-editor',
+                skin: 'bootstrap',
+                icons: 'small',
+                menubar: false,
+                content_css: '/bitcms/css/editor.css',
+                plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
+                toolbar: 'undo redo | bold italic underline strikethrough | blocks | alignleft aligncenter alignright alignjustify | numlist bullist | removeformat | table charmap emoticons | fullscreen  preview | insertfile image media template link anchor code',
+                toolbar_mode: 'wrap',
+                toolbar_sticky: true,
+                tinycomments_mode: 'embedded',
+                tinycomments_author: 'BitCMS',
+                link_class_list: [
+                    {title: 'None', value: ''},
+                    {title: 'Button primary', value: 'btn btn-primary'},
+                    {title: 'Button secondary', value: 'btn btn-secondary'},
+                    {title: 'Button dark', value: 'btn btn-dark'},
                 ],
-                popover: {
-                    image: [],
-                    link: [],
-                    air: []
-                }
+                mergetags_list: [
+                    { value: 'First.Name', title: 'First Name' },
+                    { value: 'Email', title: 'Email' },
+                ]
             });
+
         });
         $('.note-popover').css({'display': 'none'});
     }

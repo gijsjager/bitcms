@@ -26,6 +26,12 @@
                     </table>
                 </div>
             </div>
+
+            <?php
+            if($this->elementExists('dashboard/wide')){
+                echo $this->element('dashboard/wide');
+            }
+            ?>
         </div>
 
         <div class="col-md-5">
@@ -75,6 +81,12 @@
                 </div>
             </div><!-- ./End Dir size -->
 
+
+            <?php
+            if($this->elementExists('dashboard/small')){
+                echo $this->element('dashboard/small');
+            }
+            ?>
         </div>
     </div>
 </div>

@@ -103,7 +103,8 @@ echo $this->Flash->render();
     </div>
 
 
-<?php $this->append('script', $this->Html->script([
+<?php
+$this->append('script', $this->Html->script([
     'Bitcms.../lib/parsley/parsley.min',
     'Bitcms.Controllers/jobs'
 ])); ?>

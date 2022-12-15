@@ -2,6 +2,7 @@
 namespace Bitcms\Controller;
 
 use Bitcms\Controller\AppController;
+use Cake\Cache\Cache;
 use Cake\Utility\Text;
 
 /**
@@ -13,6 +14,7 @@ use Cake\Utility\Text;
  */
 class PagesController extends AppController
 {
+
     /**
      * Index method
      *
@@ -123,6 +125,7 @@ class PagesController extends AppController
                     $this->saveBlocks( $this->request->getData('blocks') );
                 }
 
+                Cache::clearAll();
                 $this->Flash->success(__('The page has been saved.'));
 
                 return $this->redirect(['action' => 'index']);

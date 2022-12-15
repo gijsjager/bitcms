@@ -43,19 +43,8 @@ class AppView extends View
                 'checkbox' => '<input type="checkbox" name="{{name}}" value="{{value}}"{{attrs}}><span class="custom-control-indicator custom-control-color"></span>',
                 'nestingLabel' => '{{hidden}}{{input}}<label{{attrs}}>{{text}}</label>'],
         ]);
-        $this->loadHelper('Paginator', [
-            'className' => 'Bootstrap.Paginator',
-            'templates' => [
-                'nextActive' => '<li class="page-item"><a class="page-link" href="{{url}}">{{text}}</a></li>',
-                'nextDisabled' => '<li class="page-item disabled"><a class="page-link">{{text}}</a></li>',
-                'prevActive' => '<li class="page-item"><a class="page-link" href="{{url}}">{{text}}</a></li>',
-                'prevDisabled' => '<li class="page-item disabled"><a class="page-link">{{text}}</a></li>',
-                'first' => '<li class="page-item"><a class="page-link" href="{{url}}">{{text}}</a></li>',
-                'last' => '<li class="page-item"><a class="page-link" href="{{url}}">{{text}}</a></li>',
-                'number' => '<li class="page-item"><a class="page-link" href="{{url}}">{{text}}</a></li>',
-                'current' => '<li class="page-item active"><a class="page-link" href="{{url}}">{{text}}</a></li>',
-            ]
-        ]);
+
+        $this->loadHelper('Paginator', ['templates' => 'Bitcms.paginator-templates']);
 
         $this->loadHelper('Time');
         $this->loadHelper('Content');

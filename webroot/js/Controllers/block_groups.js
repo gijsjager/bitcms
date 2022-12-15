@@ -55,3 +55,23 @@ function closeBlockGroup(oElement){
     $('#block-group-row-'+parentId).remove();
 
 }
+
+function deleteBlockGroup(iId){
+
+    $.confirm({
+        title: 'Are you sure you want to delete this block group?',
+        content: 'There is no way back! We dont make backups you know!',
+        confirmButtonClass: "btn-primary",
+        cancelButtonClass: "btn-secondary",
+        dialogClass: "modal-dialog modal-full-color modal-full-color-danger modal-lg",
+        confirm: function(){
+            $.ajax({
+                url: d + '/blockGroups/delete/' + iId,
+                type: 'post',
+                data: {id: iId}
+            }).done(function(){
+                $('#block-group-' + iId).fadeOut('fast');
+            });
+        },
+    });
+}
