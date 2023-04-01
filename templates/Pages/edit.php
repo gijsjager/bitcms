@@ -21,11 +21,11 @@ echo $this->Flash->render();
                 echo $this->Form->button(__('Change language'), ['type' => 'button', 'data-target' => 'langmenu', 'data-toggle' => 'dropdown', 'aria-haspopup' => 'true']);
                 ?>
                 <div class="dropdown-menu" role="menu" id="langmenu">
-                    <?php foreach ($languages as $language) {
-                        echo $this->Html->link($language->name, [
+                    <?php foreach ($languages as $lang) {
+                        echo $this->Html->link($lang->name, [
                             'action' => 'edit',
                             $page->id,
-                            '?' => ['language' => $language->abbreviation]
+                            '?' => ['language' => $lang->abbreviation]
                         ], ['class' => 'dropdown-item']);
                     } ?>
                 </div>
@@ -66,7 +66,7 @@ echo $this->Flash->render();
                 </div>
                 <div class="panel-body">
                     <?php
-                    echo $this->Form->control('slug', ['prepend' => $this->Url->build('/', ['fullBase' => true])]);
+                    echo $this->Form->control('slug', ['prepend' => $this->Url->build('/' . $language->abbreviation . '/', ['fullBase' => true])]);
                     echo $this->Form->control('seo_title');
                     echo $this->Form->control('seo_description');
                     ?>

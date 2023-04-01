@@ -17,6 +17,10 @@ use Cake\Filesystem\Folder;
 class ImagesController extends AppController
 {
 
+    public $paginate  = [
+        'limit' => 36
+    ];
+
     /**
      * Index method
      */

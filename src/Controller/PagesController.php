@@ -42,7 +42,7 @@ class PagesController extends AppController
             $newPage->position = $this->Pages->find()->where($where)->count() + 1;
 
             // check if slug exists
-            while( !$this->Pages->findBySlug($newPage->slug)->isEmpty() ){
+            while( !$this->Pages->findBySlug($newPage->slug)->all()->isEmpty() ){
                 $newPage->slug = $newPage->slug . '-copy';
             }
 

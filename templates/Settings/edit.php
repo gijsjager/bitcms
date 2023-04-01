@@ -13,6 +13,9 @@ echo $this->Flash->render();
         <p>
             <?= __('Edit this setting. Please contact us if you have questions about these settings.'); ?>
         </p>
+        <p>
+            <?= __('You are editing this setting for the language "<strong class="text-primary">{0}</strong>"', [$language->name]); ?>
+        </p>
         <div class="change-language" style="position: relative; display: inline-block">
             <?php
             if( count($languages) > 0 ){
@@ -21,7 +24,7 @@ echo $this->Flash->render();
                 ?>
                 <div class="dropdown-menu" role="menu" id="langmenu">
                     <?php foreach($languages as $language){
-                        echo $this->Html->link($language->name, ['action' => 'edit', $setting->id, 'language' => $language->abbreviation], ['class' => 'dropdown-item']);
+                        echo $this->Html->link($language->name, ['action' => 'edit', $setting->id, '?' => ['language' => $language->abbreviation]], ['class' => 'dropdown-item']);
                     } ?>
                 </div>
                 <?php

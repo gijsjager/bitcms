@@ -15,3 +15,10 @@
 .ms-container {
     width: 100%;
 }
+
+.image-list .ui-sortable-placeholder {
+    background: #f0f0f0;
+    height: 100%;
+    min-height: 200px;
+    visibility: visible !important;
+}
