@@ -41,15 +41,6 @@ echo $this->Flash->render();
         </div>
     </div>
 
-    <?php
-    if ($is_default) {
-        ?>
-        <div class="alert alert-info mt-5">
-            <?= __('You are viewing the default language. That don\'t need translation does it? Let\'s switch to another language and start translation!') ?>
-        </div>
-        <?php
-    } else {
-        ?>
         <div class="panel panel-default mt-5">
             <table class="table table-hover">
                 <thead>
@@ -83,7 +74,6 @@ echo $this->Flash->render();
                 </tbody>
             </table>
         </div>
-    <?php } ?>
 </div>
 
 <?php $this->append('script', $this->Html->script([

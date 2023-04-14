@@ -1,28 +1,14 @@
 <?php
 /**
  * Translate string
- * @param $string
- * @param $vars
- * @return mixed|string
+ * @param string $string
+ * @param array $vars
+ * @return string
  */
-function t($string = '', $vars = [])
+function t(string $string = '', array $vars = []): string
 {
-
-    // check for default language
-    $languages = \Cake\ORM\TableRegistry::getTableLocator()->get('Bitcms.Languages');
-    $default = $languages->find()->where(['is_default' => 1])->first();
     $locale = \Cake\I18n\I18n::getLocale();
-    if ($locale === $default->locale) {
-        if(!empty($vars)){
-            foreach($vars as $key => $var){
-                $string = str_replace('{'.$key.'}', $var, $string);
-            }
-        }
-        return $string;
-    }
-
     $translations = \Cake\ORM\TableRegistry::getTableLocator()->get('Bitcms.Translations');
-
 
     // return translated content
     if ($translation = $translations->find()->where(['locale' => $locale, 'original' => $string])->first()) {
