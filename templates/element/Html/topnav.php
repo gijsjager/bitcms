@@ -8,6 +8,7 @@
             <li class="nav-item"><?= $this->Html->link('Dashboard', ['controller' => 'Dashboard', 'action' => 'index', 'plugin' => 'Bitcms', 'prefix' => false], ['class' => 'nav-link']); ?></li>
             <li class="nav-item"><?= $this->Html->link(__('My website'), '/', ['class' => 'nav-link']); ?></li>
             <li class="nav-item"><?= $this->Html->link(__('Support'), 'mailto:support@dotbits.nl', ['class' => 'nav-link']); ?></li>
+            <li class="nav-item"><?= $this->Html->link(__('SEO'), ['controller' => 'Seo', 'action' => 'index', 'plugin' => 'Bitcms', 'prefix' => false], ['class' => 'nav-link']); ?></li>
         </ul>
 
         <!--User Menu-->

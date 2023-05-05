@@ -263,6 +263,11 @@ BitCMS = (function () {
         }
     };
 
+    const runPopover = () => {
+        // Popover
+        $('[data-toggle="popover"]').popover();
+    }
+
     return {
         init: function () {
             imageConfirm();
@@ -274,6 +279,7 @@ BitCMS = (function () {
             fileConfirm();
             runFileupload();
             fileEdit();
+            runPopover();
 
         },
         refresh: function (functionToRerun) {
