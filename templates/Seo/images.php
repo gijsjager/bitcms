@@ -40,20 +40,32 @@ echo $this->Flash->render();
     ?>
     <div class="panel panel-default">
         <div class="panel-heading panel-heading panel-heading-divider">
-            <?= __('Images alt'); ?>
-            <span class="panel-subtitle"><?= __('Set een ALT text for every image'); ?></span>
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <?= __('Images alt'); ?>
+                    <span class="panel-subtitle"><?= __('Set een ALT text for every image'); ?></span>
+                </div>
+                <?php
+                echo $this->Html->link(
+                    __('Fill empty alt-descriptions from SEO titles'),
+                    ['action' => 'fillImageAltFromSeo', '?' => ['language' => $language->abbreviation]],
+                    ['class' => 'btn btn-secondary pull-right']
+                );
+                ?>
+            </div>
+
         </div>
         <div class="panel-body">
             <table class="table table-striped table-sm">
                 <thead>
-                    <tr>
-                        <th><?= __('Image') ?></th>
-                        <th><?= __('Alt-text') ?></th>
-                    </tr>
+                <tr>
+                    <th><?= __('Image') ?></th>
+                    <th><?= __('Alt-text') ?></th>
+                </tr>
                 </thead>
                 <tbody>
                 <?php
-                foreach($images as $image){
+                foreach ($images as $image) {
                     ?>
                     <tr>
                         <td style="width: 30%">
@@ -63,7 +75,8 @@ echo $this->Flash->render();
                                  data-title="<?= $image->filename ?>"
                                  data-content="<img src='<?= $image->url ?>' style='width:100%' />"
                                  data-html="true">
-                                <?= $image->filename ?>
+                                <?= $image->filename ?><br/>
+                                <small><?php echo $this->Html->link(__('View page'), $image->origin_url, ['target' => '_blank']) ?></small>
                             </div>
                         </td>
                         <td>

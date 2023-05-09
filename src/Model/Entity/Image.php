@@ -2,6 +2,7 @@
 
 namespace Bitcms\Model\Entity;
 
+use Cake\I18n\I18n;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
@@ -73,6 +74,23 @@ class Image extends Entity
     {
         $ext = pathinfo($this->filename, PATHINFO_EXTENSION);
         return str_replace('.' . $ext, '.webp', $this->filename);
+    }
+
+
+    protected function _getOrigin()
+    {
+        $model = $this->model;
+        $entity_id = $this->entity_id;
+
+        if ($this->model == 'Blocks') {
+            $BlockGroups = TableRegistry::getTableLocator()->get('Bitcms.BlockGroups');
+            if ($blockGroup = $BlockGroups->findById($this->entity_id)->first()) {
+                return TableRegistry::getTableLocator()->get('Bitcms.' . $blockGroup->model)->findById($blockGroup->entity_id)->first();
+            }
+            return null;
+        } else {
+            return TableRegistry::getTableLocator()->get($model)->findById($entity_id)->first();
+        }
     }
 
     /**

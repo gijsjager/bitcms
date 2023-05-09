@@ -46,42 +46,48 @@ echo $this->Flash->render();
         <div class="panel-body">
             <table class="table table-striped table-sm">
                 <thead>
-                    <tr>
-                        <th><?= __('Page') ?></th>
-                        <th><?= __('SEO title') ?></th>
-                        <th><?= __('SEO description') ?></th>
-                    </tr>
+                <tr>
+                    <th><?= __('Page') ?></th>
+                    <th><?= __('SEO title') ?></th>
+                    <th><?= __('SEO description') ?></th>
+                </tr>
                 </thead>
                 <tbody>
                 <?php
-                foreach($pages as $page){
-                    ?>
-                    <tr>
-                        <td style="width: 20%">
-                           <?= $page->title ?>
-                        </td>
-                        <td style="width: 30%;">
-                            <?php
-                            echo $this->Form->control('pages.' . $page->id . '.seo_title', [
-                                'value' => $page->seo_title,
-                                'label' => false,
-                                'placeholder' => 'SEO title',
-                                'style' => 'margin-bottom: -1.5rem;'
-                            ])
+                if (!empty($models)) {
+                    foreach ($models as $model) {
+                        $pages = $model->find()->all();
+                        foreach ($pages as $page) {
                             ?>
-                        </td>
-                        <td style="width: 30%;">
+                            <tr>
+                                <td style="width: 20%">
+                                    <?= $page->title ?><br/>
+                                    <small class="text-muted"><?= $model->getAlias() ?></small>
+                                </td>
+                                <td style="width: 30%;">
+                                    <?php
+                                    echo $this->Form->control('models.' . $model->getAlias() . '.' . $page->id . '.seo_title', [
+                                        'value' => $page->seo_title,
+                                        'label' => false,
+                                        'placeholder' => 'SEO title',
+                                        'style' => 'margin-bottom: -1.5rem;'
+                                    ])
+                                    ?>
+                                </td>
+                                <td style="width: 30%;">
+                                    <?php
+                                    echo $this->Form->control('models.' . $model->getAlias() . '.' . $page->id . '.seo_description', [
+                                        'value' => $page->seo_description,
+                                        'label' => false,
+                                        'placeholder' => 'SEO description',
+                                        'style' => 'margin-bottom: -1.5rem;'
+                                    ])
+                                    ?>
+                                </td>
+                            </tr>
                             <?php
-                            echo $this->Form->control('pages.' . $page->id . '.seo_description', [
-                                'value' => $page->seo_description,
-                                'label' => false,
-                                'placeholder' => 'SEO description',
-                                'style' => 'margin-bottom: -1.5rem;'
-                            ])
-                            ?>
-                        </td>
-                    </tr>
-                    <?php
+                        }
+                    }
                 }
                 ?>
                 </tbody>
