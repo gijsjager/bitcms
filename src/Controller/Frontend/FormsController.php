@@ -48,10 +48,16 @@ class FormsController extends FrontendController
 
         if($this->getRequest()->is('ajax')){
             return $this->getResponse()->withStringBody(json_encode($response));
-        } else {
-            $this->set('response', $response);
-            $this->viewBuilder()->setOption('serialize', 'response');
         }
+
+        $this->getRequest()->getSession()->write('form_submitted', true);
+
+        $url = $this->referer();
+        $url = explode('?', $url);
+        $url = $url[0] . '?submitted=1';
+
+        return  $this->redirect($url);
+
     }
 
     protected function getTemplate(): string

@@ -1,6 +1,7 @@
 <?php
 namespace Bitcms\Model\Table;
 
+use Bitcms\Model\Entity\Language;
 use Cake\I18n\I18n;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
@@ -109,6 +110,52 @@ class PagesTable extends Table
         ]);
 
         return $query->select($this)->select(['translated_slug' => 'i18n_slug.content']);
+    }
+
+    public function findByLanguage($slug, Language $language)
+    {
+        $this->setLocale(env('APP_DEFAULT_LOCALE'));
+        $item = $this->find('translations')
+            ->enableAutoFields(true)
+            ->select(['original_slug' => 'Pages.slug'])
+            ->where([
+            'OR' => [
+                'Pages.slug' => $slug,
+                'i18n.content' => $slug,
+            ]
+        ])->join([
+            'i18n' => [
+                'table' => 'i18n',
+                'type' => 'left',
+                'conditions' => 'i18n.foreign_key = Pages.id AND i18n.model = "Pages" AND i18n.field = "slug"',
+            ]
+        ])->first();
+        $this->setLocale(I18n::getLocale());
+
+        if (empty($item)) {
+            return null;
+        }
+
+        if (!isset($item->_translations)) {
+            $item->_translations = [];
+        }
+
+        // check if the language is the default language of the item
+        if ($language->locale === env('APP_DEFAULT_LOCALE', 'en_US')) {
+            $item->locale = $language->locale;
+            return $item;
+        }
+
+
+        // extract the translation
+        foreach($item->_translations as $locale => $translated) {
+            if ($locale === $language->locale) {
+                return $translated;
+            }
+        }
+
+
+        return null;
     }
 
     public function buildRules(RulesChecker $rules): RulesChecker

@@ -29,7 +29,6 @@ class DashboardController extends AppController
         $folder = new Folder(WWW_ROOT);
         $dirsize = $folder->dirsize();
 
-
         $this->set(compact('mails', 'visitors', 'images', 'pages', 'dirsize'));
     }
 
@@ -38,8 +37,8 @@ class DashboardController extends AppController
      */
     public function clearCache()
     {
-        Cache::clear();
-        $this->Flash->success(__('Cache successfully cleared'));
+        Cache::clearAll();
+        $this->Flash->success(__('Cache successfully cleared'), ['plugin' => 'Bitcms']);
         $this->redirect( $this->referer() );
     }
 }

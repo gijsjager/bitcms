@@ -168,6 +168,49 @@ BitCMS = (function () {
 
     function runHtmlEditors() {
         // html editors
+
+
+        const example_image_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.withCredentials = false;
+            xhr.open('POST', '/bitcms/images/inlineUpload');
+            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+
+            xhr.upload.onprogress = (e) => {
+                progress(e.loaded / e.total * 100);
+            };
+
+            xhr.onload = () => {
+                if (xhr.status === 403) {
+                    reject({ message: 'HTTP Error: ' + xhr.status, remove: true });
+                    return;
+                }
+
+                if (xhr.status < 200 || xhr.status >= 300) {
+                    reject('HTTP Error: ' + xhr.status);
+                    return;
+                }
+
+                const json = JSON.parse(xhr.responseText);
+
+                if (!json || typeof json.location != 'string') {
+                    reject('Invalid JSON: ' + xhr.responseText);
+                    return;
+                }
+
+                resolve(json.location);
+            };
+
+            xhr.onerror = () => {
+                reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+            };
+
+            const formData = new FormData();
+            formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+            xhr.send(formData);
+        });
+
         $('.html-editor').each(function () {
 
             tinymce.init({
@@ -176,12 +219,14 @@ BitCMS = (function () {
                 icons: 'small',
                 menubar: false,
                 content_css: '/bitcms/css/editor.css',
-                plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+                plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table wordcount',
                 toolbar: 'undo redo | bold italic underline strikethrough | blocks | alignleft aligncenter alignright alignjustify | numlist bullist | removeformat | table charmap emoticons | fullscreen  preview | insertfile image media template link anchor code',
                 toolbar_mode: 'wrap',
                 toolbar_sticky: true,
                 tinycomments_mode: 'embedded',
                 tinycomments_author: 'BitCMS',
+                /* without images_upload_url set, Upload tab won't show up*/
+                images_upload_handler: example_image_upload_handler,
                 link_class_list: [
                     {title: 'None', value: ''},
                     {title: 'Button primary', value: 'btn btn-primary'},

@@ -1,9 +1,17 @@
-function store(id, elm){
-    $.post(window.location.href, {id: id, content: $(elm).val()});
+function store(key, elm){
+    $.post(window.location.href, {
+        template_key: key,
+        locale: $(elm).data('locale'),
+        content: $(elm).val()
+    });
 }
 
-function submitTranslation(e, id, elm){
+function submitTranslation(e, key, elm){
+    if(e.nativeEvent.inputType === "insertLineBreak") return;
+
     if(e.code === 'NumpadEnter' || e.code === 'Enter'){
-        store(id, elm)
+        store(key, elm);
+        e.preventDefault();
+        return false;
     }
 }

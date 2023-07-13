@@ -52,7 +52,10 @@ class Page extends Entity
         $url = '/';
 
         if($langs->count() > 1){
-            $lang = $langs->where(['locale' => I18n::getLocale()])->first();
+
+            $locale = ($this->locale) ? $this->locale : I18n::getLocale();
+
+            $lang = $langs->where(['locale' => $locale])->first();
             $url .= $lang->abbreviation . '/';
         }
         return $url . $this->slug;

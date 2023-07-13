@@ -17,63 +17,74 @@ echo $this->Flash->render();
             <?= __('You are editing this page for the language "<strong class="text-primary">{0}</strong>"', [$language->name]); ?>
         </p>
         <div class="change-language" style="position: relative; display: inline-block">
-            <?php
-            if (count($languages) > 0) {
-
-                echo $this->Form->button(__('Change language'), ['type' => 'button', 'data-target' => 'langmenu', 'data-toggle' => 'dropdown', 'aria-haspopup' => 'true']);
-                ?>
-                <div class="dropdown-menu" role="menu" id="langmenu">
-                    <?php foreach ($languages as $language) {
-                        echo $this->Html->link($language->name, [
-                            'action' => 'index',
-                            '?' => ['language' => $language->abbreviation]
-                        ], ['class' => 'dropdown-item']);
-                    } ?>
-                </div>
-                <?php
-                echo '</span>';
-            }
-            ?>
             <br/><br/>
             <?php
-            echo $this->Html->link(__('Scan site for translations'), ['action' => 'scan'], ['class' => 'btn btn-secondary']);
+            echo $this->Html->link(__('Add new translation'), ['action' => 'add'], ['class' => 'btn btn-secondary']);
             ?>
         </div>
     </div>
 
-        <div class="panel panel-default mt-5">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th><?= __('Original content') ?></th>
-                    <th><?= __('Translated content') ?></th>
-                </tr>
-                </thead>
-                <tbody>
+    <div class="panel panel-default mt-5">
+        <table class="table table-hover table-condensed">
+            <thead>
+            <tr>
+                <th style="width: 100px;"><?= __('Template key') ?></th>
                 <?php
-                if (!$translations->all()->isEmpty()) {
-                    foreach ($translations as $translation) {
-                        ?>
-                        <tr>
-                            <td class="w-50"><?= $translation->original ?></td>
-                            <td><?= $this->Form->control('translations.' . $translation->id . '.content', [
-                                    'label' => false,
-                                    'placeholder' => __('Place your translation'),
-                                    'value' => $translation->content,
-                                    'onkeyup' => "submitTranslation(event, $translation->id, this)",
-                                    'onblur' => 'store(' . $translation->id . ', this)'
-                                ]) ?>
-                            </td>
-                        </tr>
-                        <?php
-                    }
-                } else {
-                    echo '<tr><td colspan="2"><div class="alert alert-info">' . __('Wow no translations found yet.') . '</div></td></tr>';
+                foreach ($allLanguages as $language) {
+                    echo '<th>' . $language->name . '</th>';
                 }
                 ?>
-                </tbody>
-            </table>
-        </div>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            if (!empty($translations)) {
+                foreach ($translations as $key => $group) {
+                    ?>
+                    <tr>
+                        <td style="width: 100px; overflow: hidden;">
+                            <code class="text-truncate overflow-hidden w-100" title="<?= strip_tags($key) ?>">
+                                <?= $this->Text->Truncate(strip_tags($key), 30) ?>
+                            </code>
+                        </td>
+                        <?php
+                        foreach ($allLanguages as $language) {
+                            $found = false;
+                            foreach($group as $t){
+                                if($t->locale === $language->locale){
+                                    $found = $t;
+                                    break;
+                                }
+                            }
+                            ?>
+                            <td>
+                                <?= $this->Form->control('translation_' . strip_tags($key) . '_' . $language->locale, [
+                                    'label' => false,
+                                    'type' => 'textarea',
+                                    'rows' => 1,
+                                    'placeholder' => $language->name . ' not yet translated',
+                                    'value' => !empty($found) ? $found->content : '',
+                                    'onkeyup' => "submitTranslation(event, '{$key}', this)",
+                                    'data-locale' => $language->locale,
+                                    'onblur' => "store('{$key}', this)",
+                                    'templates' => [
+                                        'inputContainer' => '{{content}}',
+                                    ]
+                                ]) ?>
+                            </td>
+                            <?php
+                        }
+                        ?>
+                    </tr>
+                    <?php
+                }
+            } else {
+                echo '<tr><td><div class="alert alert-info">' . __('Wow no translations found yet.') . '</div></td></tr>';
+            }
+            ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <?php $this->append('script', $this->Html->script([

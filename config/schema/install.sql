@@ -357,12 +357,13 @@ CREATE TABLE `visitors` (
 create table translations
 (
     id      int(11) unsigned auto_increment not null,
+    template_key varchar(255) not null,
     locale  varchar(50) not null,
     content longtext    not null,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-create index translations_locale_index on translations (locale);
+create index translations_locale_index on translations (template_key, locale);
 
 
 

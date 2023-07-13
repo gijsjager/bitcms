@@ -6,6 +6,9 @@ use Bitcms\Controller\AppController;
 use Cake\Error\FatalErrorException;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
+use Cake\Routing\Route\Route;
+use Cake\Routing\Router;
+use Laminas\Diactoros\UploadedFile;
 
 /**
  * Images Controller
@@ -345,5 +348,53 @@ class ImagesController extends AppController
         $this->createNextGen($image->model, $image->filename);
 
         $this->Flash->success(__('Image cropped successfully'));
+    }
+
+    /**
+     * Upload inline editor image
+     * @return \Cake\Http\Response
+     */
+    public function inlineUpload()
+    {
+
+        $content = [];
+
+        // upload file
+        if ($this->request->getData("file")) {
+
+            /** @var UploadedFile $file */
+            $file = $this->request->getData('file');
+            $name = $file->getClientFilename();
+
+            $dir = WWW_ROOT . 'files' . DS . 'Inline';
+            if (!is_dir($dir)) {
+                mkdir($dir, 755);
+            }
+
+
+            $file->moveTo( $dir . DS . $name);
+
+            // resize image
+            $ext = pathinfo($name, PATHINFO_EXTENSION);
+            $nextGen = str_replace('.' . $ext, '.webp', $name);
+
+            $imageLibrary = new \Zebra_Image();
+            $imageLibrary->auto_handle_exif_orientation = true;
+            $imageLibrary->source_path = $dir . DS . $name;
+            $imageLibrary->target_path = $dir . DS . $nextGen;
+            $imageLibrary->webp_quality = 80;
+            $useNextGen = $imageLibrary->resize(1300);
+
+
+            $content = json_encode([
+                'location' => Router::url('/', true) . 'files/Inline/' . ($useNextGen ? $nextGen : $name)
+            ]);
+        }
+
+
+
+        $this->response = $this->response->withStringBody($content);
+        $this->response = $this->response->withType('json');
+        return $this->response;
     }
 }

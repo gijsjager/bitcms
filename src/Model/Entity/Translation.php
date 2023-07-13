@@ -10,6 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int|null $id
  * @property string $locale
+ * @property string $template_key
  * @property string|null $original
  * @property string $content
  */
@@ -26,6 +27,7 @@ class Translation extends Entity
      */
     protected $_accessible = [
         'id' => true,
+        'template_key' => true,
         'locale' => true,
         'original' => true,
         'content' => true,

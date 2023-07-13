@@ -12,18 +12,60 @@ class TranslationsController extends AppController
      */
     public function index()
     {
-        if($this->request->is(['put', 'post'])){
+        if ($this->request->is(['put', 'post'])) {
             $this->store();
         }
 
-        // check if we are on default language
-        $default = $this->fetchTable('Bitcms.Languages')->find()->where(['is_default' => 1])->first();
-        $this->set('is_default', $default->locale === I18n::getLocale());
+        // possible languages
+        $this->set('allLanguages', $this->fetchTable('Bitcms.Languages')->find());
 
-        $translations = $this->Translations->find()
-            ->where(['locale' => I18n::getLocale()])
-            ->order(['original' => 'asc']);
-        $this->set('translations', $translations);
+
+        $translations = $this->Translations->find()->order(['template_key' => 'asc']);
+        // group them by the template key
+        $grouped = [];
+        foreach ($translations as $translation) {
+            $grouped[$translation->template_key][] = $translation;
+        }
+
+        $this->set('translations', $grouped);
+
+    }
+
+    public function add()
+    {
+        $translation = $this->Translations->newEntity([]);
+
+        $languages = $this->fetchTable('Bitcms.Languages')->find();
+
+        if ($this->request->is('post')) {
+
+            // check if template_key already exists
+            $exists = $this->Translations->find()->where([
+                'template_key' => $this->request->getData('template_key'),
+            ])->first();
+            if (!empty($exists)) {
+                $this->Flash->error(__('The template key already exists. Please, try again.'));
+                return $this->redirect(['action' => 'index']);
+            }
+
+            // add for every language
+            foreach($languages as $language) {
+                $translation = $this->Translations->newEntity([
+                    'locale' => $language->locale,
+                    'template_key' => $this->request->getData('template_key'),
+                ]);
+                $this->Translations->save($translation);
+            }
+
+            if ($this->Translations->save($translation)) {
+                $this->Flash->success(__('The translation has been saved.'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The translation could not be saved. Please, try again.'));
+        }
+
+        $this->set('allLanguages', $languages);
+        $this->set('translation', $translation);
     }
 
     /**
@@ -33,9 +75,21 @@ class TranslationsController extends AppController
     public function store()
     {
         $this->request->allowMethod(['put', 'post']);
-        $entity = $this->Translations->get($this->request->getData('id'));
+        $entity = $this->Translations->find()->where([
+            'locale' => $this->request->getData('locale'),
+            'template_key' => $this->request->getData('template_key'),
+        ])->first();
+        if (empty($entity)) {
+            $entity = $this->Translations->newEntity([
+                'locale' => $this->request->getData('locale'),
+                'template_key' => $this->request->getData('template_key'),
+            ]);
+        }
         $this->Translations->patchEntity($entity, $this->request->getData());
         $this->Translations->save($entity);
+
+        $this->disableAutoRender();
+        echo 'ok';
     }
 
     /**
@@ -51,23 +105,23 @@ class TranslationsController extends AppController
         foreach ($files as $file) {
             $content = file_get_contents($file);
             preg_match_all("/ \(?t\('.*?,?'\)/", $content, $matches);
-            if(!empty($matches)){
-                foreach($matches[0] as $match){
+            if (!empty($matches)) {
+                foreach ($matches[0] as $match) {
                     $match = str_replace("(t('", '', $match);
                     $match = str_replace("t('", '', $match);
                     $match = str_replace("')", '', $match);
                     $match = explode(', [', $match);
-                    if(!empty($match[0])){
-                        foreach($languages as $language){
+                    if (!empty($match[0])) {
+                        foreach ($languages as $language) {
                             // check if already exists
                             $entity = $this->Translations->find()->where([
                                 'locale' => $language->locale,
-                                'original' => $match[0],
+                                'template_key' => $match[0],
                             ])->first();
-                            if(empty($entity)){
+                            if (empty($entity)) {
                                 $entity = $this->Translations->newEntity([
                                     'locale' => $language->locale,
-                                    'original' => $match[0]
+                                    'template_key' => $match[0]
                                 ]);
                                 $this->Translations->save($entity);
                             }
@@ -80,13 +134,13 @@ class TranslationsController extends AppController
             }
         }
         // delete all existing that are not found anymore
-        if(!empty($stored)){
+        if (!empty($stored)) {
             $this->Translations->deleteAll([
                 'id NOT IN' => $stored
             ]);
         }
 
-        $this->Flash->success(__('Scan completed. {0} translation(s) found!', [ count($stored)]));
+        $this->Flash->success(__('Scan completed. {0} translation(s) found!', [count($stored)]));
         return $this->redirect(['action' => 'index']);
     }
 

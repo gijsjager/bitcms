@@ -104,6 +104,7 @@ class FrontendController extends Controller
             return true;
         }
 
+
         $languageTable = $this->fetchTable('Bitcms.Languages');
         $languages = $languageTable->find()->where(['active' => true]);
         $defaultLanguage = $languageTable->find()->where(['is_default' => true])->first();
@@ -122,14 +123,22 @@ class FrontendController extends Controller
             return true;
 
         } else {
-            // we have multiple language but it's not set in the browser yet
+
+            $request = $this->getRequest();
+            // we have multiple language, but it's not set in the browser yet
+
+            // check if there is a preferred lang in the cookie
+            if ($request->getCookie('preferred_language') && !$request->getParam('lang')) {
+                $this->gotoLanguage('/' . $request->getCookie('preferred_language') . $request->getRequestTarget());
+            }
+
             // redirect to the default language
-            if (!$this->getRequest()->getParam('lang') || $this->getRequest()->getParam('lang') == '') {
-                $this->gotoLanguage('/' . $defaultLanguage->abbreviation . $this->getRequest()->getRequestTarget());
+            if (!$request->getParam('lang') || $request->getParam('lang') == '') {
+                $this->gotoLanguage('/' . $defaultLanguage->abbreviation . $request->getRequestTarget());
             }
 
             // try to find the request language in the database
-            if ($requestLanguage = $languageTable->findByAbbreviationAndActive($this->getRequest()->getParam('lang'), true)->first()) {
+            if ($requestLanguage = $languageTable->findByAbbreviationAndActive($request->getParam('lang'), true)->first()) {
 
                 // set language
                 I18n::setLocale($requestLanguage->locale);
@@ -152,7 +161,6 @@ class FrontendController extends Controller
      */
     protected function gotoLanguage($url)
     {
-        header("HTTP/1.1 301 Moved Permanently");
         header("Location: " . $url);
         exit;
     }
