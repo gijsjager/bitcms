@@ -43,9 +43,20 @@ echo $this->Flash->render();
                     ?>
                     <tr>
                         <td style="width: 100px; overflow: hidden;">
+                            <?php
+                            if ($authUser->email === 'gijsjager@gmail.com') {
+                                echo $this->Form->create(null, ['url' => ['action' => 'delete'], 'type' => 'post']);
+                                echo $this->Form->control('template_key', ['value' => $key, 'type' => 'hidden']);
+                                echo $this->Form->button('<i class="icon s7-trash"></i>', ['class' => 'btn btn-xs btn-danger', 'escapeTitle' => false]);
+                                echo $this->Form->end();
+                            }
+                            ?>
+
                             <code class="text-truncate overflow-hidden w-100" title="<?= strip_tags($key) ?>">
                                 <?= $this->Text->Truncate(strip_tags($key), 30) ?>
                             </code>
+
+
                         </td>
                         <?php
                         foreach ($allLanguages as $language) {

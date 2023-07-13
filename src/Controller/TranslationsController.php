@@ -68,6 +68,21 @@ class TranslationsController extends AppController
         $this->set('translation', $translation);
     }
 
+    public function delete()
+    {
+        $this->request->allowMethod('post');
+        $items = $this->Translations->find()->where([
+            'template_key' => $this->request->getData('template_key'),
+        ]);
+
+        foreach($items as $item) {
+            $this->Translations->delete($item);
+        }
+
+        $this->Flash->success(__('{0} has been deleted.', $this->request->getData('template_key')));
+        return $this->redirect($this->referer());
+    }
+
     /**
      * Store translations
      * @return void
