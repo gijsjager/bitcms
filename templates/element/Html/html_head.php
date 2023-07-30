@@ -14,6 +14,7 @@
         'Bitcms.../lib/perfect-scrollbar/css/perfect-scrollbar.min',
         'Bitcms.../lib/dropzone/dist/min/dropzone.min',
         'Bitcms.../lib/dropzone/dist/min/basic.min',
+        'Bitcms.../lib/jquery.gritter/css/jquery.gritter',
         'Bitcms.animate.min',
         'Bitcms.app.min',
         'Bitcms.themes/blue-sky.min',

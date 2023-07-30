@@ -1,5 +1,5 @@
 <?php
-echo $this->Form->create($user);
+echo $this->Form->create($user, ['autocomplete' => 'off']);
 
 echo $this->Form->control('role', ['options' => [
     'user' => __('User'),

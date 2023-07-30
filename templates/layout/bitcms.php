@@ -17,6 +17,7 @@
         'Bitcms.../lib/jquery.confirm/jquery.confirm.min',
         'https://cdn.tiny.cloud/1/cw4bbpeug2opvjev9470zihvyoqr9pmn9figavyuvzsz2cu3/tinymce/6/tinymce.min.js',
         'Bitcms.../lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min',
+        'Bitcms.../lib/jquery.gritter/js/jquery.gritter.min',
         'Bitcms.../lib/dropzone/dist/min/dropzone.min',
         'Bitcms.bitcms',
 

@@ -72,7 +72,6 @@ BitCMS = (function () {
             dialogClass: "modal-dialog modal-full-color modal-full-color-danger modal-lg" // Bootstrap classes for large modal
         });
     };
-
     function runFileupload() {
         if ($('.fileupload').length > 0) {
 
@@ -118,7 +117,6 @@ BitCMS = (function () {
 
         }
     }
-
     function runDropzone() {
         if ($('.my-dz').length > 0) {
 
@@ -165,7 +163,6 @@ BitCMS = (function () {
 
         }
     }
-
     function runHtmlEditors() {
         // html editors
 
@@ -307,10 +304,31 @@ BitCMS = (function () {
             });
         }
     };
-
     const runPopover = () => {
         // Popover
         $('[data-toggle="popover"]').popover();
+    }
+
+    var runConfirm = functions.runConfirm = function runConfirm() {
+
+        $('.btn-confirm').each(function(){
+            $(this).confirm({
+                text: $(this).data('text') ? $(this).data('text') : 'Are you sure you want to delete this item',
+                confirmButton: 'Yes',
+                cancelButton: 'Cancel',
+                confirm: (e) => {
+                    const url = $(e).attr('href');
+                    const form = $('<form method="post" class="hide" action="' + url + '"><input type="hidden" name="_csrfToken" value="'+csrfToken+'" /></form>');
+                    $("body").append(form);
+                    form.submit();
+                },
+                confirmButtonClass: "btn-primary",
+                cancelButtonClass: "btn-secondary",
+                dialogClass: "modal-dialog modal-full-color modal-full-color-danger modal-lg" // Bootstrap classes for large modal
+            });
+        })
+
+
     }
 
     return {
@@ -325,6 +343,7 @@ BitCMS = (function () {
             runFileupload();
             fileEdit();
             runPopover();
+            runConfirm();
 
         },
         refresh: function (functionToRerun) {
