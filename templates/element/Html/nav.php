@@ -2,26 +2,54 @@
     <div class="container">
         <!-- Mega Menu structure-->
         <nav class="navbar navbar-toggleable-sm">
-            <button type="button" data-toggle="collapse" data-target="#mai-navbar-collapse" aria-controls="#mai-navbar-collapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler hidden-md-up collapsed">
+            <button type="button" data-toggle="collapse" data-target="#mai-navbar-collapse"
+                    aria-controls="#mai-navbar-collapse" aria-expanded="false" aria-label="Toggle navigation"
+                    class="navbar-toggler hidden-md-up collapsed">
                 <div class="icon-bar"><span></span><span></span><span></span></div>
             </button>
             <div id="mai-navbar-collapse" class="navbar-collapse collapse mai-nav-tabs">
                 <ul class="nav navbar-nav">
                     <li class="nav-item parent <?= ($this->request->getParam('controller') == 'Dashboard') ? 'open' : '' ?>">
                         <?= $this->Html->link(
-                            '<span class="icon s7-home"></span><span>'.__('Home').'</span>',
+                            '<span class="icon s7-home"></span><span>' . __('Home') . '</span>',
                             ['controller' => 'Dashboard', 'action' => 'index', 'plugin' => 'Bitcms', 'prefix' => false],
                             ['class' => 'nav-link', 'escape' => false, 'role' => 'button']); ?>
                     </li>
 
                     <?php
-                    if(!empty($bitcms['modules'])){
-                        foreach($bitcms['modules'] as $module){ ?>
-                            <li class="nav-item parent <?= ($this->request->getParam('controller') == $module['route']['controller']) ? 'open' : '' ?>">
+                    if (!empty($bitcms['modules'])) {
+                        foreach ($bitcms['modules'] as $module) {
+                            $isActive = $this->request->getParam('controller') == $module['route']['controller'];
+                            ?>
+                            <li class="nav-item parent <?= $isActive ? 'open' : '' ?>">
                                 <?= $this->Html->link(
-                                    '<span class="icon s7-'.$module['icon'].'"></span><span>'.$module['title'].'</span>',
+                                    '<span class="icon s7-' . $module['icon'] . '"></span><span>' . $module['title'] . '</span>',
                                     $module['route'],
                                     ['class' => 'nav-link', 'escape' => false, 'role' => 'button']); ?>
+
+                                <?php
+                                if (!empty($module['subItems']) && $isActive) {
+                                    ?>
+                                    <ul class="mai-nav-tabs-sub mai-sub-nav nav">
+                                        <?php
+                                        foreach ($module['subItems'] as $subItem) {
+                                            $isActive = $this->request->getParam('controller') == $subItem['route']['controller'] && $this->request->getParam('action') == $subItem['route']['action'];
+                                            ?>
+                                            <li class="nav-item <?= $isActive ? 'active' : '' ?>">
+                                                <?= $this->Html->link(
+                                                    '<span class="icon s7-' . $subItem['icon'] . '"></span><span class="name">' . $subItem['title'] . '</span>',
+                                                    $subItem['route'],
+                                                    ['class' => 'nav-link ' . ($isActive ? 'active' : ''), 'escape' => false, 'role' => 'button']
+                                                ); ?>
+                                            </li>
+                                            <?php
+                                        }
+                                        ?>
+                                    </ul>
+                                    <?php
+                                }
+                                ?>
+
                             </li>
                             <?php
                         }
@@ -33,7 +61,8 @@
         <!--Search input-->
         <?= $this->Form->create(null, ['type' => 'get']); ?>
         <div class="search">
-            <input type="text" placeholder="<?= __('Search...'); ?>" value="<?= $this->request->getQuery('q'); ?>" name="q"><span class="s7-search"></span>
+            <input type="text" placeholder="<?= __('Search...'); ?>" value="<?= $this->request->getQuery('q'); ?>"
+                   name="q"><span class="s7-search"></span>
         </div>
         <?= $this->Form->end(); ?>
     </div>

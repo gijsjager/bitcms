@@ -60,6 +60,13 @@ class PagesController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
+        if ($this->request->getQuery('q')) {
+            $pages->where(['OR' => [
+                'Pages.title LIKE' => '%'.$this->request->getQuery('q').'%',
+                'Pages.slug LIKE' => '%'.$this->request->getQuery('q').'%',
+            ]]);
+        }
+
         $this->set(compact('pages', 'newPage', 'pagesList'));
         $this->set('_serialize', ['pages']);
     }

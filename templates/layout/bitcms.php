@@ -19,10 +19,16 @@
         'Bitcms.../lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min',
         'Bitcms.../lib/jquery.gritter/js/jquery.gritter.min',
         'Bitcms.../lib/dropzone/dist/min/dropzone.min',
+        'Bitcms.../lib/jquery-flot/jquery.flot',
+        'Bitcms.../lib/jquery-flot/jquery.flot.resize',
+        'Bitcms.../lib/jquery-flot/plugins/jquery.flot.orderBars',
+        'Bitcms.../lib/jquery-flot/plugins/jquery.flot.tooltip',
+        'Bitcms.../lib/jquery-flot/plugins/curvedLines',
         'Bitcms.bitcms',
 
     ]); ?>
     <?= $this->fetch('script'); ?>
+    <?= $this->fetch('scriptBottom'); ?>
     <script>
         var maxUploadSize = <?= $maxUploadSize ?>;
         BitCMS.init();

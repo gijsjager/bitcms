@@ -112,7 +112,7 @@ var App = (function () {
     }
 
     // Get the template css colors into js vars
-    function getColor(c) {
+    function priagetColor(c) {
         var tmp = $("<div>", {class: c}).appendTo("body");
         var color = tmp.css("background-color");
         tmp.remove();
