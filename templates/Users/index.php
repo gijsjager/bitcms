@@ -24,14 +24,21 @@ echo $this->Flash->render();
             <thead>
             <tr>
                 <th><?= __('Name') ?></th>
-                <th style="width: 350px; text-align: center"><?= __('Actions'); ?></th>
+                <th style="width: 350px; text-align: right"><?= __('Actions'); ?></th>
             </tr>
             </thead>
             <tbody>
                 <?php foreach($users as $user){ ?>
                     <tr>
                         <td><?= $user->fullname ?></td>
-                        <td><?= $this->Html->link('<span class="icon s7-tools"></span> ' . __('Edit'), ['action' => 'edit', $user->id], ['class' => 'pull-right btn-space btn btn-primary', 'escape' => false]); ?></td>
+                        <td style="text-align: right">
+                            <?= $this->Html->link('<span class="icon s7-tools"></span> ' . __('Edit'), ['action' => 'edit', $user->id], ['class' => 'pull-right btn-space btn btn-primary', 'escape' => false]); ?>
+                            <?= $this->Html->link('<span class="icon s7-trash"></span>' . __('Delete'), ['action' => 'delete', $user->id],
+                                [
+                                    'class' => 'pull-right btn-space btn btn-danger btn-confirm',
+                                    'escape' => false
+                                ]); ?>
+                        </td>
                     </tr>
                 <?php } //endforeach ?>
             </tbody>

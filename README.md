@@ -32,3 +32,7 @@ templates/element/dashboard/small.php
 # Load cell
 [cell ...]
 ```
+
+## Templating
+maisonnette-admin
+https://foxythemes.net/preview/products/maisonnette/

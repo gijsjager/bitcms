@@ -5,7 +5,8 @@ echo $this->Form->control('active', ['class' => 'custom-control-input']);
 
 echo '<div title="'.__('Only the site builder is alowed to change this value. Otherwise the website will break.').'" style="opacity: 0.25">';
 echo $this->Form->control('is_default', [
-    'class' => 'custom-control-input', 'disabled',
+    'class' => 'custom-control-input',
+    'disabled' => true,
 ]);
 echo '</div>';
 echo '<br/><br/>';

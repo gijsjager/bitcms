@@ -127,7 +127,7 @@ echo $this->Flash->render();
                             <?php foreach($settings as $setting){ ?>
                                 <tr>
                                     <td <?php if(!empty($setting->info)) echo 'data-toggle="popover"'; ?> data-content="<?= $setting->info; ?>" data-title="<?= __('What is this?!'); ?>"><?= $setting->title; ?></td>
-                                    <td <?php if(strlen($setting->value) > 30) echo 'data-toggle="popover"'; ?> data-content="<?= nl2br($setting->value) ?>" data-title="<?= __('Content'); ?>">
+                                    <td <?php if(strlen(!empty($setting->value) ? $setting->value : '') > 30) echo 'data-toggle="popover"'; ?> data-content="<?= nl2br(!empty($setting->value) ? $setting->value : '') ?>" data-title="<?= __('Content'); ?>">
                                         <?= $setting->value ? $this->Text->truncate(h($setting->value), 30) : ''; ?>
                                     </td>
                                     <td class="text-right">

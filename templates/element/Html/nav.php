@@ -19,16 +19,26 @@
                     <?php
                     if (!empty($bitcms['modules'])) {
                         foreach ($bitcms['modules'] as $module) {
-                            $isActive = $this->request->getParam('controller') == $module['route']['controller'];
+                            if (!empty($module['subItems'])){
+                                $isActive = false;
+                                foreach($module['subItems'] as $subItem) {
+                                    if ($this->request->getParam('controller') == $subItem['route']['controller']) {
+                                        $isActive = true;
+                                        break;
+                                    }
+                                }
+                            } else {
+                                $isActive = $this->request->getParam('controller') == $module['route']['controller'];
+                            }
                             ?>
                             <li class="nav-item parent <?= $isActive ? 'open' : '' ?>">
                                 <?= $this->Html->link(
                                     '<span class="icon s7-' . $module['icon'] . '"></span><span>' . $module['title'] . '</span>',
-                                    $module['route'],
+                                    !empty($module['subItems']) ? $module['subItems'][0]['route'] : $module['route'],
                                     ['class' => 'nav-link', 'escape' => false, 'role' => 'button']); ?>
 
                                 <?php
-                                if (!empty($module['subItems']) && $isActive) {
+                                if (!empty($module['subItems'])) {
                                     ?>
                                     <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                                         <?php
@@ -37,7 +47,7 @@
                                             ?>
                                             <li class="nav-item <?= $isActive ? 'active' : '' ?>">
                                                 <?= $this->Html->link(
-                                                    '<span class="icon s7-' . $subItem['icon'] . '"></span><span class="name">' . $subItem['title'] . '</span>',
+                                                    '<span class="icon s7-' . $subItem['icon'] . '" style="font-size: 1.5rem"></span><span class="name">' . $subItem['title'] . '</span>',
                                                     $subItem['route'],
                                                     ['class' => 'nav-link ' . ($isActive ? 'active' : ''), 'escape' => false, 'role' => 'button']
                                                 ); ?>
