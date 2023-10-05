@@ -10,6 +10,17 @@ The recommended way to install composer packages is:
 composer require gijsjager/bitcms
 ```
 
+Note: make sure to add the private repo config in your composer.json file: 
+```
+"repositories": [
+    {
+        "name": "gijsjager/bitcms",
+        "type": "vcs",
+        "url": "git@github.com:gijsjager/bitcms.git"
+    }
+]
+```
+
 ## Configurations
 
 Copy the file `config/bitcms.example.php` to your local config directory and rename the file to 'bitcms.php'.
