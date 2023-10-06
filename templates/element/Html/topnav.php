@@ -29,6 +29,7 @@
                     <?php
                     if( $authUser->role == 'admin' ){
                         echo $this->Html->link('<span class="icon s7-users"> </span> ' . __('List users'), ['controller' => 'Users', 'action' => 'index', 'plugin' => 'Bitcms', 'prefix' => false], ['escape' => false, 'class' => 'dropdown-item']);
+                        echo $this->Html->link('<span class="icon s7-server"> </span> ' . __('Blueprints'), ['controller' => 'Blueprints', 'action' => 'index', 'plugin' => 'Bitcms', 'prefix' => false], ['escape' => false, 'class' => 'dropdown-item']);
                     }
                     ?>
                     <?= $this->Html->link('<span class="icon s7-trash"> </span> ' . __('Clear cache'), ['controller' => 'Dashboard', 'action' => 'clearCache', 'plugin' => 'Bitcms', 'prefix' => false], ['escape' => false, 'class' => 'dropdown-item']); ?>

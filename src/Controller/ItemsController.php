@@ -1,7 +1,9 @@
 <?php
+
 namespace Bitcms\Controller;
 
-use Bitcms\Controller\AppController;
+use Bitcms\Model\Entity\Blueprint;
+use Bitcms\Model\Entity\Item;
 use Cake\Utility\Text;
 
 /**
@@ -19,94 +21,74 @@ class ItemsController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
-    public function index()
+    public function index($blueprint = null)
     {
-        $where = [];
-        if( $this->request->getQuery('q') ){
+        // fetch blueprint
+        $blueprint = $this->Items->Blueprints->findById($blueprint)
+            ->contain(['BlueprintFields'])
+            ->firstOrFail();
+
+        $where = [
+            'blueprint_id' => $blueprint->id
+        ];
+        if ($this->request->getQuery('q')) {
             $where['OR'] = [
-                'title LIKE' => '%'.$this->request->getQuery('q').'%',
-                'slug LIKE' => '%'.$this->request->getQuery('q').'%',
+                'title LIKE' => '%' . $this->request->getQuery('q') . '%',
+                'slug LIKE' => '%' . $this->request->getQuery('q') . '%',
             ];
         }
 
-        $items = $this->Items->find()->where($where)->contain(['Images'])->toArray();
+        $items = $this->Items->find()->where($where);
         $newItem = $this->Items->newEmptyEntity();
 
-        if( $this->request->is(['post', 'put']) ){
-
-            $this->Items->patchEntity($newItem, $this->request->getData());
-            $newItem->slug = Text::slug(strtolower(trim($newItem->title)));
-
-            $newItem->position = $this->Items->find()->count() + 1;
-
-            // check if slug exists
-            while( !$this->Items->findBySlug($newItem->slug)->isEmpty() ){
-                $newItem->slug = $newItem->slug . '-copy';
-            }
-
-            if( $this->Items->save($newItem) ){
-                $this->Flash->success(__('Item added'));
-            } else {
-                $errorString = __('Could not add item.<br/>');
-                $errors = $newItem->getErrors();
-                foreach($errors as $field => $error){
-                    $errorString .= __('Error: field "{0}" - {1}', [$field, reset($error)]) . '<br/>';
-                }
-
-                $this->Flash->error($errorString, ['escape' => false]);
-            }
-            return $this->redirect( $this->referer() );
+        if ($this->request->is('post')) {
+            $this->create($newItem, $blueprint);
+            return $this->redirect($this->referer());
         }
 
-        $this->set(compact('category', 'items', 'newItem'));
+        $this->set('items', $this->paginate($items));
+        $this->set(compact('newItem', 'blueprint'));
     }
 
 
     /**
      * Edit method
-     *
-     * @param string|null $id Item id.
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
     {
         $item = $this->Items->get($id, [
-            'contain' => ['Images']
+            'contain' => [
+                'ItemFields' => [
+                    'BlueprintFields',
+                    'Items',
+                    'Images',
+                    'Files'
+                ]
+            ]
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
 
+        // get blueprint
+        $blueprint = $this->Items->Blueprints->get($item->blueprint_id, [
+            'contain' => ['BlueprintFields']
+        ]);
+
+
+        if ($this->request->is('put')) {
             $item = $this->Items->patchEntity($item, $this->request->getData());
-            $item->setDirty('slug', true);
 
             if ($this->Items->save($item)) {
                 $this->Flash->success(__('The item has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'index', $blueprint->id]);
             }
             $this->Flash->error(__('The item could not be saved. Please, try again.'));
         }
-        $this->set(compact('item'));
-        $this->set('_serialize', ['item']);
+
+        $this->set('item', $item);
+        $this->set('blueprint', $blueprint);
+
     }
 
-    /**
-     * Update position
-     * Ajax method
-     */
-    public function updatePosition()
-    {
-        $this->autoRender = false;
-        if( $items = $this->request->getData('items') ){
-            foreach($items as $position => $item){
-                $itemId = preg_replace("/([^0-9]+)/", "", $item);
-                if( $item = $this->Items->findById($itemId)->first() ){
-                    $item->position = $position;
-                    $this->Items->save($item);
-                }
-            }
-        }
-    }
 
     /**
      * Delete method
@@ -125,6 +107,48 @@ class ItemsController extends AppController
             $this->Flash->error(__('The item could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect( $this->referer() );
+        return $this->redirect($this->referer());
+    }
+
+    /**
+     * Create new item
+     * @param Item $item
+     * @param Blueprint $blueprint
+     * @return void
+     */
+    protected function create(Item &$item, Blueprint $blueprint)
+    {
+        $postData = $this->getRequest()->getData();
+
+        // make sure blueprint fields are added too as default
+        foreach ($blueprint->blueprint_fields as $blueprint_field) {
+            $postData['item_fields'][] = [
+                'blueprint_field_id' => $blueprint_field->id,
+                'handle' => $blueprint_field->handle,
+                'value' => ''
+            ];
+        }
+
+        $this->Items->patchEntity($item, $postData);
+        $item->slug = Text::slug(strtolower(trim($item->title)));
+        $item->position = $this->Items->find()->count() + 1;
+
+
+        // check if slug exists
+        while (!$this->Items->findBySlug($item->slug)->all()->isEmpty()) {
+            $item->slug = $newItem->slug . '-2';
+        }
+
+        if ($this->Items->save($item)) {
+            $this->Flash->success(__('Item added'));
+        } else {
+            $errorString = __('Could not add item.<br/>');
+            $errors = $item->getErrors();
+            foreach ($errors as $field => $error) {
+                $errorString .= __('Error: field "{0}" - {1}', [$field, reset($error)]) . '<br/>';
+            }
+
+            $this->Flash->error($errorString, ['escape' => false]);
+        }
     }
 }

@@ -4,16 +4,29 @@ use Cake\ORM\TableRegistry;
 use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
 
+
+
 return static function (RouteBuilder $routes) {
+
+    // get all blueprints
+    $blueprintsTable = TableRegistry::getTableLocator()->get('Bitcms.Blueprints');
+    $blueprints = $blueprintsTable->find('all');
 
     /**
      * Frontend routes
      * @param RouteBuilder $routes
      */
-    $scopes = function (RouteBuilder $routes) {
+    $scopes = function (RouteBuilder $routes) use ($blueprints) {
         // sitemap
         $routes->connect('/sitemap.xml', ['controller' => 'Sitemap', 'action' => 'index']);
 
+        // items
+        foreach($blueprints as $blueprint) {
+            $routes->connect(
+                '/' . $blueprint->slug . '/{slug}',
+                ['controller' => 'Items', 'action' => 'view', 'blueprint' => $blueprint->slug]
+            )->setPass(['slug', 'blueprint']);
+        }
 
         // normal pages
         $routes->scope('/', ['controller' => 'Pages'], function ($routes) {

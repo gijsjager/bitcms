@@ -6,23 +6,21 @@ namespace Bitcms\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Item Entity
+ * ItemField Entity
  *
  * @property int $id
- * @property int $blueprint_id
- * @property string $title
- * @property string $slug
- * @property int $online
- * @property string $seo_title
- * @property string $seo_description
- * @property int $position
+ * @property int $item_id
+ * @property int $blueprint_field_id
+ * @property string $handle
+ * @property string $value
  * @property \Cake\I18n\FrozenTime $created_at
  * @property \Cake\I18n\FrozenTime $modified_at
  *
- * @property \Bitcms\Model\Entity\Blueprint $blueprint
- * @property \Bitcms\Model\Entity\ItemField[] $item_fields
+ * @property \Bitcms\Model\Entity\Item $item
+ * @property array<\Bitcms\Model\Entity\Item> $items
+ * @property \Bitcms\Model\Entity\BlueprintField $blueprint_field
  */
-class Item extends Entity
+class ItemField extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -34,16 +32,14 @@ class Item extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
-        'blueprint_id' => true,
-        'title' => true,
-        'slug' => true,
-        'online' => true,
-        'seo_title' => true,
-        'seo_description' => true,
-        'position' => true,
+        'item_id' => true,
+        'blueprint_field_id' => true,
+        'handle' => true,
+        'value' => true,
         'created_at' => true,
         'modified_at' => true,
-        'blueprint' => true,
-        'item_fields' => true,
+        'item' => true,
+        'items' => true,
+        'blueprint_field' => true,
     ];
 }

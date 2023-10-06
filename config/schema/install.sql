@@ -289,28 +289,6 @@ CREATE TABLE `settings` (
 
 
 
-# Dump of table showcases
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `showcases`;
-
-CREATE TABLE `showcases` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `slug` varchar(255) DEFAULT NULL,
-  `online` tinyint(1) DEFAULT '0',
-  `big_title` varchar(255) DEFAULT NULL,
-  `content` text,
-  `seo_title` varchar(255) DEFAULT NULL,
-  `seo_description` varchar(11) DEFAULT NULL,
-  `position` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `slug` (`slug`),
-  KEY `online` (`online`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
 # Dump of table users
 # ------------------------------------------------------------
 
@@ -364,6 +342,157 @@ create table translations
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create index translations_locale_index on translations (template_key, locale);
+
+
+--
+-- Tabelstructuur voor tabel `blueprints`
+--
+
+CREATE TABLE `blueprints` (
+                              `id` int(11) NOT NULL,
+                              `title` varchar(255) NOT NULL,
+                              `slug` varchar(255) NOT NULL,
+                              `icon` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `blueprint_fields`
+--
+
+CREATE TABLE `blueprint_fields` (
+                                    `id` int(11) NOT NULL,
+                                    `blueprint_id` int(11) NOT NULL,
+                                    `field_type` varchar(255) NOT NULL,
+                                    `handle` varchar(255) NOT NULL,
+                                    `label` varchar(255) NOT NULL,
+                                    `is_required` tinyint(1) NOT NULL,
+                                    `options` text DEFAULT NULL,
+                                    `position` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `items`
+--
+
+CREATE TABLE `items` (
+                         `id` int(11) NOT NULL,
+                         `blueprint_id` int(11) NOT NULL,
+                         `title` varchar(255) NOT NULL,
+                         `slug` varchar(255) NOT NULL,
+                         `online` tinyint(4) NOT NULL DEFAULT 1,
+                         `seo_title` varchar(255) NOT NULL,
+                         `seo_description` varchar(255) NOT NULL,
+                         `position` int(11) NOT NULL,
+                         `created_at` datetime NOT NULL,
+                         `modified_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `item_fields`
+--
+
+CREATE TABLE `item_fields` (
+                               `id` int(11) NOT NULL,
+                               `item_id` int(11) NOT NULL,
+                               `blueprint_field_id` int(11) NOT NULL,
+                               `handle` varchar(255) NOT NULL,
+                               `value` text NOT NULL,
+                               `created_at` datetime NOT NULL,
+                               `modified_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `item_field_items`
+--
+
+CREATE TABLE `item_field_items` (
+                                    `id` int(11) NOT NULL,
+                                    `item_field_id` int(11) NOT NULL,
+                                    `item_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Indexen voor geëxporteerde tabellen
+--
+
+--
+-- Indexen voor tabel `blueprints`
+--
+ALTER TABLE `blueprints`
+    ADD PRIMARY KEY (`id`);
+
+--
+-- Indexen voor tabel `blueprint_fields`
+--
+ALTER TABLE `blueprint_fields`
+    ADD PRIMARY KEY (`id`),
+  ADD KEY `blueprint_id` (`blueprint_id`);
+
+--
+-- Indexen voor tabel `items`
+--
+ALTER TABLE `items`
+    ADD PRIMARY KEY (`id`),
+  ADD KEY `title` (`title`),
+  ADD KEY `blueprint_id` (`blueprint_id`);
+
+--
+-- Indexen voor tabel `item_fields`
+--
+ALTER TABLE `item_fields`
+    ADD PRIMARY KEY (`id`),
+  ADD KEY `item_id` (`item_id`),
+  ADD KEY `blueprint_field_id` (`blueprint_field_id`);
+
+--
+-- Indexen voor tabel `item_field_items`
+--
+ALTER TABLE `item_field_items`
+    ADD PRIMARY KEY (`id`),
+  ADD KEY `item_id` (`item_field_id`,`item_id`);
+
+--
+-- AUTO_INCREMENT voor geëxporteerde tabellen
+--
+
+--
+-- AUTO_INCREMENT voor een tabel `blueprints`
+--
+ALTER TABLE `blueprints`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT voor een tabel `blueprint_fields`
+--
+ALTER TABLE `blueprint_fields`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT voor een tabel `items`
+--
+ALTER TABLE `items`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT voor een tabel `item_fields`
+--
+ALTER TABLE `item_fields`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT voor een tabel `item_field_items`
+--
+ALTER TABLE `item_field_items`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
 
 
 
