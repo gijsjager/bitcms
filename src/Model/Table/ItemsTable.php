@@ -29,6 +29,14 @@ use Cake\Validation\Validator;
  */
 class ItemsTable extends Table
 {
+
+    public const CONTAINS = [
+        'ItemFields',
+        'ItemFields.Images',
+        'ItemFields.Files',
+        'ItemFields.Items',
+    ];
+
     /**
      * Initialize method
      *

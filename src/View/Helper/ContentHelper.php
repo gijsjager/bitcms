@@ -34,10 +34,15 @@ class ContentHelper extends RootHelper {
 
         }
 
-        if( preg_match('/\[items (.*)\]/', $content, $extractLoader) ){
-            $options = $extractLoader;
-            unset($options[0]);
-            $cell = $this->_View->cell('Bitcms.Items', [$options] )->render();
+        if( preg_match('/\[items (.+?)\]/', $content, $extractLoader) ){
+            $extractLoader = array_pop($extractLoader);
+            $extractLoader = explode(" ", $extractLoader);
+            $params = array();
+            foreach ($extractLoader as $d){
+                list($opt, $val) = explode("=", $d);
+                $params[$opt] = trim($val, '"');
+            }
+            $cell = $this->_View->cell('Bitcms.Items', [$params])->render();
             $content = preg_replace( '/\[items (.*)\]/', $cell, $content );
         }
 

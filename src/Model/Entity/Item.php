@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Bitcms\Model\Entity;
 
+use Cake\I18n\I18n;
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 
 /**
  * Item Entity
@@ -46,4 +48,59 @@ class Item extends Entity
         'blueprint' => true,
         'item_fields' => true,
     ];
+
+    protected $_virtual = ['url'];
+
+    /**
+     * Get full URL of an item
+     * @return string
+     */
+    protected function _getUrl(): string
+    {
+        $languages = TableRegistry::getTableLocator()->get('Bitcms.Languages');
+        $langs = $languages->find()->where(['active' => 1]);
+
+        $url = '/';
+
+        // Get language abbreviation
+        if ($langs->count() > 1) {
+            $locale = ($this->locale) ? $this->locale : I18n::getLocale();
+            $lang = $langs->where(['locale' => $locale])->first();
+            $url .= $lang->abbreviation . '/';
+        }
+
+        // get blueprint
+        if (!empty($this->blueprint_id)) {
+            $blueprints = TableRegistry::getTableLocator()->get('Bitcms.Blueprints');
+            $blueprint = $blueprints->get($this->blueprint_id);
+            $url .= $blueprint->slug . '/';
+        }
+
+        return $url . $this->slug;
+    }
+
+    /**
+     * Get field value
+     * @param string $handle
+     * @return mixed
+     */
+    public function field(string $handle = ''): mixed
+    {
+        if (!empty($this->item_fields)) {
+            foreach ($this->item_fields as $field) {
+                if ($field->handle == $handle) {
+                    if (!empty($field->images)) {
+                        return $field->images;
+                    } else if (!empty($field->files)) {
+                        return $field->files;
+                    } else if (!empty($field->items)) {
+                        return $field->items;
+                    }
+
+                    return $field->value;
+                }
+            }
+        }
+        return null;
+    }
 }
