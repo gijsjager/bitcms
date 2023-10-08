@@ -351,6 +351,7 @@ create index translations_locale_index on translations (template_key, locale);
 CREATE TABLE `blueprints` (
                               `id` int(11) NOT NULL,
                               `title` varchar(255) NOT NULL,
+                              `handle` varchar(255) NOT NULL,
                               `slug` varchar(255) NOT NULL,
                               `icon` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

@@ -96,5 +96,8 @@ class BlueprintsTable extends Table
         if (isset($data['title']) && !isset($data['slug'])) {
             $data['slug'] = \Cake\Utility\Text::slug(strtolower(trim($data['title'])));
         }
+        if (isset($data['title']) && !isset($data['handle'])) {
+            $data['handle'] = \Cake\Utility\Text::slug(strtolower(trim($data['handle'])));
+        }
     }
 }
