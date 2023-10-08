@@ -29,15 +29,15 @@ echo $this->Flash->render();
                 <thead>
                 <tr>
                     <th><?= __('Name') ?></th>
+                    <th><?= __('Handle') ?></th>
                     <th style="width: 350px; text-align: center"><?= __('Actions'); ?></th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php foreach ($blueprints as $item) { ?>
                     <tr>
-                        <td>
-                            <?= $item->title ?>
-                        </td>
+                        <td><?= $item->title ?></td>
+                        <td><?= $item->handle ?></td>
                         <td class="text-right">
                             <?= $this->Html->link('<span class="icon s7-tools"></span> ' . __('Edit'), ['action' => 'edit', $item->id], ['class' => 'pull-right btn-space btn btn-primary', 'escape' => false]); ?>
                             <?= $this->Html->link('<span class="icon s7-trash"></span> ' . __('Delete'), ['action' => 'delete', $item->id], ['class' => 'pull-right btn-space btn btn-danger', 'escape' => false]); ?>
@@ -71,7 +71,8 @@ echo $this->Flash->render();
         <div class="modal-body">
             <?php
             echo $this->Form->create($blueprint);
-            echo $this->Form->control('title', ['label' => __('Title')]);
+            echo $this->Form->control('title');
+            echo $this->Form->control('handle');
             echo '<div class="text-center">';
             echo $this->Form->submit(__('Add blueprint'), ['class' => 'btn btn-primary btn-lg']);
             echo $this->Form->button(__('Cancel'), ['class' => 'modal-close btn btn-secondary', 'data-dismiss' => 'modal', 'type' => 'button']);

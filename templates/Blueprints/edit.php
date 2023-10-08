@@ -51,6 +51,7 @@ echo $this->Flash->render();
                     <div class="panel-body">
                         <?php
                         echo $this->Form->control('title');
+                        echo $this->Form->control('handle');
                         echo $this->Form->control('slug');
                         echo $this->Form->control('icon', [
                             'options' => $icons

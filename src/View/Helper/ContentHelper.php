@@ -34,6 +34,13 @@ class ContentHelper extends RootHelper {
 
         }
 
+        if( preg_match('/\[items (.*)\]/', $content, $extractLoader) ){
+            $options = $extractLoader;
+            unset($options[0]);
+            $cell = $this->_View->cell('Bitcms.Items', [$options] )->render();
+            $content = preg_replace( '/\[items (.*)\]/', $cell, $content );
+        }
+
         if( preg_match('/\[cell (.*)\]/', $content, $extractLoader) ){
             $cell = $this->_View->cell(ucfirst($extractLoader[1]), [] )->render();
             $content = preg_replace( '/\[cell (.*)\]/', $cell, $content );

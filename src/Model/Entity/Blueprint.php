@@ -10,6 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $title
+ * @property string $handle
  * @property string $slug
  * @property string $icon
  *
@@ -29,6 +30,7 @@ class Blueprint extends Entity
      */
     protected $_accessible = [
         'title' => true,
+        'handle' => true,
         'slug' => true,
         'icon' => true,
         'blueprint_fields' => true,
