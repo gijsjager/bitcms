@@ -103,4 +103,4 @@ echo $this->Flash->render();
     </div>
 
 <?php
-echo $this->Html->script('Bitcms.controllers/blueprints', ['block' => 'scriptBottom']);
+echo $this->Html->script('Bitcms.Controllers/blueprints', ['block' => 'scriptBottom']);

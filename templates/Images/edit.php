@@ -124,7 +124,7 @@ echo $this->Flash->render();
 
                     <div class="panel-divider mt-3 mb-3"></div>
 
-                    <?= $this->Form->control('ratio', ['options' => [
+                    <?= $this->Form->control('ratio', ['options' => $bitcms['images'] ?: [
                         '1.7777777777777777' => '16:9',
                         '1.3333333333333333' => '4:3',
                         '1' => '1:1',
