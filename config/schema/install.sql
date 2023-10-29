@@ -371,7 +371,7 @@ CREATE TABLE `blueprint_fields` (
                                     `label` varchar(255) NOT NULL,
                                     `is_required` tinyint(1) NOT NULL,
                                     `options` text DEFAULT NULL,
-                                    `position` int(11) NOT NULL
+                                    `position` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -386,8 +386,8 @@ CREATE TABLE `items` (
                          `title` varchar(255) NOT NULL,
                          `slug` varchar(255) NOT NULL,
                          `online` tinyint(4) NOT NULL DEFAULT 1,
-                         `seo_title` varchar(255) NOT NULL,
-                         `seo_description` varchar(255) NOT NULL,
+                         `seo_title` varchar(255) NULL,
+                         `seo_description` varchar(255) NULL,
                          `position` int(11) NOT NULL,
                          `created_at` datetime NOT NULL,
                          `modified_at` datetime NOT NULL

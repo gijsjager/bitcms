@@ -44,12 +44,11 @@ echo $this->Flash->render();
                                     class="icon s7-upload"></i><span>Choose an image</span></label>
                         </p><br/>
 
-                        <?= $this->Form->control('ratio', ['options' => [
-                            '1.7777777777777777' => '16:9',
+                        <?= $this->Form->control('ratio', ['options' => $bitcms['images'] ?: [
                             '1.7777777777777777' => '16:9',
                             '1.3333333333333333' => '4:3',
                             '1' => '1:1',
-                            '' => __('Crop freely')
+                            '2.6' => 'Headers',
                         ],
                             'onchange' => 'setRation(this.value)',
                             'label' => __('Set ratio'),
