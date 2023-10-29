@@ -80,7 +80,7 @@ class ItemFieldsTable extends Table
             'className' => 'Bitcms.Items',
             'foreignKey' => 'item_field_id',
             'targetForeignKey' => 'item_id',
-            'propertyName' => 'items'
+            'propertyName' => 'items',
         ]);
 
         $this->addBehavior('Timestamp', [
@@ -173,7 +173,6 @@ class ItemFieldsTable extends Table
         $blueprintField = $this->BlueprintFields->get($entity->blueprint_field_id);
         if ($blueprintField->field_type == BlueprintFieldsTable::TYPE_CONNECT) {
             $this->connect($entity->id, json_decode($entity->value, true));
-
         }
     }
 
@@ -187,18 +186,30 @@ class ItemFieldsTable extends Table
     {
         if (!empty($items)) {
             foreach($items as $itemId) {
-                // save connection
-                $this->ItemFieldItems->save($this->ItemFieldItems->newEntity([
+                if (empty($itemId)) {
+                    continue;
+                }
+
+                $entity = $this->ItemFieldItems->newEntity([
                     'item_id' => $itemId,
                     'item_field_id' => $fieldId
-                ]));
-            }
+                ]);
 
-            // remove connection not in the list
-            $this->ItemFieldItems->deleteAll([
-                'item_id NOT IN' => $items,
-                'item_field_id' => $fieldId
-            ]);
+                // save connection
+                if ($this->ItemFieldItems->save($entity) ) {
+                    $stored[] = $entity->id;
+                }
+            }
         }
+
+
+        // remove connection not in the list
+        $where = [
+            'item_field_id' => $fieldId,
+        ];
+        if (!empty($items)) {
+            $where['item_id NOT IN'] = $items;
+        }
+        $this->ItemFieldItems->deleteAll($where);
     }
 }

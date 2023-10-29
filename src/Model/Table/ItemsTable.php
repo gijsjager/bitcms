@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Bitcms\Model\Table;
 
+use Cake\Cache\Cache;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -141,5 +142,26 @@ class ItemsTable extends Table
         $rules->add($rules->existsIn('blueprint_id', 'Blueprints'), ['errorField' => 'blueprint_id']);
 
         return $rules;
+    }
+
+    public function afterSave(\Cake\Event\EventInterface $event, \Cake\Datasource\EntityInterface $entity, \ArrayObject $options)
+    {
+        self::setCacheConfig();
+        Cache::clear('items');
+    }
+
+    /**
+     * Set cache config
+     * @return void
+     */
+    static public function setCacheConfig()
+    {
+        if (!Cache::getConfig('items')) {
+            Cache::setConfig('items', [
+                'className' => 'File',
+                'duration' => '+1 year',
+                'path' => CACHE . 'items' . DS,
+            ]);
+        }
     }
 }

@@ -353,7 +353,8 @@ CREATE TABLE `blueprints` (
                               `title` varchar(255) NOT NULL,
                               `handle` varchar(255) NOT NULL,
                               `slug` varchar(255) NOT NULL,
-                              `icon` varchar(255) NOT NULL
+                              `icon` varchar(255) NOT NULL,
+                              `has_page` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

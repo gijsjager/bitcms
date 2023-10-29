@@ -20,12 +20,13 @@ class ItemsController extends AppController
         $itemsTable = $this->fetchTable('Bitcms.Items');
         $blueprintTable = $this->fetchTable('Bitcms.Blueprints');
 
-        $blueprint = $blueprintTable->find()->where([
-            $blueprintTable->translationField('slug') => $blueprint
-        ])->first();
+        $blueprint = $blueprintTable->find()->where(['handle' => $blueprint])->first();
 
         $item = $itemsTable->find()->where([
-            $itemsTable->translationField('slug') => $slug,
+            'OR' => [
+                $itemsTable->translationField('slug') => $slug,
+                'slug' => $slug,
+            ],
             'blueprint_id' => $blueprint->id,
             'online' => 1
         ])->contain([
@@ -34,10 +35,11 @@ class ItemsController extends AppController
                 'Files',
                 'Items',
             ]
-        ]);
+        ])->first();
+
 
         // 404 page
-        if ($item->all()->isEmpty()) {
+        if (empty($item)) {
             return $this->redirect([
                 'lang' => $this->getRequest()->getParam('lang'),
                 'controller' => 'Pages',
@@ -46,8 +48,6 @@ class ItemsController extends AppController
             ]);
         }
 
-        $item = $item->first();
-
         $this->set('item', $item);
         $this->set('seo_title', (!empty($item->seo_title)) ? $item->seo_title : $item->title);
         $this->set('seo_description', $item->seo_description);
@@ -55,9 +55,9 @@ class ItemsController extends AppController
         $this->viewBuilder()->addHelper('Bitcms.Content');
 
         try {
-            $this->render('view');
+            $this->render($blueprint->handle);
         } catch (MissingTemplateException $e) {
-            $this->render('Bitcms.view');
+            die('Template not found: Items/' . $blueprint->handle);
         }
     }
 }

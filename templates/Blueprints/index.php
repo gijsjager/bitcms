@@ -30,6 +30,7 @@ echo $this->Flash->render();
                 <tr>
                     <th><?= __('Name') ?></th>
                     <th><?= __('Handle') ?></th>
+                    <th><?= __('Has page') ?></th>
                     <th style="width: 350px; text-align: center"><?= __('Actions'); ?></th>
                 </tr>
                 </thead>
@@ -38,6 +39,7 @@ echo $this->Flash->render();
                     <tr>
                         <td><?= $item->title ?></td>
                         <td><?= $item->handle ?></td>
+                        <td><?= $item->has_page ? __('Yes') : __('No') ?></td>
                         <td class="text-right">
                             <?= $this->Html->link('<span class="icon s7-tools"></span> ' . __('Edit'), ['action' => 'edit', $item->id], ['class' => 'pull-right btn-space btn btn-primary', 'escape' => false]); ?>
                             <?= $this->Html->link('<span class="icon s7-trash"></span> ' . __('Delete'), ['action' => 'delete', $item->id], ['class' => 'pull-right btn-space btn btn-danger', 'escape' => false]); ?>

@@ -86,6 +86,11 @@ class Item extends Entity
      */
     public function field(string $handle = ''): mixed
     {
+        if (empty($this->item_fields)) {
+            $itemFields = TableRegistry::getTableLocator()->get('Bitcms.ItemFields');
+            $this->item_fields = $itemFields->find()->where(['item_id' => $this->id])->contain(['Images', 'Files', 'Items'])->all();
+        }
+
         if (!empty($this->item_fields)) {
             foreach ($this->item_fields as $field) {
                 if ($field->handle == $handle) {

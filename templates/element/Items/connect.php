@@ -24,8 +24,7 @@ if (!empty($itemField->items)) {
 $options = array_merge($options, [
     'label' => $field->label,
     'required' => $field->is_required,
-    'options' => $items,
-    'empty' => __('- None -'),
+    'options' => [0 => __('- None -')] + $items,
     'value' => $value,
     'type' => 'select',
     'multiple' => true,

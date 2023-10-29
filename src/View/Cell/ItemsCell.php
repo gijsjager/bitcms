@@ -27,6 +27,8 @@ class ItemsCell extends Cell
 
         $blueprint = $blueprintTable->find()->where(['handle' => $blueprint])->first();
 
+        ItemsTable::setCacheConfig();
+
         if (!empty($blueprint)) {
             $items = $itemsTable->find()
                 ->where([
@@ -45,8 +47,8 @@ class ItemsCell extends Cell
 
             $items->cache(function($q) use ($blueprint, $options) {
                 $hash = md5(serialize($options));
-                return $hash . '-' . I18n::getLocale() . '-' . md5(serialize($q->clause('where')));
-            });
+                return 'items-' . $hash . '-' . I18n::getLocale() . '-' . md5(serialize($q->clause('where')));
+            }, 'items');
         }
 
         $this->set('items', $items);

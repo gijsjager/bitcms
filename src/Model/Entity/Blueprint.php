@@ -13,6 +13,7 @@ use Cake\ORM\Entity;
  * @property string $handle
  * @property string $slug
  * @property string $icon
+ * @property boolean $has_page
  *
  * @property \Bitcms\Model\Entity\BlueprintField[] $blueprint_fields
  * @property \Bitcms\Model\Entity\Item[] $items
@@ -33,6 +34,7 @@ class Blueprint extends Entity
         'handle' => true,
         'slug' => true,
         'icon' => true,
+        'has_page' => true,
         'blueprint_fields' => true,
         'items' => true,
     ];

@@ -43,7 +43,7 @@ class ItemsController extends AppController
 
         if ($this->request->is('post')) {
             $this->create($newItem, $blueprint);
-            return $this->redirect($this->referer());
+            return $this->redirect(['action' => 'edit', $newItem->id]);
         }
 
         $this->set('items', $this->paginate($items));

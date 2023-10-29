@@ -56,6 +56,8 @@ echo $this->Flash->render();
                         echo $this->Form->control('icon', [
                             'options' => $icons
                         ]);
+                        echo $this->Form->control('has_page', ['class' => 'custom-control-input']);
+
                         ?>
                     </div>
                 </div><!-- ./End general details -->

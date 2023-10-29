@@ -3,6 +3,7 @@
 namespace Bitcms\View\Helper;
 
 use App\Model;
+use Cake\ORM\TableRegistry;
 use Cake\View\Helper\HtmlHelper as RootHelper;
 
 
@@ -38,12 +39,21 @@ class ContentHelper extends RootHelper {
             $extractLoader = array_pop($extractLoader);
             $extractLoader = explode(" ", $extractLoader);
             $params = array();
+            $template = null;
             foreach ($extractLoader as $d){
                 list($opt, $val) = explode("=", $d);
                 $params[$opt] = trim($val, '"');
+                if (empty($template) && in_array($opt, ['template'])) {
+                    $template = str_replace('"', '', $val);
+                }
             }
-            $cell = $this->_View->cell('Bitcms.Items', [$params])->render();
+            $cell = $this->_View->cell('Bitcms.Items', [$params])->render($template);
             $content = preg_replace( '/\[items (.*)\]/', $cell, $content );
+        }
+
+        if( preg_match('/\[element (.*)\]/', $content, $extractLoader) ){
+            $element = $this->_View->element($extractLoader[1]);
+            $content = preg_replace( '/\[element (.*)\]/', $element, $content );
         }
 
         if( preg_match('/\[cell (.*)\]/', $content, $extractLoader) ){
@@ -55,5 +65,17 @@ class ContentHelper extends RootHelper {
 
 
 
+    }
+
+    /**
+     * Display full page URL
+     * @param $pageId
+     * @return void
+     */
+    public function pageUrl($pageId)
+    {
+        $pages = TableRegistry::getTableLocator()->get('Bitcms.Pages');
+        $page = $pages->get($pageId);
+        return $page->url;
     }
 }

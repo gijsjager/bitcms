@@ -72,12 +72,11 @@ class BlueprintsController extends AppController
     public function delete($id = null)
     {
         $blueprint = $this->Blueprints->find()->where(['id' => $id])->firstOrFail();
-        if ($this->request->is('post')) {
-            if ($this->Blueprints->delete($blueprint)) {
-                $this->Flash->success(__('Blueprint deleted!'), ['plugin' => 'Bitcms']);
-            } else {
-                $this->Flash->error(__('Something went wrong.'), ['plugin' => 'Bitcms']);
-            }
+    
+        if ($this->Blueprints->delete($blueprint)) {
+            $this->Flash->success(__('Blueprint deleted!'), ['plugin' => 'Bitcms']);
+        } else {
+            $this->Flash->error(__('Something went wrong.'), ['plugin' => 'Bitcms']);
         }
 
         return $this->redirect($this->referer());

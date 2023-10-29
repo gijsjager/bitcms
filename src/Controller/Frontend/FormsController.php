@@ -23,7 +23,6 @@ class FormsController extends FrontendController
             // generate view
             $template = $this->getTemplate();
 
-
             // back up first
             $this->store($template);
 
@@ -36,6 +35,20 @@ class FormsController extends FrontendController
                 ->setViewVars(['data' => $this->request->getData()])
                 ->setEmailFormat('html')
                 ->deliver($template);
+
+            // if there is template for a default response, send that to the user as well
+            $template = $this->getTemplate();
+            $replyTpl = 'email/html/reply/' . $this->getTemplateName();
+            if (file_exists(ROOT . DS . 'templates' . DS . $replyTpl . '.php')) {
+                $mailer = new Mailer();
+                $send = $mailer->setFrom($this->getMailFrom())
+                    ->setTo($this->request->getData('email'))
+                    ->setSubject($this->getSubject())
+                    ->setReplyTo($this->getReceiver())
+                    ->setViewVars(['data' => $this->request->getData()])
+                    ->setEmailFormat('html')
+                    ->deliver($template);
+            }
 
             $response = [
                 'send' => 'OK',
@@ -65,7 +78,12 @@ class FormsController extends FrontendController
         // get correct template
         $view = new View($this->getRequest());
         $view->setLayout('email/html/default');
-        return $view->render('email/html/' . ($this->request->getData('_template') ? $this->request->getData('_template') : 'default'));
+        return $view->render('email/html/' . $this->getTemplateName());
+    }
+
+    protected function getTemplateName(): string
+    {
+        return ($this->request->getData('_template') ? $this->request->getData('_template') : 'default');
     }
 
     protected function store(string $template = '')
