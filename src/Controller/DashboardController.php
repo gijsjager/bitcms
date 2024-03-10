@@ -14,17 +14,10 @@ class DashboardController extends AppController
 {
     public function index()
     {
-        $this->loadModel('Bitcms.Mails');
-        $mails = $this->Mails->find()->count();
-
-        $this->loadModel('Bitcms.Visitors');
-        $visitors = $this->Visitors->find()->count();
-
-        $this->loadModel('Bitcms.Images');
-        $images = $this->Images->find()->count();
-
-        $this->loadMOdel('Bitcms.Pages');
-        $pages = $this->Pages->find()->order(['Pages.id' => 'desc'])->limit(5);
+        $mails = $this->fetchTable('Bitcms.Mails')->find()->count();
+        $visitors = $this->fetchTable('Bitcms.Visitors')->find()->count();
+        $images = $this->fetchTable('Bitcms.Images')->find()->count();
+        $pages = $this->fetchTable('Bitcms.Pages')->find()->order(['Pages.id' => 'desc'])->limit(5);
 
         $folder = new Folder(WWW_ROOT);
         $dirsize = $folder->dirsize();
