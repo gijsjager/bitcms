@@ -93,7 +93,7 @@ class FormsController extends FrontendController
         $entity = $table->newEntity([
             'date_created' => new \DateTime(),
             'receiver' => $this->getReceiver(),
-            'sender' => $this->getMailFrom(),
+            'sender' => $this->request->getData('email'),
             'subject' => $this->getSubject(),
             'content' => $template
         ]);
