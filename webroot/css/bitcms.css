@@ -22,6 +22,25 @@
     min-height: 200px;
     visibility: visible !important;
 }
+.movable .move-handler {
+    position: absolute;
+    right: 5rem;
+    top: 0;
+    font-size: 20px;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    cursor: move;
+}
+.movable .move-handler:hover {
+    background: #4db8ea;
+}
 
 /******
  SELECT2
