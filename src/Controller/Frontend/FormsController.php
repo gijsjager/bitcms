@@ -28,7 +28,7 @@ class FormsController extends FrontendController
 
             // send email
             $mailer = new Mailer();
-            $send = $mailer->setFrom($this->getMailFrom())
+            $send = $mailer->setFrom($this->getMailFrom(), $this->getMailFromName())
                 ->setTo($this->getReceiver())
                 ->setSubject($this->getSubject())
                 ->setReplyTo($this->request->getData('email'))
@@ -41,7 +41,7 @@ class FormsController extends FrontendController
             if (file_exists(ROOT . DS . 'templates' . DS . $replyTpl . '.php')) {
                 $template = $this->getTemplate('email/html/reply/' . $this->getTemplateName());
                 $mailer = new Mailer();
-                $send = $mailer->setFrom($this->getMailFrom())
+                $send = $mailer->setFrom($this->getMailFrom(), $this->getMailFromName())
                     ->setTo($this->request->getData('email'))
                     ->setSubject($this->getSubject('reply'))
                     ->setReplyTo($this->getReceiver())
@@ -126,6 +126,12 @@ class FormsController extends FrontendController
     {
         $settings = $this->getSettings();
         return !empty($settings['mail_from']) ? $settings['mail_from'] : 'gijsjager@gmail.com';
+    }
+
+    protected function getMailFromName(): string
+    {
+        $settings = $this->getSettings();
+        return !empty($settings['mail_from_name']) ? $settings['mail_from_name'] : '';
     }
 
     protected function getReceiver(): string
