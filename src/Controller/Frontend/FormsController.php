@@ -37,13 +37,13 @@ class FormsController extends FrontendController
                 ->deliver($template);
 
             // if there is template for a default response, send that to the user as well
-            $template = $this->getTemplate();
             $replyTpl = 'email/html/reply/' . $this->getTemplateName();
             if (file_exists(ROOT . DS . 'templates' . DS . $replyTpl . '.php')) {
+                $template = $this->getTemplate('email/html/reply/' . $this->getTemplateName());
                 $mailer = new Mailer();
                 $send = $mailer->setFrom($this->getMailFrom())
                     ->setTo($this->request->getData('email'))
-                    ->setSubject($this->getSubject())
+                    ->setSubject($this->getSubject('reply'))
                     ->setReplyTo($this->getReceiver())
                     ->setViewVars(['data' => $this->request->getData()])
                     ->setEmailFormat('html')
@@ -73,12 +73,13 @@ class FormsController extends FrontendController
 
     }
 
-    protected function getTemplate(): string
+    protected function getTemplate(string $path = ''): string
     {
+        $path = $path === '' ? ('email/html/' . $this->getTemplateName()) : $path;
         // get correct template
         $view = new View($this->getRequest());
         $view->setLayout('email/html/default');
-        return $view->render('email/html/' . $this->getTemplateName());
+        return $view->render($path);
     }
 
     protected function getTemplateName(): string
@@ -93,7 +94,7 @@ class FormsController extends FrontendController
         $entity = $table->newEntity([
             'date_created' => new \DateTime(),
             'receiver' => $this->getReceiver(),
-            'sender' => $this->request->getData('email'),
+            'sender' => $this->getMailFrom(),
             'subject' => $this->getSubject(),
             'content' => $template
         ]);
@@ -104,10 +105,13 @@ class FormsController extends FrontendController
      * Get mail subject
      * @return string
      */
-    protected function getSubject(): string
+    protected function getSubject(string $type = ''): string
     {
         $config = $this->getConfig();
         if(!empty($config['mails'][$this->request->getData('_name')])){
+            if ($type === 'reply' && !empty($config['mails'][$this->request->getData('_name')]['reply']['subject'])) {
+                return $config['mails'][$this->request->getData('_name')]['reply']['subject'];
+            }
             return $config['mails'][$this->request->getData('_name')]['subject'];
         } else {
             return __('New mail received from website');
