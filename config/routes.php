@@ -35,7 +35,7 @@ return static function (RouteBuilder $routes) {
         $routes->scope('/', ['controller' => 'Pages'], function ($routes) {
             $routes->connect('/', ['action' => 'view', 'home']);
             $routes->connect('/404/**', ['action' => 'notfound']);
-            $routes->connect('/*', ['action' => 'view']);
+            $routes->connect('/**', ['action' => 'view']);
 
         });
     };
