@@ -135,8 +135,10 @@ class ItemsController extends AppController
 
 
         // check if slug exists
+        $key = 1;
         while (!$this->Items->findBySlug($item->slug)->all()->isEmpty()) {
-            $item->slug = $newItem->slug . '-2';
+            $item->slug = $item->slug . '-' . $key;
+            $key++;
         }
 
         if ($this->Items->save($item)) {
