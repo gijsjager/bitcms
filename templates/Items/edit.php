@@ -67,8 +67,8 @@ echo $this->Flash->render();
                     <div class="panel-body">
                         <?php
                         echo $this->Form->control('slug', ['prepend' => $this->Url->build('/' . $language->abbreviation . '/' . $blueprint->slug . '/', ['fullBase' => true])]);
-                        echo $this->Form->control('seo_title');
-                        echo $this->Form->control('seo_description');
+                        echo $this->Form->control('seo_title', ['required' => false]);
+                        echo $this->Form->control('seo_description', ['required' => false]);
                         ?>
                     </div>
                 </div>
