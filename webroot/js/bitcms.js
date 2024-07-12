@@ -211,9 +211,10 @@ BitCMS = (function () {
         $('.html-editor').each(function () {
 
             tinymce.init({
+                license_key: 'gpl',
                 selector: '.html-editor',
-                skin: 'bootstrap',
-                icons: 'small',
+                // skin: 'bootstrap',
+                // icons: 'small',
                 menubar: false,
                 content_css: '/bitcms/css/editor.css',
                 plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table wordcount code',
