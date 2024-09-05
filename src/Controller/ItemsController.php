@@ -38,7 +38,7 @@ class ItemsController extends AppController
             ];
         }
 
-        $items = $this->Items->find()->where($where);
+        $items = $this->Items->find()->where($where)->order(['position' => 'ASC']);
         $newItem = $this->Items->newEmptyEntity();
 
         if ($this->request->is('post')) {
