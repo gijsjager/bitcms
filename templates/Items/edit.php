@@ -51,6 +51,7 @@ echo $this->Flash->render();
                     <div class="panel-body">
                         <?php
                         echo $this->Form->control('title');
+                        echo $this->Form->control('position');
                         echo $this->Form->control('online', ['type' => 'checkbox', 'class' => 'custom-control-input']) . '<br/><br/>';
                         ?>
                     </div>
