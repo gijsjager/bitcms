@@ -7,7 +7,7 @@ $options = array_merge(!empty($options) ? $options : [], [
     'empty' => __('- Pick a value -'),
     'label' => $field->label,
     'required' => (bool)$field->is_required,
-    'checked' => !empty($itemField) ? $itemField->value : ''
+    'value' => !empty($itemField) ? $itemField->value : ''
 ]);
 
 echo $this->Form->control('item_fields.' . $key . '.value', $options);
