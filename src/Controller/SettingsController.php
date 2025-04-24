@@ -17,9 +17,7 @@ class SettingsController extends AppController
     public function index()
     {
         $settings = $this->paginate($this->Settings);
-
-        $this->loadModel('Bitcms.Redirects');
-        $redirects = $this->Redirects->find();
+        $redirects = $this->fetchTable('Bitcms.Redirects')->find();
 
         $this->set(compact('settings', 'redirects'));
         $this->set('_serialize', ['settings']);
