@@ -1,5 +1,28 @@
+/*!
+ * 
+ * Super simple WYSIWYG editor v0.9.0
+ * https://summernote.org
+ *
+ * Copyright 2013~ Hackerwins and contributors
+ * Summernote may be freely distributed under the MIT license.
+ *
+ * Date: 2024-09-30T14:42Z
+ *
+ */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(self, () => {
+return /******/ (() => { // webpackBootstrap
+var __webpack_exports__ = {};
 (function ($) {
-  $.extend($.summernote.lang, {
+  $.extend(true, $.summernote.lang, {
     'fr-FR': {
       font: {
         bold: 'Gras',
@@ -22,7 +45,7 @@
         floatLeft: 'Aligné à gauche',
         floatRight: 'Aligné à droite',
         floatNone: 'Pas d\'alignement',
-        shapeRounded: 'Forme: Rectangle arrondie',
+        shapeRounded: 'Forme: Rectangle arrondi',
         shapeCircle: 'Forme: Cercle',
         shapeThumbnail: 'Forme: Vignette',
         shapeNone: 'Forme: Aucune',
@@ -32,14 +55,15 @@
         maximumFileSize: 'Taille de fichier maximale',
         maximumFileSizeError: 'Taille maximale du fichier dépassée',
         url: 'URL de l\'image',
-        remove: 'Supprimer l\'image'
+        remove: 'Supprimer l\'image',
+        original: 'Original'
       },
       video: {
         video: 'Vidéo',
         videoLink: 'Lien vidéo',
         insert: 'Insérer une vidéo',
         url: 'URL de la vidéo',
-        providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion ou Youku)'
+        providers: '(YouTube, Google Drive, Vimeo, Vine, Instagram, DailyMotion or Youku)'
       },
       link: {
         link: 'Lien',
@@ -51,7 +75,14 @@
         openInNewWindow: 'Ouvrir dans une nouvelle fenêtre'
       },
       table: {
-        table: 'Tableau'
+        table: 'Tableau',
+        addRowAbove: 'Ajouter une ligne au-dessus',
+        addRowBelow: 'Ajouter une ligne en dessous',
+        addColLeft: 'Ajouter une colonne à gauche',
+        addColRight: 'Ajouter une colonne à droite',
+        delRow: 'Supprimer la ligne',
+        delCol: 'Supprimer la colonne',
+        delTable: 'Supprimer le tableau'
       },
       hr: {
         insert: 'Insérer une ligne horizontale'
@@ -126,19 +157,27 @@
         'indent': 'Augmenter le retrait du paragraphe',
         'formatPara': 'Changer le paragraphe en cours en normal (P)',
         'formatH1': 'Changer le paragraphe en cours en entête H1',
-        'formatH2': 'Change current block\'s format as entête H2',
-        'formatH3': 'Change current block\'s format as entête H3',
-        'formatH4': 'Change current block\'s format as entête H4',
-        'formatH5': 'Change current block\'s format as entête H5',
-        'formatH6': 'Change current block\'s format as entête H6',
-        'insertHorizontalRule': 'Insérer ligne horizontale',
+        'formatH2': 'Changer le paragraphe en cours en entête H2',
+        'formatH3': 'Changer le paragraphe en cours en entête H3',
+        'formatH4': 'Changer le paragraphe en cours en entête H4',
+        'formatH5': 'Changer le paragraphe en cours en entête H5',
+        'formatH6': 'Changer le paragraphe en cours en entête H6',
+        'insertHorizontalRule': 'Insérer séparation horizontale',
         'linkDialog.show': 'Afficher fenêtre d\'hyperlien'
       },
       history: {
         undo: 'Annuler la dernière action',
         redo: 'Restaurer la dernière action annulée'
+      },
+      specialChar: {
+        specialChar: 'Caractères spéciaux',
+        select: 'Choisir des caractères spéciaux'
       }
-
     }
   });
 })(jQuery);
+/******/ 	return __webpack_exports__;
+/******/ })()
+;
+});
+//# sourceMappingURL=summernote-fr-FR.js.map

@@ -164,80 +164,49 @@ BitCMS = (function () {
         }
     }
     function runHtmlEditors() {
-        // html editors
-
-
-        const example_image_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            xhr.withCredentials = false;
-            xhr.open('POST', '/bitcms/images/inlineUpload');
-            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
-
-            xhr.upload.onprogress = (e) => {
-                progress(e.loaded / e.total * 100);
-            };
-
-            xhr.onload = () => {
-                if (xhr.status === 403) {
-                    reject({ message: 'HTTP Error: ' + xhr.status, remove: true });
-                    return;
+        // html editors with summernote
+        $('.html-editor').summernote({
+            toolbar: [
+                ['style', ['style']],
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['para', ['ul', 'ol']],
+                ['insert', ['linkclass', 'picture', 'video']],
+                //['table',['table']],
+                ['view',['fullscreen','codeview']]
+            ],
+            callbacks: {
+                onImageUpload: function (files) {
+                    for (var i = 0; i < files.length; i++) {
+                        sendFile(files[i], this);
+                    }
                 }
-
-                if (xhr.status < 200 || xhr.status >= 300) {
-                    reject('HTTP Error: ' + xhr.status);
-                    return;
-                }
-
-                const json = JSON.parse(xhr.responseText);
-
-                if (!json || typeof json.location != 'string') {
-                    reject('Invalid JSON: ' + xhr.responseText);
-                    return;
-                }
-
-                resolve(json.location);
-            };
-
-            xhr.onerror = () => {
-                reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
-            };
-
-            const formData = new FormData();
-            formData.append('file', blobInfo.blob(), blobInfo.filename());
-
-            xhr.send(formData);
+            }
         });
 
-        $('.html-editor').each(function () {
-
-            tinymce.init({
-                license_key: 'gpl',
-                selector: '.html-editor',
-                // skin: 'bootstrap',
-                // icons: 'small',
-                menubar: false,
-                content_css: '/bitcms/css/editor.css',
-                plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table wordcount code',
-                toolbar: 'bold italic underline strikethrough | blocks | alignleft aligncenter alignright alignjustify | numlist bullist | removeformat | table charmap emoticons | fullscreen  preview | insertfile image media template link anchor code',
-                toolbar_mode: 'wrap',
-                toolbar_sticky: true,
-                tinycomments_mode: 'embedded',
-                tinycomments_author: 'BitCMS',
-                /* without images_upload_url set, Upload tab won't show up*/
-                images_upload_handler: example_image_upload_handler,
-                link_class_list: [
-                    {title: 'None', value: ''},
-                    {title: 'Button primary', value: 'btn btn-primary'},
-                    {title: 'Button secondary', value: 'btn btn-secondary'},
-                    {title: 'Button dark', value: 'btn btn-dark'},
-                ],
-                mergetags_list: [
-                    { value: 'First.Name', title: 'First Name' },
-                    { value: 'Email', title: 'Email' },
-                ]
+        function sendFile(file) {
+            let data = new FormData();
+            data.append("file", file);
+            $.ajax({
+                url: '/bitcms/images/inlineUpload', // Replace with your actual upload endpoint
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: data,
+                type: "POST",
+                headers: {
+                    'X-CSRF-Token': csrfToken
+                },
+                success: function(response) {
+                    // Assuming the response contains the image URL
+                    $('#summernote').summernote('insertImage', response.imageUrl);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Image upload failed:", error);
+                }
             });
+        }
 
-        });
         $('.note-popover').css({'display': 'none'});
     }
 

@@ -1,5 +1,28 @@
+/*!
+ * 
+ * Super simple WYSIWYG editor v0.9.0
+ * https://summernote.org
+ *
+ * Copyright 2013~ Hackerwins and contributors
+ * Summernote may be freely distributed under the MIT license.
+ *
+ * Date: 2024-09-30T14:42Z
+ *
+ */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(self, () => {
+return /******/ (() => { // webpackBootstrap
+var __webpack_exports__ = {};
 (function ($) {
-  $.extend($.summernote.lang, {
+  $.extend(true, $.summernote.lang, {
     'lv-LV': {
       font: {
         bold: 'Treknraksts',
@@ -27,11 +50,20 @@
         shapeThumbnail: 'Forma: rāmītis',
         shapeNone: 'Forma: orģināla',
         dragImageHere: 'Ievēlciet attēlu šeit',
+        dropImage: 'Drop image or Text',
         selectFromFiles: 'Izvēlēties failu',
         maximumFileSize: 'Maksimālais faila izmērs',
         maximumFileSizeError: 'Faila izmērs pārāk liels!',
         url: 'Attēla URL',
-        remove: 'Dzēst attēlu'
+        remove: 'Dzēst attēlu',
+        original: 'Oriģināls'
+      },
+      video: {
+        video: 'Video',
+        videoLink: 'Video saite',
+        insert: 'Ievietot Video',
+        url: 'Video URL?',
+        providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion or Youku)'
       },
       link: {
         link: 'Saite',
@@ -39,11 +71,18 @@
         unlink: 'Noņemt saiti',
         edit: 'Rediģēt',
         textToDisplay: 'Saites saturs',
-        url: 'Koks URL adresas yra susietas?',
+        url: 'Uz kādu URL šai saitei būtu jāved?',
         openInNewWindow: 'Atvērt jaunā logā'
       },
       table: {
-        table: 'Tabula'
+        table: 'Tabula',
+        addRowAbove: 'Pievienot rindu virs',
+        addRowBelow: 'Pievienot rindu zem',
+        addColLeft: 'Pievienot kolonnu pa kreisi',
+        addColRight: 'Pievienot kolonnu pa labi',
+        delRow: 'Dzēst rindu',
+        delCol: 'Dzēst kolonnu',
+        delTable: 'Dzēst tabulu'
       },
       hr: {
         insert: 'Ievietot līniju'
@@ -97,10 +136,6 @@
         documentStyle: 'Dokumenta stils',
         extraKeys: 'Citas taustiņu kombinācijas'
       },
-      history: {
-        undo: 'Atsauks (undo)',
-        redo: 'Atkārtot (redo)'
-      },
       help: {
         insertParagraph: 'Ievietot Paragrāfu',
         undo: 'Atcelt iepriekšējo darbību',
@@ -129,7 +164,20 @@
         formatH6: 'Mainīt bloka tipu uz virsrakstu H6',
         insertHorizontalRule: 'Ievietot horizontālu līniju',
         'linkDialog.show': 'Parādīt saites logu'
+      },
+      history: {
+        undo: 'Atsauks (undo)',
+        redo: 'Atkārtot (redo)'
+      },
+      specialChar: {
+        specialChar: 'ĪPAŠIE SIMBOLI',
+        select: 'Izvēlieties īpašos simbolus'
       }
     }
   });
 })(jQuery);
+/******/ 	return __webpack_exports__;
+/******/ })()
+;
+});
+//# sourceMappingURL=summernote-lt-LV.js.map

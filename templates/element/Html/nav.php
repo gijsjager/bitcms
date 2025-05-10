@@ -22,13 +22,14 @@
                             if (!empty($module['subItems'])){
                                 $isActive = false;
                                 foreach($module['subItems'] as $subItem) {
+                                    // for blueprints we also need to check the id
                                     if ($this->request->getParam('controller') == $subItem['route']['controller']) {
                                         $isActive = true;
                                         break;
                                     }
                                 }
-                            } else {
-                                $isActive = $this->request->getParam('controller') == $module['route']['controller'];
+                            } elseif (!empty($module['route']['controller'])) {
+                                $isActive = $this->request->getParam('controller') === $module['route']['controller'];
                             }
                             ?>
                             <li class="nav-item parent <?= $isActive ? 'open' : '' ?>">
@@ -43,7 +44,11 @@
                                     <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                                         <?php
                                         foreach ($module['subItems'] as $subItem) {
-                                            $isActive = $this->request->getParam('controller') == $subItem['route']['controller'] && $this->request->getParam('action') == $subItem['route']['action'];
+                                            if (!empty($subItem['route']['controller']) && $subItem['route']['controller'] === 'Items'){
+                                                $isActive = $this->request->getParam('controller') == $subItem['route']['controller'] && $this->request->getParam('action') == 'index' && $this->request->getParam('pass')[0] == $subItem['route'][0];
+                                            } else {
+                                                $isActive = $this->request->getParam('controller') == $subItem['route']['controller'] && $this->request->getParam('action') == $subItem['route']['action'];
+                                            }
                                             ?>
                                             <li class="nav-item <?= $isActive ? 'active' : '' ?>">
                                                 <?= $this->Html->link(

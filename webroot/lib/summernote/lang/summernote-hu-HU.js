@@ -1,5 +1,28 @@
+/*!
+ * 
+ * Super simple WYSIWYG editor v0.9.0
+ * https://summernote.org
+ *
+ * Copyright 2013~ Hackerwins and contributors
+ * Summernote may be freely distributed under the MIT license.
+ *
+ * Date: 2024-09-30T14:42Z
+ *
+ */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(self, () => {
+return /******/ (() => { // webpackBootstrap
+var __webpack_exports__ = {};
 (function ($) {
-  $.extend($.summernote.lang, {
+  $.extend(true, $.summernote.lang, {
     'hu-HU': {
       font: {
         bold: 'Félkövér',
@@ -9,6 +32,8 @@
         height: 'Sorköz',
         name: 'Betűtípus',
         strikethrough: 'Áthúzott',
+        subscript: 'Subscript',
+        superscript: 'Superscript',
         size: 'Betűméret'
       },
       image: {
@@ -20,11 +45,18 @@
         floatLeft: 'Igazítás balra',
         floatRight: 'Igazítás jobbra',
         floatNone: 'Igazítás törlése',
+        shapeRounded: 'Shape: Rounded',
+        shapeCircle: 'Shape: Circle',
+        shapeThumbnail: 'Shape: Thumbnail',
+        shapeNone: 'Shape: None',
         dragImageHere: 'Ide húzhat képet vagy szöveget',
         dropImage: 'Engedje el a képet vagy szöveget',
         selectFromFiles: 'Fájlok kiválasztása',
+        maximumFileSize: 'Maximum file size',
+        maximumFileSizeError: 'Maximum file size exceeded.',
         url: 'Kép URL címe',
-        remove: 'Kép törlése'
+        remove: 'Kép törlése',
+        original: 'Original'
       },
       video: {
         video: 'Videó',
@@ -43,7 +75,14 @@
         openInNewWindow: 'Megnyitás új ablakban'
       },
       table: {
-        table: 'Táblázat'
+        table: 'Táblázat',
+        addRowAbove: 'Add row above',
+        addRowBelow: 'Add row below',
+        addColLeft: 'Add column left',
+        addColRight: 'Add column right',
+        delRow: 'Delete row',
+        delCol: 'Delete column',
+        delTable: 'Delete table'
       },
       hr: {
         insert: 'Elválasztó vonal beszúrása'
@@ -94,7 +133,8 @@
         textFormatting: 'Szöveg formázása',
         action: 'Művelet',
         paragraphFormatting: 'Bekezdés formázása',
-        documentStyle: 'Dokumentumstílus'
+        documentStyle: 'Dokumentumstílus',
+        extraKeys: 'Extra keys'
       },
       help: {
         'insertParagraph': 'Új bekezdés',
@@ -128,8 +168,16 @@
       history: {
         undo: 'Visszavonás',
         redo: 'Újra'
+      },
+      specialChar: {
+        specialChar: 'SPECIAL CHARACTERS',
+        select: 'Select Special characters'
       }
-
     }
   });
 })(jQuery);
+/******/ 	return __webpack_exports__;
+/******/ })()
+;
+});
+//# sourceMappingURL=summernote-hu-HU.js.map
