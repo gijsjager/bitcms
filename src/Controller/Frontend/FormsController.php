@@ -31,7 +31,6 @@ class FormsController extends FrontendController
             $send = $mailer->setFrom($this->getMailFrom(), $this->getMailFromName())
                 ->setTo($this->getReceiver())
                 ->setSubject($this->getSubject())
-                ->setReplyTo($this->request->getData('email'))
                 ->setViewVars(['data' => $this->request->getData()])
                 ->setEmailFormat('html')
                 ->deliver($template);
@@ -44,7 +43,6 @@ class FormsController extends FrontendController
                 $send = $mailer->setFrom($this->getMailFrom(), $this->getMailFromName())
                     ->setTo($this->request->getData('email'))
                     ->setSubject($this->getSubject('reply'))
-                    ->setReplyTo($this->getReceiver())
                     ->setViewVars(['data' => $this->request->getData()])
                     ->setEmailFormat('html')
                     ->deliver($template);
