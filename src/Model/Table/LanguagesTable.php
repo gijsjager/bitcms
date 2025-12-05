@@ -54,7 +54,7 @@ class LanguagesTable extends Table
         return $validator;
     }
 
-    public function beforeFind($event, $query){
-        $query->order(['is_default' => 'desc']);
+    public function beforeFind($event, Query $query){
+        $query->orderByDesc('is_default');
     }
 }
