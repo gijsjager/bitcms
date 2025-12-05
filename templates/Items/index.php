@@ -18,7 +18,7 @@ echo $this->Flash->render();
     </div>
 
     <?php
-    if ($items->isEmpty()) {
+    if ($items->items()->isEmpty()) {
         echo '<div class="alert alert-info mt-5">' . __('No items found yet.') . '</div>';
     } else { ?>
         <div class="panel panel-default mt-5">

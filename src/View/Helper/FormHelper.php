@@ -22,7 +22,7 @@ class FormHelper extends \Cake\View\Helper\FormHelper
      *
      * @var array
      */
-    protected $helpers = [
+    protected array $helpers = [
         'Url',
         'Html' => ['className' => 'Bitcms.Html'],
     ];
@@ -32,7 +32,7 @@ class FormHelper extends \Cake\View\Helper\FormHelper
      *
      * @var array
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'idPrefix' => null,
         'errorClass' => 'is-invalid',
         'typeMap' => [

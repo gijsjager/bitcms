@@ -9,17 +9,11 @@ use Bitcms\Controller\AppController;
  */
 class UsersController extends AppController
 {
-
-    /**
-     * is Authorized
-     * @param $user
-     * @return bool
-     */
-    public function isAuthorized($user): bool
+    public function beforeFilter(\Cake\Event\EventInterface $event)
     {
-        $this->Auth->allow(['login', 'logout', 'forgotPassword', 'generateAdmin']);
+        parent::beforeFilter($event);
 
-        return parent::isAuthorized($user);
+        $this->Authentication->allowUnauthenticated(['login']);
     }
 
     public function generateAdmin()
@@ -43,13 +37,10 @@ class UsersController extends AppController
      */
     public function index()
     {
-        if( $this->Auth->user('role') == 'user'){
+        if( $this->Authentication->getIdentity()->get('role') == 'user'){
             return $this->redirect('/');
         }
 
-        $this->paginate = [
-            'contain' => []
-        ];
         $users = $this->Users->find();
         if( $this->request->getQuery('keyword') ){
 
@@ -112,9 +103,7 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
-        $user = $this->Users->get($id, [
-            'contain' => []
-        ]);
+        $user = $this->Users->findById($id)->first();
 
         if ($this->request->is(['patch', 'post', 'put'])) {
 
@@ -185,9 +174,8 @@ class UsersController extends AppController
         $this->viewBuilder()->setLayout('bitcms_empty');
 
         if ($this->request->is('post')) {
-            $user = $this->Auth->identify();
-            if ($user) {
-                $this->Auth->setUser($user);
+            $user = $this->Authentication->getResult();
+            if ($user && $user->isValid()) {
                 return $this->redirect(['plugin' => 'Bitcms', 'controller' => 'Dashboard', 'action' => 'index']);
             } else {
                 $this->Flash->error(
@@ -244,7 +232,7 @@ class UsersController extends AppController
     public function logout()
     {
 //        $this->Cookie->delete('never_ending_story');
-        $this->Auth->logout();
+        $this->Authentication->logout();
 
         return $this->redirect(['controller' => 'Users', 'action' => 'login']);
     }

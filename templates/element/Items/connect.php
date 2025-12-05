@@ -3,7 +3,7 @@
 $table = \Cake\ORM\TableRegistry::getTableLocator()->get('Bitcms.Items');
 $items = $table->find('list')->where([
     'Items.id !=' => $item->id,
-])->order('title');
+])->orderByAsc('title');
 if (!empty($options['blueprint'])) {
     $items->where(['blueprint_id' => $options['blueprint']]);
     unset($options['blueprint']);

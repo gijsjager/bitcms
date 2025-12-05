@@ -2,12 +2,9 @@
 
 namespace Bitcms\Controller;
 
-use Bitcms\Controller\AppController;
 use Cake\Error\FatalErrorException;
-use Cake\Filesystem\File;
-use Cake\Filesystem\Folder;
-use Cake\Routing\Route\Route;
 use Cake\Routing\Router;
+use Cake\Utility\Filesystem;
 use Laminas\Diactoros\UploadedFile;
 
 /**
@@ -20,7 +17,7 @@ use Laminas\Diactoros\UploadedFile;
 class ImagesController extends AppController
 {
 
-    public $paginate  = [
+    public $_paginate = [
         'limit' => 36
     ];
 
@@ -36,7 +33,7 @@ class ImagesController extends AppController
                 'title LIKE' => '%' . $this->request->getQuery('q') . '%',
             ]]);
         }
-        $images->order(['Images.id' => 'desc']);
+        $images->orderBy(['Images.id' => 'desc']);
 
         $this->set('images', $this->paginate($images));
     }
@@ -92,16 +89,17 @@ class ImagesController extends AppController
      * @param $id
      * @return \Cake\Http\Response|null
      */
-    public function deleteResponsive( $id ){
+    public function deleteResponsive($id)
+    {
         $image = $this->Images->ImageResponsive->findById($id)->first();
-        if( !empty($image) ){
+        if (!empty($image)) {
             $this->Images->ImageResponsive->delete($image);
             $this->Flash->success(__('Adaptive image deleted'));
         } else {
             $this->Flash->error(__('Could not find image'));
         }
 
-        return $this->redirect( $this->referer() );
+        return $this->redirect($this->referer());
 
     }
 
@@ -113,21 +111,23 @@ class ImagesController extends AppController
      */
     public function responsive($type = 'mobile', $id = null)
     {
-        if( $id == null ){
+        if ($id == null) {
             $this->Flash->error(__('No ID found!'));
             return $this->redirect($this->referer());
         }
 
         $image = $this->Images->findById($id)->contain(['ImageResponsive'])->first();
 
-        if( $this->request->is(['put', 'post']) ){
+        if ($this->request->is(['put', 'post'])) {
 
             // create dir
-            $dir = new Folder( WWW_ROOT . 'files/' . $image->model . '/responsive/' . $type, true);
-            if( $dir ){
+            $filesystem = new Filesystem();
+            $dir = WWW_ROOT . 'files/' . $image->model . '/responsive/' . $type;
+            $filesystem->mkdir($dir, 0775);
+            if ($dir) {
                 $imagePart = explode(',', $this->request->getData('image'));
-                $file = new File( $dir->path . '/' . $image->filename, true );
-                $file->write(base64_decode($imagePart[1]) );
+                $file = new File($dir . DS . $image->filename, true);
+                $file->write(base64_decode($imagePart[1]));
                 $file->close();
 
                 $this->createNextGen($image->model, $image->filename, $type);
@@ -145,8 +145,8 @@ class ImagesController extends AppController
                     'type' => $type,
                     'model' => $image->model
                 ]);
-                if( $this->Images->ImageResponsive->save($entity) ){
-                    $this->Flash->success(__('Adaptive image saved for {0}', [$type] ));
+                if ($this->Images->ImageResponsive->save($entity)) {
+                    $this->Flash->success(__('Adaptive image saved for {0}', [$type]));
                     return $this->redirect(['action' => 'edit', $id]);
                 } else {
                     $this->Flash->error(__('Could not save adaptive image'));
@@ -163,10 +163,10 @@ class ImagesController extends AppController
     public function updatePosition()
     {
         $this->autoRender = false;
-        if( $items = $this->request->getData('items') ){
-            foreach($items as $position => $item){
+        if ($items = $this->request->getData('items')) {
+            foreach ($items as $position => $item) {
                 $itemId = preg_replace("/([^0-9]+)/", "", $item);
-                if( $item = $this->Images->findById($itemId)->first() ){
+                if ($item = $this->Images->findById($itemId)->first()) {
                     $item->position = $position;
                     $this->Images->save($item);
                 }
@@ -227,43 +227,42 @@ class ImagesController extends AppController
         $file = $this->request->getData('file');
 
         // create correct dirs
-        $filesFolder = new Folder(WWW_ROOT . DS . 'files', true, 0775);
-        $modelFolder = new Folder(WWW_ROOT . DS . 'files' . DS . $model, true, 0775);
+        $filesystem = new Filesystem();
+        $filesFolder = WWW_ROOT . DS . 'files';
+        $modelFolder = WWW_ROOT . DS . 'files' . DS . $model;
+        $filesystem->mkdir($filesFolder, 0775);
+        $filesystem->mkdir($modelFolder, 0775);
 
         // check if name already exist
         $name = $file->getClientFilename();
         $ext = pathinfo($name, PATHINFO_EXTENSION);
-        while (file_exists($modelFolder->path . DS . $name)) {
+        while (file_exists($modelFolder . DS . $name)) {
             $nameWithoutExtension = str_replace('.' . $ext, '', $name);
             $name = $nameWithoutExtension . '_copy.' . $ext;
         }
 
-
         // upload file
-        $file->moveTo($modelFolder->path . DS . $name);
-
+        $file->moveTo($modelFolder . DS . $name);
 
         // optimize image
-        $imageSize = filesize($modelFolder->path . DS . $name);
-        if( ($imageSize / 1048576) > 1 ) {
+        $imageSize = filesize($modelFolder . DS . $name);
+        if (($imageSize / 1048576) > 1) {
             $imageLibrary = new \Zebra_Image();
             $ext = pathinfo($name, PATHINFO_EXTENSION);
-            if( in_array(strtolower($ext), ['jpg', 'jpeg']) ){
+            if (in_array(strtolower($ext), ['jpg', 'jpeg'])) {
                 $imageLibrary->jpeg_quality = 60;
             }
             $imageLibrary->preserve_aspect_ratio = true;
             $imageLibrary->enlarge_smaller_images = true;
             $imageLibrary->preserve_time = true;
             $imageLibrary->auto_handle_exif_orientation = true;
-            $imageLibrary->source_path = $modelFolder->path . DS . $name;
-            $imageLibrary->target_path = $modelFolder->path . DS . $name;
+            $imageLibrary->source_path = $modelFolder . DS . $name;
+            $imageLibrary->target_path = $modelFolder . DS . $name;
             $imageLibrary->resize(2000, 2000, ZEBRA_IMAGE_NOT_BOXED);
         }
 
         $this->createNextGen($model, $name);
         $this->createThumbnail($model, $name);
-
-
 
         // add to database
         $position = $this->Images->find()->where(['Images.model' => $model, 'Images.entity_id' => $entity_id])->count();
@@ -289,12 +288,14 @@ class ImagesController extends AppController
      */
     protected function createThumbnail($model, $name): bool
     {
-        $thumbDir = new Folder(WWW_ROOT . 'files' . DS . $model . DS . 'thumbnails', true, 0775);
+        $fileSystem = new Filesystem();
+        $thumbDir = WWW_ROOT . 'files' . DS . $model . DS . 'thumbnails';
+        $fileSystem->mkdir($thumbDir, 0775);
 
         $imageLibrary = new \Zebra_Image();
         $imageLibrary->auto_handle_exif_orientation = true;
         $imageLibrary->source_path = WWW_ROOT . DS . 'files' . DS . $model . DS . $name;
-        $imageLibrary->target_path = $thumbDir->path . DS . $name;
+        $imageLibrary->target_path = $thumbDir . DS . $name;
         return $imageLibrary->resize(200, 200, ZEBRA_IMAGE_CROP_CENTER);
     }
 
@@ -306,10 +307,14 @@ class ImagesController extends AppController
      */
     protected function createNextGen(string $model, string $name, string $responsive = ''): bool
     {
-        if (!empty($responsive)){
-            $dir = new Folder(WWW_ROOT . 'files' . DS . $model . DS . 'responsive'. DS . $responsive . DS . 'webp', true, 0775);
+        $fileSystem = new Filesystem();
+
+        if (!empty($responsive)) {
+            $dir = WWW_ROOT . 'files' . DS . $model . DS . 'responsive' . DS . $responsive . DS . 'webp';
+            $fileSystem->mkdir($dir, 0775);
         } else {
-            $dir = new Folder(WWW_ROOT . 'files' . DS . $model . DS . 'webp', true, 0775);
+            $dir = WWW_ROOT . 'files' . DS . $model . DS . 'webp';
+            $fileSystem->mkdir($dir, 0775);
         }
 
         $ext = pathinfo($name, PATHINFO_EXTENSION);
@@ -318,7 +323,7 @@ class ImagesController extends AppController
         $imageLibrary = new \Zebra_Image();
         $imageLibrary->auto_handle_exif_orientation = true;
         $imageLibrary->source_path = WWW_ROOT . DS . 'files' . DS . $model . DS . $name;
-        $imageLibrary->target_path = $dir->path . DS . $nextGen;
+        $imageLibrary->target_path = $dir . DS . $nextGen;
         $imageLibrary->webp_quality = 80;
         return $imageLibrary->resize();
     }
@@ -330,15 +335,17 @@ class ImagesController extends AppController
      */
     public function crop($id)
     {
+        $fileSystem = new Filesystem();
         $this->autoRender = false;
         $image = $this->Images->findById($id)->first();
 
         // move file to original directory if it doesn't exist yet
         if (!is_dir(WWW_ROOT . DS . 'files' . DS . $image->model . DS . 'original')) {
-            $folder = new Folder(WWW_ROOT . DS . 'files' . DS . $image->model . DS . 'original', true, 0775);
+            $folder = WWW_ROOT . DS . 'files' . DS . $image->model . DS . 'original';
+            $fileSystem->mkdir($folder, 0775);
         }
         if (!is_file(WWW_ROOT . DS . 'files' . DS . $image->model . DS . 'original' . DS . $image->filename)) {
-            copy(WWW_ROOT . DS . 'files' . DS . $image->model . DS . $image->filename, $folder->path . DS . $image->filename);
+            copy(WWW_ROOT . DS . 'files' . DS . $image->model . DS . $image->filename, $folder . DS . $image->filename);
         }
 
         $croppedImage = $this->request->getData('croppedImage');
@@ -372,7 +379,7 @@ class ImagesController extends AppController
             }
 
 
-            $file->moveTo( $dir . DS . $name);
+            $file->moveTo($dir . DS . $name);
 
             // resize image
             $ext = pathinfo($name, PATHINFO_EXTENSION);
@@ -390,7 +397,6 @@ class ImagesController extends AppController
                 'location' => Router::url('/', true) . 'files/Inline/' . ($useNextGen ? $nextGen : $name)
             ]);
         }
-
 
 
         $this->response = $this->response->withStringBody($content);

@@ -80,32 +80,48 @@ class BitcmsPlugin extends BasePlugin implements AuthenticationServiceProviderIn
      */
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
     {
-        $authenticationService = new AuthenticationService([
-            'unauthenticatedRedirect' => Router::url('/users/login'),
+        $service = new AuthenticationService();
+
+        $loginUrl = Router::url([
+            'plugin' => 'Bitcms',
+            'controller' => 'Users',
+            'action' => 'login',
+            'prefix' => false,
+        ]);
+        $fields = [
+            'username' => 'username',
+            'password' => 'password',
+        ];
+
+        $passwordIdentifier = [
+            'Authentication.Password' => [
+                'fields' => $fields,
+                'resolver' => [
+                    'className' => 'Authentication.Orm',
+                    'userModel' => 'Bitcms.Users',
+                    'finder' => 'all',
+                ],
+            ],
+        ];
+
+        // Define where users should be redirected to when they are not authenticated
+        $service->setConfig([
+            'unauthenticatedRedirect' => $loginUrl,
             'queryParam' => 'redirect',
         ]);
 
-        // Load the authenticators, session first
-        $authenticationService->loadAuthenticator('Authentication.Session');
-
-        // Configure form data check to pick email and password
-        $authenticationService->loadAuthenticator('Authentication.Form', [
-            'fields' => [
-                'username' => 'email',
-                'password' => 'password',
-            ],
-            'loginUrl' => Router::url('/users/login'),
+        $service->loadAuthenticator('Authentication.Session', [
+            'identifier' => $passwordIdentifier,
+            'loginUrl' => $loginUrl,
         ]);
 
-        // Load identifiers
-        $authenticationService->loadIdentifier('Authentication.Password', [
-            'fields' => [
-                'username' => 'email',
-                'password' => 'password',
-            ],
+        $service->loadAuthenticator('Authentication.Form', [
+            'identifier' => $passwordIdentifier,
+            'fields' => $fields,
+            'loginUrl' => $loginUrl,
         ]);
 
-        return $authenticationService;
+        return $service;
     }
 
     /**

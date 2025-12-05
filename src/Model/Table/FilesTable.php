@@ -1,11 +1,12 @@
 <?php
 namespace Bitcms\Model\Table;
 
+use Bitcms\Model\Entity\File;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Cake\Filesystem\Folder;
+use Cake\Utility\Filesystem;
 
 /**
  * Files Model
@@ -83,9 +84,10 @@ class FilesTable extends Table
     public function beforeDelete( $event, $entity ){
 
         // find all files in the correct model folder
-        $dir = new Folder(WWW_ROOT . DS . 'files' . DS . $entity->model);
-        if( $files = $dir->findRecursive($entity->filename) ){
-            foreach($files as $file){
+        $dir = WWW_ROOT . DS . 'files' . DS . $entity->model;
+        $filesystem = new Filesystem();
+        if( $files = $filesystem->findRecursive($dir, '/^' . preg_quote($entity->filename, '/') . '$/') ){
+           foreach($files as $file){
                 @unlink($file);
             }
         }

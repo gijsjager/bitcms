@@ -17,7 +17,7 @@ class BlueprintsController extends AppController
      */
     public function index()
     {
-        $blueprints = $this->Blueprints->find()->order('title');
+        $blueprints = $this->Blueprints->find()->orderBy('title');
         $blueprint = $this->Blueprints->newEmptyEntity();
 
         if ($this->request->getQuery('q')) {

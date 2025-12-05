@@ -5,12 +5,15 @@ namespace Bitcms\Controller;
 
 use App\Controller\AppController as BaseController;
 use Authentication\AuthenticationServiceProviderInterface;
+use Bitcms\Model\Entity\User;
 use Cake\Controller\Component\AuthComponent;
 use Cake\Core\Configure;
 use Cake\I18n\I18n;
 
 class AppController extends BaseController
 {
+    private ?User $authUser = null;
+
     public function initialize(): void
     {
         $this->loadHelpers();
@@ -82,14 +85,14 @@ class AppController extends BaseController
     {
         // Bootstrap helpers
         $this->viewBuilder()->addHelper('Breadcrumbs', [
-            'className' => 'Bootstrap.Breadcrumbs',
+            'className' => 'Bitcms.Breadcrumbs',
         ]);
         $this->viewBuilder()->addHelper('Html', [
-            'className' => 'Bootstrap.Html',
+            'className' => 'Bitcms.Html',
             'buttons' => ['type' => 'primary'],
         ]);
         $this->viewBuilder()->addHelper('Form', [
-            'className' => 'Bootstrap.Form',
+            'className' => 'Bitcms.Form',
             'buttons' => ['type' => 'primary'],
             'templates' => [
                 'inputContainer' => '<div class="form-group {{attrs}}{{type}}{{required}}">{{content}}</div>',

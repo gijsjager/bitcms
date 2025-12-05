@@ -17,7 +17,7 @@ echo $this->Flash->render();
 
     <div class="panel panel-default">
         <?php
-        if( $images->isEmpty() ){
+        if( $images->items()->isEmpty() ){
             echo '<div class="alert alert-info">' . __('No images found yet.') . '</div>';
         } else {
             echo '<div class="row pb-3 pl-3 pr-3">';
@@ -49,7 +49,7 @@ echo $this->Flash->render();
     </div>
 
     <?php
-    if (!$images->isEmpty()) {
+    if (!$images->items()->isEmpty()) {
     ?>
     <div class="paginator text-center">
         <ul class="pagination text-center">

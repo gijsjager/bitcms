@@ -32,7 +32,7 @@ trait FlexibleStringTemplateTrait
     public function templater(): StringTemplate
     {
         if ($this->_templater === null) {
-            $class = $this->getConfig('templateClass') ?: 'Bootstrap\View\FlexibleStringTemplate';
+            $class = $this->getConfig('templateClass') ?: 'Bitcms\View\FlexibleStringTemplate';
             $callback = $this->getConfig('templateCallback') ?: null;
             $callbacks = $this->getConfig('templateCallbacks') ?: [];
             $this->_templater = new $class([], $callback, $callbacks);

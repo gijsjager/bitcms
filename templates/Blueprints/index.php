@@ -21,7 +21,7 @@ echo $this->Flash->render();
     </div>
 
     <?php
-    if ($blueprints->isEmpty()) {
+    if ($blueprints->items()->isEmpty()) {
         echo '<div class="alert alert-info mt-5">' . __('No blueprints found yet.') . '</div>';
     } else { ?>
         <div class="panel panel-default mt-5">

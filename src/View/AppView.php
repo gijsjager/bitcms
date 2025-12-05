@@ -24,9 +24,9 @@ class AppView extends View
     public function initialize(): void
     {
         // Bootstrap helpers
-        $this->loadHelper('Breadcrumbs', [
-            'className' => 'Bitcms.Breadcrumbs',
-        ]);
+//        $this->loadHelper('Breadcrumbs', [
+//            'className' => 'Bitcms.Breadcrumbs',
+//        ]);
         $this->loadHelper('Html', [
             'className' => 'Bitcms.Html',
             'buttons' => ['type' => 'primary'],

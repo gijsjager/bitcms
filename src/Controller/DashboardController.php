@@ -5,7 +5,6 @@ namespace Bitcms\Controller;
 
 use Bitcms\Controller\AppController;
 use Cake\Cache\Cache;
-use Cake\Filesystem\Folder;
 
 /**
  * Dashboard Controller
@@ -17,10 +16,11 @@ class DashboardController extends AppController
         $mails = $this->fetchTable('Bitcms.Mails')->find()->count();
         $visitors = $this->fetchTable('Bitcms.Visitors')->find()->count();
         $images = $this->fetchTable('Bitcms.Images')->find()->count();
-        $pages = $this->fetchTable('Bitcms.Pages')->find()->order(['Pages.id' => 'desc'])->limit(5);
+        $pages = $this->fetchTable('Bitcms.Pages')->find()->orderByDesc('Pages.id')->limit(5);
 
-        $folder = new Folder(WWW_ROOT);
-        $dirsize = $folder->dirsize();
+        $dir = WWW_ROOT;
+        // get the size of the directory
+        $dirsize = $this->getDirectorySize($dir);
 
         $this->set(compact('mails', 'visitors', 'images', 'pages', 'dirsize'));
     }
@@ -33,5 +33,24 @@ class DashboardController extends AppController
         Cache::clearAll();
         $this->Flash->success(__('Cache successfully cleared'), ['plugin' => 'Bitcms']);
         $this->redirect( $this->referer() );
+    }
+
+    /**
+     * Calculate directory size recursively
+     *
+     * @param string $directory Directory path
+     * @return int Size in bytes
+     */
+    private function getDirectorySize(string $directory): int
+    {
+        $size = 0;
+
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS)) as $file) {
+            if ($file->isFile()) {
+                $size += $file->getSize();
+            }
+        }
+
+        return $size;
     }
 }

@@ -111,13 +111,12 @@ class PagesController extends AppController
      */
     public function edit($id = null)
     {
-        $page = $this->Pages->get($id, [
-            'contain' => [
+        $page = $this->Pages->findById($id)->contain([
                 'BlockGroups' => [
                     'Blocks' => ['Images']
                 ]
-            ]
-        ]);
+            ])->firstOrFail();
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $page = $this->Pages->patchEntity($page, $this->request->getData(), [
                 'associated' => ['BlockGroups', 'BlockGroups.Blocks']
@@ -139,7 +138,7 @@ class PagesController extends AppController
             }
             $this->Flash->error(__('The page could not be saved. Please, try again.'));
         }
-        $parentPages = $this->Pages->ParentPages->find('list', ['limit' => 200]);
+        $parentPages = $this->Pages->ParentPages->find('list', limit: 200);
         $this->set(compact('page', 'parentPages'));
         $this->viewBuilder()->setOption('serialize', ['page']);
     }

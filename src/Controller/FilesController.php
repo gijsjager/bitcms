@@ -2,8 +2,8 @@
 namespace Bitcms\Controller;
 
 use Bitcms\Controller\AppController;
-use Cake\Filesystem\Folder;
 use Cake\Error\FatalErrorException;
+use Cake\Utility\Filesystem;
 
 /**
  * Files Controller
@@ -109,19 +109,24 @@ class FilesController extends AppController
         $file       = $this->request->getData('file');
 
         // create correct dirs
-        $filesFolder = new Folder(WWW_ROOT . DS . 'files', true, 0775);
-        $modelFolder = new Folder(WWW_ROOT . DS . 'files' . DS . $model, true, 0775);
+        $filesFolder = WWW_ROOT . DS . 'files';
+        $modelFolder = WWW_ROOT . DS . 'files' . DS . $model;
+        
+        $filesystem = new Filesystem();
+        $filesystem->mkdir($filesFolder, 0775);
+        $filesystem->mkdir($modelFolder, 0775);
+
 
         // check if name already exist
         $name   = $file->getClientFilename();
         $ext    = pathinfo($name, PATHINFO_EXTENSION);
-        while( file_exists( $modelFolder->path . DS . $name ) ){
+        while( file_exists( $modelFolder . DS . $name ) ){
             $nameWithoutExtension = str_replace('.'.$ext, '', $name);
             $name = $nameWithoutExtension . '_copy.' . $ext;
         }
 
         // upload file
-        $file->moveTo($modelFolder->path . DS . $name);
+        $file->moveTo($modelFolder . DS . $name);
 
         // add to database
         $position = $this->Files->find()->where(['model' => $model,  'entity_id' => $entity_id])->count();

@@ -111,7 +111,7 @@ echo $this->Flash->render();
                 </div>
                 <div class="panel-body">
                     <?php
-                    if( $settings->isEmpty() ){
+                    if( $settings->items()->isEmpty() ){
                         echo '<div class="alert alert-info">'.__('No settings found yet.').'</div>';
                     } else {
                     ?>

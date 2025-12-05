@@ -20,7 +20,7 @@ class TranslationsController extends AppController
         $this->set('allLanguages', $this->fetchTable('Bitcms.Languages')->find());
 
 
-        $translations = $this->Translations->find()->order(['template_key' => 'asc']);
+        $translations = $this->Translations->find()->orderBy(['template_key' => 'asc']);
         // group them by the template key
         $grouped = [];
         foreach ($translations as $translation) {
