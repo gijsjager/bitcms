@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Bitcms\Controller;
 
 use App\Controller\AppController as BaseController;
+use Authentication\AuthenticationServiceProviderInterface;
 use Cake\Controller\Component\AuthComponent;
 use Cake\Core\Configure;
 use Cake\I18n\I18n;
-use Cake\Utility\Text;
 
 class AppController extends BaseController
 {
@@ -15,31 +15,17 @@ class AppController extends BaseController
     {
         $this->loadHelpers();
 
-        $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-        $this->loadComponent('Auth', [
-            'authorize' => 'Controller',
-            'loginAction' => [
-                'plugin' => 'Bitcms',
-                'controller' => 'Users',
-                'action' => 'login',
-                'prefix' => false
-            ],
-            'authenticate' => [
-                AuthComponent::ALL => ['userModel' => 'Bitcms.Users'],
-                'Basic',
-                'Form'
-            ]
-        ]);
+        $this->loadComponent('Authentication.Authentication');
 
         // get user
-        if ($this->Auth->user('id')) {
-            $this->authUser = $this->fetchTable('Bitcms.Users')->findById($this->Auth->user('id'))->first();
+        $user = $this->Authentication->getIdentity();
+        if ($user) {
+            $this->authUser = $this->fetchTable('Bitcms.Users')->findById($user->getIdentifier())->first();
             $this->set('authUser', $this->authUser);
         }
 
-
-        $this->set('isAuthorized', $this->isAuthorized($this->Auth->user()));
+        $this->set('isAuthorized', $this->isAuthorized($user ? $user->getOriginalData() : null));
         $this->set('maxUploadSize', $this->getMaxFileUploadSize());
         $this->set('bitcms', $this->getConfig());
         $this->setLanguages();

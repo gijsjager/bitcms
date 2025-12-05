@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace Bitcms;
 
+use Authentication\AuthenticationService;
+use Authentication\AuthenticationServiceInterface;
+use Authentication\AuthenticationServiceProviderInterface;
+use Authentication\Middleware\AuthenticationMiddleware;
 use Cake\Console\CommandCollection;
 use Cake\Core\BasePlugin;
 use Cake\Core\Configure;
@@ -11,6 +15,8 @@ use Cake\Core\PluginApplicationInterface;
 use Cake\Http\MiddlewareQueue;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\RouteBuilder;
+use Cake\Routing\Router;
+use Psr\Http\Message\ServerRequestInterface;
 
 require_once 'Utilities/translations.php';
 
@@ -18,7 +24,7 @@ require_once 'Utilities/translations.php';
 /**
  * Plugin for Bitcms
  */
-class BitcmsPlugin extends BasePlugin
+class BitcmsPlugin extends BasePlugin implements AuthenticationServiceProviderInterface
 {
     /**
      * Load all the plugin configuration and bootstrap logic.
@@ -55,12 +61,51 @@ class BitcmsPlugin extends BasePlugin
      */
     public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
     {
-        // Add your middlewares here
+        // Add authentication middleware
+        $middlewareQueue->add(new AuthenticationMiddleware($this));
+
+        // Add asset middleware
         $middlewareQueue->add(new AssetMiddleware([
             'cacheTime' => Configure::read('Asset.cacheTime'),
         ]));
 
         return $middlewareQueue;
+    }
+
+    /**
+     * Get the authentication service for the plugin.
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request The request.
+     * @return \Authentication\AuthenticationServiceInterface
+     */
+    public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
+    {
+        $authenticationService = new AuthenticationService([
+            'unauthenticatedRedirect' => Router::url('/users/login'),
+            'queryParam' => 'redirect',
+        ]);
+
+        // Load the authenticators, session first
+        $authenticationService->loadAuthenticator('Authentication.Session');
+
+        // Configure form data check to pick email and password
+        $authenticationService->loadAuthenticator('Authentication.Form', [
+            'fields' => [
+                'username' => 'email',
+                'password' => 'password',
+            ],
+            'loginUrl' => Router::url('/users/login'),
+        ]);
+
+        // Load identifiers
+        $authenticationService->loadIdentifier('Authentication.Password', [
+            'fields' => [
+                'username' => 'email',
+                'password' => 'password',
+            ],
+        ]);
+
+        return $authenticationService;
     }
 
     /**
