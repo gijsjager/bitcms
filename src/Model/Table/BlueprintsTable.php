@@ -56,6 +56,7 @@ class BlueprintsTable extends Table
         ]);
 
         $this->addBehavior('Translate', [
+            'strategyClass' => \Cake\ORM\Behavior\Translate\EavStrategy::class,
             'fields' => [
                 'slug',
             ]

@@ -46,7 +46,8 @@ class BlocksTable extends Table
         ]);
 
         $this->addBehavior('Translate', [
-            'fields' => ['content']
+            'strategyClass' => \Cake\ORM\Behavior\Translate\EavStrategy::class,
+            'fields' => ['content'],
         ]);
     }
 

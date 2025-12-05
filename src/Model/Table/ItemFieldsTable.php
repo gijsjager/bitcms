@@ -93,6 +93,7 @@ class ItemFieldsTable extends Table
         ]);
 
         $this->addBehavior('Translate', [
+            'strategyClass' => \Cake\ORM\Behavior\Translate\EavStrategy::class,
             'fields' => [
                 'value',
             ]

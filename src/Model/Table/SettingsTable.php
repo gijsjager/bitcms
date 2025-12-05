@@ -29,6 +29,7 @@ class SettingsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Translate', [
+            'strategyClass' => \Cake\ORM\Behavior\Translate\EavStrategy::class,
             'fields' => [
                 'value',
             ]
