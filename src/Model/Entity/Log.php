@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  * @property string $model
  * @property int $entity_id
  * @property string $data
- * @property \Cake\I18n\FrozenTime $date_created
+ * @property \Cake\I18n\DateTime $date_created
  *
  * @property \Bitcms\Model\Entity\User $user
  * @property \Bitcms\Model\Entity\Entity $entity
@@ -28,7 +28,7 @@ class Log extends Entity
      *
      * @var array
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         '*' => true,
         'id' => false
     ];

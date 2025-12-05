@@ -31,7 +31,7 @@ class BlockGroupsController extends AppController
             $this->Flash->error(__('The block group could not be saved. Please, try again.'));
         }
         $this->set(compact('blockGroup'));
-        $this->set('_serialize', ['blockGroup']);
+        $this->viewBuilder()->setOption('serialize', ['blockGroup']);
     }
 
     /**
@@ -56,7 +56,7 @@ class BlockGroupsController extends AppController
             $this->Flash->error(__('The block group could not be saved. Please, try again.'));
         }
         $this->set(compact('blockGroup'));
-        $this->set('_serialize', ['blockGroup']);
+        $this->viewBuilder()->setOption('serialize', ['blockGroup']);
     }
 
     /**

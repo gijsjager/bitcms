@@ -23,18 +23,16 @@ class AppView extends View
      */
     public function initialize(): void
     {
-        die('here');
-
         // Bootstrap helpers
         $this->loadHelper('Breadcrumbs', [
-            'className' => 'Bootstrap.Breadcrumbs',
+            'className' => 'Bitcms.Breadcrumbs',
         ]);
         $this->loadHelper('Html', [
-            'className' => 'Bootstrap.Html',
+            'className' => 'Bitcms.Html',
             'buttons' => ['type' => 'primary'],
         ]);
         $this->loadHelper('Form', [
-            'className' => 'Bootstrap.Form',
+            'className' => 'Bitcms.Form',
             'buttons' => ['type' => 'primary'],
             'templates' => [
                 'inputContainer' => '<div class="form-group {{attrs}}{{type}}{{required}}">{{content}}</div>',

@@ -66,7 +66,7 @@ class UsersController extends AppController
         }
 
         $this->set('users', $this->paginate($users));
-        $this->set('_serialize', ['users']);
+        $this->viewBuilder()->setOption('serialize', ['users']);
     }
 
     /**
@@ -100,7 +100,7 @@ class UsersController extends AppController
         }
         $user->role = 'user';
         $this->set(compact('user'));
-        $this->set('_serialize', ['user']);
+        $this->viewBuilder()->setOption('serialize', ['user']);
     }
 
     /**
@@ -140,7 +140,7 @@ class UsersController extends AppController
         }
 
         $this->set(compact('user'));
-        $this->set('_serialize', ['user']);
+        $this->viewBuilder()->setOption('serialize', ['user']);
     }
 
     /**

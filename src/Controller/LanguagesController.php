@@ -25,7 +25,7 @@ class LanguagesController extends AppController
         $languages = $this->paginate($this->Languages);
 
         $this->set(compact('languages'));
-        $this->set('_serialize', ['languages']);
+        $this->viewBuilder()->setOption('serialize', ['languages']);
     }
 
     /**
@@ -48,7 +48,7 @@ class LanguagesController extends AppController
             $this->Flash->error(__('The language could not be saved. Please, try again.'));
         }
         $this->set(compact('language'));
-        $this->set('_serialize', ['language']);
+        $this->viewBuilder()->setOption('serialize', ['language']);
     }
 
     /**
@@ -73,7 +73,7 @@ class LanguagesController extends AppController
             $this->Flash->error(__('The language could not be saved. Please, try again.'));
         }
         $this->set(compact('language'));
-        $this->set('_serialize', ['language']);
+        $this->viewBuilder()->setOption('serialize', ['language']);
     }
 
     /**

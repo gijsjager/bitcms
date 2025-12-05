@@ -25,7 +25,7 @@ class ItemFieldItem extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'item_field_id' => true,
         'item_id' => true,
         'item_field' => true,

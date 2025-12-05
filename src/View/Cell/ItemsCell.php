@@ -36,7 +36,7 @@ class ItemsCell extends Cell
                     'online' => 1,
                 ])
                 ->contain(ItemsTable::CONTAINS)
-                ->order($order, $waypoint)
+                ->orderBy($order, $waypoint)
                 ->limit($limit);
 
             if (!empty($title)) {

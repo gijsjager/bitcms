@@ -13,8 +13,8 @@ use Cake\ORM\Entity;
  * @property int $blueprint_field_id
  * @property string $handle
  * @property string $value
- * @property \Cake\I18n\FrozenTime $created_at
- * @property \Cake\I18n\FrozenTime $modified_at
+ * @property \Cake\I18n\DateTime $created_at
+ * @property \Cake\I18n\DateTime $modified_at
  *
  * @property \Bitcms\Model\Entity\Item $item
  * @property array<\Bitcms\Model\Entity\Item> $items
@@ -31,7 +31,7 @@ class ItemField extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'item_id' => true,
         'blueprint_field_id' => true,
         'handle' => true,

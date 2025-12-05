@@ -9,7 +9,7 @@ use Cake\View\Helper\HtmlHelper as RootHelper;
 
 class ContentHelper extends RootHelper {
 
-    public $helpers = ['Html','Url','Element'];
+    public array $helpers = ['Html','Url','Element'];
 
     public function parse( $content )
     {

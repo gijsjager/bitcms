@@ -18,8 +18,8 @@ use Cake\ORM\TableRegistry;
  * @property string $seo_title
  * @property string $seo_description
  * @property int $position
- * @property \Cake\I18n\FrozenTime $created_at
- * @property \Cake\I18n\FrozenTime $modified_at
+ * @property \Cake\I18n\DateTime $created_at
+ * @property \Cake\I18n\DateTime $modified_at
  *
  * @property \Bitcms\Model\Entity\Blueprint $blueprint
  * @property \Bitcms\Model\Entity\ItemField[] $item_fields
@@ -35,7 +35,7 @@ class Item extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'blueprint_id' => true,
         'title' => true,
         'slug' => true,
@@ -49,7 +49,7 @@ class Item extends Entity
         'item_fields' => true,
     ];
 
-    protected $_virtual = ['url'];
+    protected array $_virtual = ['url'];
 
     /**
      * Get full URL of an item

@@ -20,7 +20,7 @@ class SettingsController extends AppController
         $redirects = $this->fetchTable('Bitcms.Redirects')->find();
 
         $this->set(compact('settings', 'redirects'));
-        $this->set('_serialize', ['settings']);
+        $this->viewBuilder()->setOption('serialize', ['settings']);
     }
 
     /**
@@ -37,7 +37,7 @@ class SettingsController extends AppController
         ]);
 
         $this->set('setting', $setting);
-        $this->set('_serialize', ['setting']);
+        $this->viewBuilder()->setOption('serialize', ['setting']);
     }
 
     /**
@@ -58,7 +58,7 @@ class SettingsController extends AppController
             $this->Flash->error(__('The setting could not be saved. Please, try again.'));
         }
         $this->set(compact('setting'));
-        $this->set('_serialize', ['setting']);
+        $this->viewBuilder()->setOption('serialize', ['setting']);
     }
 
     /**
@@ -83,7 +83,7 @@ class SettingsController extends AppController
             $this->Flash->error(__('The setting could not be saved. Please, try again.'));
         }
         $this->set(compact('setting'));
-        $this->set('_serialize', ['setting']);
+        $this->viewBuilder()->setOption('serialize', ['setting']);
     }
 
     /**

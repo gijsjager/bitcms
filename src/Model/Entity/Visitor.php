@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  * Visitor Entity
  *
  * @property int $id
- * @property \Cake\I18n\FrozenTime|null $date_created
+ * @property \Cake\I18n\DateTime|null $date_created
  * @property string|null $ipaddress
  * @property string|null $url
  * @property string|null $browser_data
@@ -25,7 +25,7 @@ class Visitor extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'date_created' => true,
         'ipaddress' => true,
         'url' => true,

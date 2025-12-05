@@ -21,7 +21,7 @@ class RedirectsController extends AppController
         $redirects = $this->paginate($this->Redirects);
 
         $this->set(compact('redirects'));
-        $this->set('_serialize', ['redirects']);
+        $this->viewBuilder()->setOption('serialize', ['redirects']);
     }
 
     /**
@@ -42,7 +42,7 @@ class RedirectsController extends AppController
             $this->Flash->error(__('The redirect could not be saved. Please, try again.'));
         }
         $this->set(compact('redirect'));
-        $this->set('_serialize', ['redirect']);
+        $this->viewBuilder()->setOption('serialize', ['redirect']);
     }
 
     /**
@@ -67,7 +67,7 @@ class RedirectsController extends AppController
             $this->Flash->error(__('The redirect could not be saved. Please, try again.'));
         }
         $this->set(compact('redirect'));
-        $this->set('_serialize', ['redirect']);
+        $this->viewBuilder()->setOption('serialize', ['redirect']);
     }
 
     /**

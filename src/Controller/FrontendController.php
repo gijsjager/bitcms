@@ -85,7 +85,7 @@ class FrontendController extends Controller
         $pages = $this->fetchTable('Bitcms.Pages');
         return $pages->find()
             ->where(['menu', true, 'parent_id IS' => null])
-            ->orderAsc('position')
+            ->orderByAsc('position')
             ->contain(['ChildPages' => function($q){
                 return $q->where(['menu' => 1]);
             }])
@@ -172,10 +172,9 @@ class FrontendController extends Controller
      */
     protected function getSettings()
     {
-        return $this->fetchTable('Bitcms.Settings')->find('list', [
-            'keyField' => 'title',
-            'valueField' => 'value'
-        ])->cache('settings_' . I18n::getLocale())->toArray();
+        return $this->fetchTable('Bitcms.Settings')->find('list',
+        keyField: 'title',
+        valueField: 'value')->cache('settings_' . I18n::getLocale())->toArray();
     }
 
     /**

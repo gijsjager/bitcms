@@ -25,7 +25,7 @@ class Translation extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'id' => true,
         'template_key' => true,
         'locale' => true,

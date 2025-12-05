@@ -31,7 +31,7 @@ class BlueprintField extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'blueprint_id' => true,
         'field_type' => true,
         'handle' => true,

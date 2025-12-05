@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  * Mail Entity
  *
  * @property int $id
- * @property \Cake\I18n\FrozenTime|null $date_created
+ * @property \Cake\I18n\DateTime|null $date_created
  * @property string|null $receiver
  * @property string|null $sender
  * @property string|null $subject
@@ -26,7 +26,7 @@ class Mail extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'date_created' => true,
         'receiver' => true,
         'sender' => true,

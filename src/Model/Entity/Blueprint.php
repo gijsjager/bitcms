@@ -29,7 +29,7 @@ class Blueprint extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'title' => true,
         'handle' => true,
         'slug' => true,

@@ -68,7 +68,7 @@ class PagesController extends AppController
         }
 
         $this->set(compact('pages', 'newPage', 'pagesList'));
-        $this->set('_serialize', ['pages']);
+        $this->viewBuilder()->setOption('serialize', ['pages']);
     }
 
     /**
@@ -141,7 +141,7 @@ class PagesController extends AppController
         }
         $parentPages = $this->Pages->ParentPages->find('list', ['limit' => 200]);
         $this->set(compact('page', 'parentPages'));
-        $this->set('_serialize', ['page']);
+        $this->viewBuilder()->setOption('serialize', ['page']);
     }
 
     /**
