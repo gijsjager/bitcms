@@ -47,11 +47,12 @@ class ItemFieldsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Items', [
+        $this->belongsTo('ConnectedItems', [
             'foreignKey' => 'item_id',
             'joinType' => 'INNER',
             'className' => 'Bitcms.Items',
         ]);
+
         $this->belongsTo('BlueprintFields', [
             'foreignKey' => 'blueprint_field_id',
             'joinType' => 'INNER',
