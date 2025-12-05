@@ -61,10 +61,10 @@ class RedirectsTable extends Table
      * Alter query before find
      *
      * @param $event
-     * @param $query
+     * @param Query $query
      */
-    public function beforeFind( $event, $query )
+    public function beforeFind( $event, Query $query )
     {
-        $query->order(['date_created' => 'desc']);
+        $query->orderByDesc('date_created');
     }
 }

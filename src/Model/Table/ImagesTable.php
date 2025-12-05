@@ -78,9 +78,9 @@ class ImagesTable extends Table
      * @param $event
      * @param $query
      */
-    public function beforeFind( $event, $query )
+    public function beforeFind( $event, Query $query )
     {
-        $query->order([ $this->_alias . '.position' => 'asc']);
+        $query->orderBy([ $this->_alias . '.position' => 'asc']);
     }
 
     /**

@@ -171,8 +171,8 @@ class PagesTable extends Table
      * @param $event
      * @param $query
      */
-    public function beforeFind( $event, $query )
+    public function beforeFind( $event, Query $query )
     {
-        $query->order([ $this->getAlias() . '.position' => 'asc']);
+        $query->orderBy([ $this->getAlias() . '.position' => 'asc']);
     }
 }
