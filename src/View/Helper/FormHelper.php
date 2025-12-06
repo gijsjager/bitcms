@@ -84,7 +84,7 @@ class FormHelper extends \Cake\View\Helper\FormHelper
             'radioWrapper' => '<div class="form-check">{{label}}</div>',
             'radioContainer' => '<fieldset class="form-group {{type}}{{required}}">{{content}}</fieldset>',
             'radioContainerHorizontal' => '<fieldset class="form-group {{type}}{{required}}"><div class="row">{{content}}</div></fieldset>',
-            'textarea' => '<textarea name="{{name}}" class="form-control{{attrs.class}}" {{attrs}}>{{value}}</textarea>',
+            'textarea' => '<textarea name="{{name}}"{{attrs}}>{{value}}</textarea>',
             'submitContainer' => '<div class="form-group">{{content}}</div>',
             'submitContainerHorizontal' => '<div class="form-group row"><div class="{{labelColumnClass}}"></div><div class="{{inputColumnClass}}">{{content}}</div></div>',
 
@@ -362,6 +362,19 @@ class FormHelper extends \Cake\View\Helper\FormHelper
         ];
 
         return parent::control($fieldName, $options);
+    }
+
+    /**
+     * Creates a textarea widget.
+     *
+     * @param string $fieldName Name attribute of the textarea
+     * @param array $options Array of HTML attributes, and special options above.
+     * @return string A generated HTML text input element
+     */
+    public function textarea(string $fieldName, array $options = []): string
+    {
+        $options = $this->addClass($options, 'form-control');
+        return parent::textarea($fieldName, $options);
     }
 
     /**
