@@ -1,12 +1,11 @@
 <?php
+
 namespace Bitcms\Model\Table;
 
-use Cake\ORM\Query;
+use Bitcms\Utilities\Storage;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Composer\DependencyResolver\Rule;
-use Cake\Utility\Filesystem;
 
 /**
  * ImageResponsive Model
@@ -65,13 +64,14 @@ class ImageResponsiveTable extends Table
      * @param $event
      * @param $entity
      */
-    public function beforeDelete( $event, $entity ){
+    public function beforeDelete($event, $entity)
+    {
 
         // find all files in the correct model folder
-        $dir = WWW_ROOT . DS . 'files' . DS . $entity->model .  DS . $entity->type;
-        $filesystem = new Filesystem();
-        if( $files = $filesystem->findRecursive($dir, '/^' . preg_quote($entity->filename, '/') . '$/') ){
-            foreach($files as $file){
+        $dir = WWW_ROOT . 'files' . DS . $entity->model . DS . $entity->type;
+        $filesystem = new Storage();
+        if ($files = $filesystem->findRecursive($dir, '/^' . preg_quote($entity->filename, '/') . '$/')) {
+            foreach ($files as $file) {
                 @unlink($file);
             }
         }

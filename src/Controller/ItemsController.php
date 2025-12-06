@@ -56,16 +56,14 @@ class ItemsController extends AppController
      */
     public function edit($id = null)
     {
-        $item = $this->Items->get($id, [
-            'contain' => [
-                'ItemFields' => [
-                    'BlueprintFields',
-                    'Items',
-                    'Images',
-                    'Files'
-                ]
+        $item = $this->Items->findById($id)->contain([
+            'ItemFields' => [
+                'BlueprintFields',
+                'Items',
+                'Images',
+                'Files'
             ]
-        ]);
+        ])->firstOrFail();
 
         // get blueprint
         $blueprint = $this->Items->Blueprints->get($item->blueprint_id, [

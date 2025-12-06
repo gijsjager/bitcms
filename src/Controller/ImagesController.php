@@ -2,9 +2,9 @@
 
 namespace Bitcms\Controller;
 
+use Bitcms\Utilities\Storage;
 use Cake\Error\FatalErrorException;
 use Cake\Routing\Router;
-use Cake\Utility\Filesystem;
 use Laminas\Diactoros\UploadedFile;
 
 /**
@@ -121,7 +121,7 @@ class ImagesController extends AppController
         if ($this->request->is(['put', 'post'])) {
 
             // create dir
-            $filesystem = new Filesystem();
+            $filesystem = new Storage();
             $dir = WWW_ROOT . 'files/' . $image->model . '/responsive/' . $type;
             $filesystem->mkdir($dir, 0775);
             if ($dir) {
@@ -227,9 +227,9 @@ class ImagesController extends AppController
         $file = $this->request->getData('file');
 
         // create correct dirs
-        $filesystem = new Filesystem();
-        $filesFolder = WWW_ROOT . DS . 'files';
-        $modelFolder = WWW_ROOT . DS . 'files' . DS . $model;
+        $filesystem = new Storage();
+        $filesFolder = WWW_ROOT . 'files';
+        $modelFolder = WWW_ROOT . 'files' . DS . $model;
         $filesystem->mkdir($filesFolder, 0775);
         $filesystem->mkdir($modelFolder, 0775);
 
@@ -288,13 +288,13 @@ class ImagesController extends AppController
      */
     protected function createThumbnail($model, $name): bool
     {
-        $fileSystem = new Filesystem();
+        $fileSystem = new Storage();
         $thumbDir = WWW_ROOT . 'files' . DS . $model . DS . 'thumbnails';
         $fileSystem->mkdir($thumbDir, 0775);
 
         $imageLibrary = new \Zebra_Image();
         $imageLibrary->auto_handle_exif_orientation = true;
-        $imageLibrary->source_path = WWW_ROOT . DS . 'files' . DS . $model . DS . $name;
+        $imageLibrary->source_path = WWW_ROOT . 'files' . DS . $model . DS . $name;
         $imageLibrary->target_path = $thumbDir . DS . $name;
         return $imageLibrary->resize(200, 200, ZEBRA_IMAGE_CROP_CENTER);
     }
@@ -307,7 +307,7 @@ class ImagesController extends AppController
      */
     protected function createNextGen(string $model, string $name, string $responsive = ''): bool
     {
-        $fileSystem = new Filesystem();
+        $fileSystem = new Storage();
 
         if (!empty($responsive)) {
             $dir = WWW_ROOT . 'files' . DS . $model . DS . 'responsive' . DS . $responsive . DS . 'webp';
@@ -335,7 +335,7 @@ class ImagesController extends AppController
      */
     public function crop($id)
     {
-        $fileSystem = new Filesystem();
+        $fileSystem = new Storage();
         $this->autoRender = false;
         $image = $this->Images->findById($id)->first();
 

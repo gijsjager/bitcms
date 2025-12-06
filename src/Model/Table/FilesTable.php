@@ -2,6 +2,7 @@
 namespace Bitcms\Model\Table;
 
 use Bitcms\Model\Entity\File;
+use Bitcms\Utilities\Storage;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -85,7 +86,7 @@ class FilesTable extends Table
 
         // find all files in the correct model folder
         $dir = WWW_ROOT . DS . 'files' . DS . $entity->model;
-        $filesystem = new Filesystem();
+        $filesystem = new Storage();
         if( $files = $filesystem->findRecursive($dir, '/^' . preg_quote($entity->filename, '/') . '$/') ){
            foreach($files as $file){
                 @unlink($file);

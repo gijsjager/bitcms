@@ -1,29 +1,31 @@
 <?php
+
 namespace Bitcms\Controller;
 
-use Bitcms\Controller\AppController;
+use Bitcms\Utilities\Storage;
 use Cake\Error\FatalErrorException;
-use Cake\Utility\Filesystem;
+use Cake\View\ViewBuilder;
 
 /**
  * Files Controller
  *
  * @property \App\Model\Table\FilesTable $Files
+ * @property ViewBuilder $viewBuilder
  *
  * @method \Bitcms\Model\Entity\File[] paginate($object = null, array $settings = [])
  */
 class FilesController extends AppController
 {
 
-    public function edit( $id )
+    public function edit($id)
     {
         $this->viewBuilder()->setLayout('ajax');
 
         $file = $this->Files->findById($id)->first();
 
-        if( $this->request->is(['put', 'post']) ){
+        if ($this->request->is(['put', 'post'])) {
             $this->Files->patchEntity($file, $this->request->getData());
-            if( $this->Files->save($file) ){
+            if ($this->Files->save($file)) {
                 echo 'success';
             } else {
                 throw new FatalErrorException(__('Could not save file'));
@@ -40,12 +42,12 @@ class FilesController extends AppController
      * @param $id
      * @return \Cake\Http\Response|null
      */
-    public function delete( $id )
+    public function delete($id)
     {
         $this->request->allowMethod(['put', 'post']);
 
-        if( $file = $this->Files->findById($id)->first() ){
-            if( $this->Files->delete($file) ){
+        if ($file = $this->Files->findById($id)->first()) {
+            if ($this->Files->delete($file)) {
                 $this->Flash->success(__('File removed'));
             } else {
                 $this->Flash->error(__('Could not remove file'));
@@ -67,10 +69,10 @@ class FilesController extends AppController
         $this->viewBuilder()->setLayout('ajax');
 
         // check for needed values
-        if( !$this->request->getData('model') ){
+        if (!$this->request->getData('model')) {
             throw new FatalErrorException(__('Model not set'));
         }
-        if( !$this->request->getData('entity_id') ){
+        if (!$this->request->getData('entity_id')) {
             throw new FatalErrorException(__('Entity ID not set'));
         }
 
@@ -94,34 +96,34 @@ class FilesController extends AppController
         $this->autoRender = false;
 
         // check for needed values
-        if( !$this->request->getData('model') ){
+        if (!$this->request->getData('model')) {
             throw new FatalErrorException(__('Model not set'));
         }
-        if( !$this->request->getData('entity_id') ){
+        if (!$this->request->getData('entity_id')) {
             throw new FatalErrorException(__('Entity ID not set'));
         }
-        if( !$this->request->getData('file') ){
+        if (!$this->request->getData('file')) {
             throw new FatalErrorException(__('No file found!'));
         }
 
-        $model      = $this->request->getData('model');
-        $entity_id  = $this->request->getData('entity_id');
-        $file       = $this->request->getData('file');
+        $model = $this->request->getData('model');
+        $entity_id = $this->request->getData('entity_id');
+        $file = $this->request->getData('file');
 
         // create correct dirs
-        $filesFolder = WWW_ROOT . DS . 'files';
-        $modelFolder = WWW_ROOT . DS . 'files' . DS . $model;
-        
-        $filesystem = new Filesystem();
+        $filesFolder = WWW_ROOT . 'files';
+        $modelFolder = WWW_ROOT . 'files' . DS . $model;
+
+        $filesystem = new Storage();
         $filesystem->mkdir($filesFolder, 0775);
         $filesystem->mkdir($modelFolder, 0775);
 
 
         // check if name already exist
-        $name   = $file->getClientFilename();
-        $ext    = pathinfo($name, PATHINFO_EXTENSION);
-        while( file_exists( $modelFolder . DS . $name ) ){
-            $nameWithoutExtension = str_replace('.'.$ext, '', $name);
+        $name = $file->getClientFilename();
+        $ext = pathinfo($name, PATHINFO_EXTENSION);
+        while (file_exists($modelFolder . DS . $name)) {
+            $nameWithoutExtension = str_replace('.' . $ext, '', $name);
             $name = $nameWithoutExtension . '_copy.' . $ext;
         }
 
@@ -129,15 +131,15 @@ class FilesController extends AppController
         $file->moveTo($modelFolder . DS . $name);
 
         // add to database
-        $position = $this->Files->find()->where(['model' => $model,  'entity_id' => $entity_id])->count();
+        $position = $this->Files->find()->where(['model' => $model, 'entity_id' => $entity_id])->count();
         $file = $this->Files->newEntity([
             'model' => $model,
             'entity_id' => $entity_id,
             'filename' => $name,
-            'position' => $position+1
+            'position' => $position + 1
         ]);
-        if( $this->Files->save($file) ){
-            echo json_encode( $file->toArray() );
+        if ($this->Files->save($file)) {
+            echo json_encode($file->toArray());
         } else {
             throw new FatalErrorException(__('Could not add file to the database'));
         }

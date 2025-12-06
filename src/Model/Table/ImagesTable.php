@@ -1,11 +1,13 @@
 <?php
+
 namespace Bitcms\Model\Table;
 
+use Bitcms\Utilities\Storage;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\Event;
 use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Cake\Utility\Filesystem;
 
 /**
  * Images Model
@@ -74,28 +76,19 @@ class ImagesTable extends Table
         return $validator;
     }
 
-    /**
-     * @param $event
-     * @param $query
-     */
-    public function beforeFind( $event, Query $query )
+    public function beforeFind($event, Query $query): void
     {
-        $query->orderBy([ $this->_alias . '.position' => 'asc']);
+        $query->orderBy([$this->_alias . '.position' => 'asc']);
     }
 
-    /**
-     * Before delete event, delete the images
-     *
-     * @param $event
-     * @param $entity
-     */
-    public function beforeDelete( $event, $entity ){
+    public function beforeDelete(Event $event, EntityInterface $entity): void
+    {
 
         // find all files in the correct model folder
         $dir = WWW_ROOT . DS . 'files' . DS . $entity->model;
-        $filesystem = new Filesystem();
-        if( $files = $filesystem->findRecursive($dir, '/^' . preg_quote($entity->filename, '/') . '$/') ){
-            foreach($files as $file){
+        $filesystem = new Storage();
+        if ($files = $filesystem->findRecursive($dir, '/^' . preg_quote($entity->filename, '/') . '$/')) {
+            foreach ($files as $file) {
                 @unlink($file);
             }
         }
