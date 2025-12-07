@@ -37,9 +37,9 @@ class FormsController extends FrontendController
                 ->deliver($template);
 
             // if there is template for a default response, send that to the user as well
-            $template = $this->getTemplate();
             $replyTpl = 'email/html/reply/' . $this->getTemplateName();
             if (file_exists(ROOT . DS . 'templates' . DS . $replyTpl . '.php')) {
+                $template = $this->getTemplate(reply: true);
                 $mailer = new Mailer();
                 $send = $mailer->setFrom($this->getMailFrom(), $this->getMailFromName())
                     ->setTo($this->request->getData('email'))
@@ -73,12 +73,18 @@ class FormsController extends FrontendController
 
     }
 
-    protected function getTemplate(): string
+    protected function getTemplate(bool $reply = false): string
     {
         // get correct template
         $view = new View($this->getRequest());
         $view->setLayout('email/html/default');
-        return $view->render('email/html/' . $this->getTemplateName());
+
+        $templatePath = 'email/html/';
+        if ($reply) {
+            $templatePath .= 'reply/';
+        }
+        $templatePath .= $this->getTemplateName();
+        return $view->render($templatePath);
     }
 
     protected function getTemplateName(): string
