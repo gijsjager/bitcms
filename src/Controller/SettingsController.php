@@ -32,9 +32,7 @@ class SettingsController extends AppController
      */
     public function view($id = null)
     {
-        $setting = $this->Settings->get($id, [
-            'contain' => []
-        ]);
+        $setting = $this->Settings->findById($id)->firstOrFail();
 
         $this->set('setting', $setting);
         $this->viewBuilder()->setOption('serialize', ['setting']);

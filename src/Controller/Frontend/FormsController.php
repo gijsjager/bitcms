@@ -3,8 +3,8 @@
 namespace Bitcms\Controller\Frontend;
 
 
-use Cake\Error\FatalErrorException;
 use Bitcms\Controller\FrontendController;
+use Cake\Error\FatalErrorException;
 use Cake\Mailer\Mailer;
 use Cake\View\View;
 
@@ -18,7 +18,7 @@ class FormsController extends FrontendController
                 'send' => 'OK',
                 'humanizer' => 'failed'
             ];
-        } else if (filter_var($this->request->getData('email'), FILTER_VALIDATE_EMAIL)) {
+        } elseif (filter_var($this->request->getData('email'), FILTER_VALIDATE_EMAIL)) {
 
             // generate view
             $template = $this->getTemplate();
@@ -31,18 +31,20 @@ class FormsController extends FrontendController
             $send = $mailer->setFrom($this->getMailFrom(), $this->getMailFromName())
                 ->setTo($this->getReceiver())
                 ->setSubject($this->getSubject())
+                ->setReplyTo($this->request->getData('email'))
                 ->setViewVars(['data' => $this->request->getData()])
                 ->setEmailFormat('html')
                 ->deliver($template);
 
             // if there is template for a default response, send that to the user as well
+            $template = $this->getTemplate();
             $replyTpl = 'email/html/reply/' . $this->getTemplateName();
             if (file_exists(ROOT . DS . 'templates' . DS . $replyTpl . '.php')) {
-                $template = $this->getTemplate('email/html/reply/' . $this->getTemplateName());
                 $mailer = new Mailer();
                 $send = $mailer->setFrom($this->getMailFrom(), $this->getMailFromName())
                     ->setTo($this->request->getData('email'))
-                    ->setSubject($this->getSubject('reply'))
+                    ->setSubject($this->getSubject())
+                    ->setReplyTo($this->getReceiver())
                     ->setViewVars(['data' => $this->request->getData()])
                     ->setEmailFormat('html')
                     ->deliver($template);
@@ -57,7 +59,7 @@ class FormsController extends FrontendController
             throw new FatalErrorException(__('Could not send email'));
         }
 
-        if($this->getRequest()->is('ajax')){
+        if ($this->getRequest()->is('ajax')) {
             return $this->getResponse()->withStringBody(json_encode($response));
         }
 
@@ -67,17 +69,16 @@ class FormsController extends FrontendController
         $url = explode('?', $url);
         $url = $url[0] . '?submitted=1';
 
-        return  $this->redirect($url);
+        return $this->redirect($url);
 
     }
 
-    protected function getTemplate(string $path = ''): string
+    protected function getTemplate(): string
     {
-        $path = $path === '' ? ('email/html/' . $this->getTemplateName()) : $path;
         // get correct template
         $view = new View($this->getRequest());
         $view->setLayout('email/html/default');
-        return $view->render($path);
+        return $view->render('email/html/' . $this->getTemplateName());
     }
 
     protected function getTemplateName(): string
@@ -92,7 +93,7 @@ class FormsController extends FrontendController
         $entity = $table->newEntity([
             'date_created' => new \DateTime(),
             'receiver' => $this->getReceiver(),
-            'sender' => $this->getMailFrom(),
+            'sender' => $this->request->getData('email'),
             'subject' => $this->getSubject(),
             'content' => $template
         ]);
@@ -103,13 +104,11 @@ class FormsController extends FrontendController
      * Get mail subject
      * @return string
      */
-    protected function getSubject(string $type = ''): string
+    protected function getSubject(): string
     {
         $config = $this->getConfig();
-        if(!empty($config['mails'][$this->request->getData('_name')])){
-            if ($type === 'reply' && !empty($config['mails'][$this->request->getData('_name')]['reply']['subject'])) {
-                return $config['mails'][$this->request->getData('_name')]['reply']['subject'];
-            }
+
+        if (!empty($config['mails'][$this->request->getData('_name')])) {
             return $config['mails'][$this->request->getData('_name')]['subject'];
         } else {
             return __('New mail received from website');
@@ -128,8 +127,14 @@ class FormsController extends FrontendController
 
     protected function getMailFromName(): string
     {
-        $settings = $this->getSettings();
-        return !empty($settings['mail_from_name']) ? $settings['mail_from_name'] : '';
+        $config = $this->getConfig();
+
+        if (!empty($config['mails'][$this->request->getData('_name')]['fromName'])) {
+            return $config['mails'][$this->request->getData('_name')]['fromName'];
+        } else {
+            $settings = $this->getSettings();
+            return !empty($settings['site_name']) ? $settings['site_name'] : 'Website';
+        }
     }
 
     protected function getReceiver(): string
