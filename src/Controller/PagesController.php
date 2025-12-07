@@ -153,7 +153,7 @@ class PagesController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $page = $this->Pages->get($id);
+        $page = $this->Pages->findById($id)->firstOrFail();
         if ($this->Pages->delete($page)) {
             $this->Flash->success(__('The page has been deleted.'));
         } else {

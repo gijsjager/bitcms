@@ -66,9 +66,7 @@ class ItemsController extends AppController
         ])->firstOrFail();
 
         // get blueprint
-        $blueprint = $this->Items->Blueprints->get($item->blueprint_id, [
-            'contain' => ['BlueprintFields']
-        ]);
+        $blueprint = $this->Items->Blueprints->findById($item->blueprint_id)->contain(['BlueprintFields'])->firstOrFail();
 
 
         if ($this->request->is('put')) {
@@ -98,7 +96,7 @@ class ItemsController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $item = $this->Items->get($id);
+        $item = $this->Items->findById($id)->firstOrFail();
         if ($this->Items->delete($item)) {
             $this->Flash->success(__('The item has been deleted.'));
         } else {

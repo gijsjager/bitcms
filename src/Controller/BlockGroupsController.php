@@ -43,9 +43,7 @@ class BlockGroupsController extends AppController
      */
     public function edit($id = null)
     {
-        $blockGroup = $this->BlockGroups->get($id, [
-            'contain' => []
-        ]);
+        $blockGroup = $this->BlockGroups->findById($id)->firstOrFail();
         if ($this->request->is(['patch', 'post', 'put'])) {
             $blockGroup = $this->BlockGroups->patchEntity($blockGroup, $this->request->getData());
             if ($this->BlockGroups->save($blockGroup)) {
@@ -69,7 +67,7 @@ class BlockGroupsController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $blockGroup = $this->BlockGroups->get($id);
+        $blockGroup = $this->BlockGroups->findById($id)->firstOrFail();
         if ($this->BlockGroups->delete($blockGroup)) {
             if($this->getRequest()->is('ajax')){
                 die('success');

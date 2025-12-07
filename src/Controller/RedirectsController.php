@@ -54,9 +54,7 @@ class RedirectsController extends AppController
      */
     public function edit($id = null)
     {
-        $redirect = $this->Redirects->get($id, [
-            'contain' => []
-        ]);
+        $redirect = $this->Redirects->findById($id)->firstOrFail();
         if ($this->request->is(['patch', 'post', 'put'])) {
             $redirect = $this->Redirects->patchEntity($redirect, $this->request->getData());
             if ($this->Redirects->save($redirect)) {
@@ -80,7 +78,7 @@ class RedirectsController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $redirect = $this->Redirects->get($id);
+        $redirect = $this->Redirects->findById($id)->firstOrFail();
         if ($this->Redirects->delete($redirect)) {
             $this->Flash->success(__('The redirect has been deleted.'));
         } else {

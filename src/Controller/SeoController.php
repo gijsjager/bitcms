@@ -36,7 +36,7 @@ class SeoController extends AppController
         if ($this->request->is(['post', 'put'])) {
             $entities = [];
             foreach ($this->request->getData('images') as $id => $data) {
-                $img = $table->get($id);
+                $img = $table->findById($id)->firstOrFail();
                 $table->patchEntity($img, $data);
                 $entities[] = $img;
             }

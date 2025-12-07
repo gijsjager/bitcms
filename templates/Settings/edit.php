@@ -2,7 +2,7 @@
 $this->Breadcrumbs->add('Dashboard', ['controller' => 'Dashboard', 'action' => 'index'], ['class' => 'breadcrumb-item']);
 $this->Breadcrumbs->add(__('Settings'), ['controller' => 'Settings', 'action' => 'index'], ['class' => 'breadcrumb-item']);
 $this->Breadcrumbs->add(__('Edit setting'), ['controller' => 'Settings', 'action' => 'edit', $setting->id], ['class' => 'breadcrumb-item']);
-$this->Breadcrumbs->add($setting->name, ['controller' => 'Settings', 'action' => 'edit', $setting->id], ['class' => 'breadcrumb-item']);
+$this->Breadcrumbs->add($setting->title ?? '', ['controller' => 'Settings', 'action' => 'edit', $setting->id], ['class' => 'breadcrumb-item']);
 echo $this->Breadcrumbs->render();
 echo $this->Flash->render();
 ?>

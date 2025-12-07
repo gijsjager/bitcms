@@ -60,9 +60,7 @@ class LanguagesController extends AppController
      */
     public function edit($id = null)
     {
-        $language = $this->Languages->get($id, [
-            'contain' => []
-        ]);
+        $language = $this->Languages->findById($id)->firstOrFail();
         if ($this->request->is(['patch', 'post', 'put'])) {
             $language = $this->Languages->patchEntity($language, $this->request->getData());
             if ($this->Languages->save($language)) {
@@ -86,7 +84,7 @@ class LanguagesController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $language = $this->Languages->get($id);
+        $language = $this->Languages->findById($id)->firstOrFail();
         if ($this->Languages->delete($language)) {
             $this->Flash->success(__('The language has been deleted.'));
         } else {
