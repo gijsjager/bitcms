@@ -68,9 +68,7 @@ class SettingsController extends AppController
      */
     public function edit($id = null)
     {
-        $setting = $this->Settings->get($id, [
-            'contain' => []
-        ]);
+        $setting = $this->Settings->findById($id)->firstOrFail();
         if ($this->request->is(['patch', 'post', 'put'])) {
             $setting = $this->Settings->patchEntity($setting, $this->request->getData());
             if ($this->Settings->save($setting)) {
@@ -94,7 +92,7 @@ class SettingsController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $setting = $this->Settings->get($id);
+        $setting = $this->Settings->findById($id)->firstOrFail();
         if ($this->Settings->delete($setting)) {
             $this->Flash->success(__('The setting has been deleted.'));
         } else {
