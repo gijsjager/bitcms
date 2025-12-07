@@ -188,12 +188,13 @@ class FrontendController extends Controller
 
     /**
      * Get BitCMS config
-     * @return array|mixed
+     * @return array
      */
-    public function getConfig()
+    public function getConfig(): array
     {
         if (file_exists(CONFIG . 'bitcms.php')){
-            return include_once CONFIG . 'bitcms.php';
+            // phpcs:ignore
+            return include CONFIG . 'bitcms.php';
         } else {
             return [];
         }
