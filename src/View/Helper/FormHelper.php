@@ -78,7 +78,7 @@ class FormHelper extends \Cake\View\Helper\FormHelper
             'labelLegendHorizontal' => '<legend class="col-form-label pt-0 {{labelColumnClass}}{{attrs.class}}"{{attrs}}>{{text}}</legend>',
             'option' => '<option value="{{value}}"{{attrs}}>{{text}}</option>',
             'optgroup' => '<optgroup label="{{label}}"{{attrs}}>{{content}}</optgroup>',
-            'select' => '<select name="{{name}}" class="form-control{{attrs.class}}" {{attrs}}>{{content}}</select>',
+            'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',
             'selectMultiple' => '<select name="{{name}}[]" multiple="multiple" class="form-control{{attrs.class}}" {{attrs}}>{{content}}</select>',
             'radio' => '<input type="radio" class="form-check-input{{attrs.class}}" name="{{name}}" value="{{value}}"{{attrs}}>',
             'radioWrapper' => '<div class="form-check">{{label}}</div>',
@@ -376,6 +376,20 @@ class FormHelper extends \Cake\View\Helper\FormHelper
         $options = $this->addClass($options, 'form-control');
         return parent::textarea($fieldName, $options);
     }
+
+    /**
+     * Creates a select widget.
+     *
+     * @param string $fieldName Name attribute of the textarea
+     * @param iterable $options Array of HTML attributes, and special options above.
+     * @return string A generated HTML text input element
+     */
+    public function select(string $fieldName, iterable $options = [], array $attributes = []): string
+    {
+        $attributes = $this->addClass($attributes, 'form-control');
+        return parent::select($fieldName, $options, $attributes);
+    }
+
 
     /**
      * Creates a button tag.
