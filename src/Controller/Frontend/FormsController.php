@@ -4,6 +4,8 @@ namespace Bitcms\Controller\Frontend;
 
 
 use Bitcms\Controller\FrontendController;
+use Bitcms\Utilities\Recaptcha;
+use Cake\Core\Configure;
 use Cake\Error\FatalErrorException;
 use Cake\Mailer\Mailer;
 use Cake\View\View;
@@ -11,8 +13,21 @@ use Cake\View\View;
 
 class FormsController extends FrontendController
 {
-    public function submit()
+    public function submit(): ?\Cake\Http\Response
     {
+        // validate recaptcha
+        $recaptcha = new Recaptcha();
+        if (!$recaptcha->validate($this->getRequest())) {
+            return $this->redirect($this->referer() . '?recaptcha_failed=1');
+        }
+
+        // honeypot check
+        if (
+            Configure::read('Forms.honeypot_enabled', true) &&
+            $this->request->getData('honey') !== '') {
+            return $this->redirect($this->referer() . '?honeypot_failed=1');
+        }
+
         if ($this->request->getData('_hmnzr') !== $this->getHumanizerCode()) {
             $response = [
                 'send' => 'OK',
