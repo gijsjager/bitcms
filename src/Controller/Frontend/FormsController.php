@@ -64,10 +64,9 @@ class FormsController extends FrontendController
             // if there is template for a default response, send that to the user as well
             $replyTpl = 'email/html/reply/' . $this->getTemplateName();
             if (file_exists(ROOT . DS . 'templates' . DS . $replyTpl . '.php')) {
-                $template = $this->getTemplate(reply: true);
                 $this->sendMail(
-                    subject: $this->getSubject(),
-                    template: $template,
+                    subject: $this->getSubject(true),
+                    template: $this->getTemplate(reply: true),
                 );
             }
 
@@ -129,11 +128,16 @@ class FormsController extends FrontendController
 
     /**
      * Get mail subject
+     * @param bool $isReply
      * @return string
      */
-    protected function getSubject(): string
+    protected function getSubject(bool $isReply = false): string
     {
         $config = $this->getConfig();
+
+        if ($isReply && !empty($config['mails'][$this->request->getData('_name')]['reply']['subject'])) {
+            return $config['mails'][$this->request->getData('_name')]['reply']['subject'];
+        }
 
         if (!empty($config['mails'][$this->request->getData('_name')])) {
             return $config['mails'][$this->request->getData('_name')]['subject'];
@@ -184,8 +188,9 @@ class FormsController extends FrontendController
         if (!empty($config['mails']['mailtrap'])) {
 
             $mailtrap = MailtrapClient::initSendingEmails(
-                apiKey: $config['mails']['mailtrap']['token'],
-                isSandbox: $config['mails']['mailtrap']['sandbox'] ?? false,
+                apiKey: Configure::read('Mailtrap.token'),
+                isSandbox: Configure::read('Mailtrap.sandbox', false),
+                inboxId: Configure::read('Mailtrap.inbox_id', null),
             );
 
             $email = (new MailtrapEmail())
