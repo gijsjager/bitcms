@@ -189,7 +189,7 @@ class FormsController extends FrontendController
         string $receiver,
         string $subject,
         string $template,
-        string $replyTo = null
+        ?string $replyTo = null
     ): bool
     {
         // Send with Mailtrap
