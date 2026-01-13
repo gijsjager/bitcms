@@ -36,4 +36,15 @@ return [
         '2.6' => 'Headers',
         '' => 'Crop freely',
     ],
+
+    /*
+     * Configure the email templates used within BitCMS
+     * Each key represents a template name located in templates/email/bitcms/
+     */
+    'mails' => [
+        'contact' => [
+            'fromName' => 'My Application',
+            'subject' => __('New contact email'),
+        ],
+    ]
 ];

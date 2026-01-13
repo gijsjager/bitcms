@@ -9,8 +9,18 @@ use Cake\Core\Configure;
 use Cake\Error\FatalErrorException;
 use Cake\Mailer\Mailer;
 use Cake\View\View;
+use Mailtrap\MailtrapClient;
+use Mailtrap\Mime\MailtrapEmail;
+use Symfony\Component\Mime\Address;
 
-
+/**
+ * Forms Controller
+ * If you want to use mailtrap:
+ * Configure::write('Mailtrap.token', 'your-mailtrap-token');
+ *
+ * @package Bitcms\Controller\Frontend
+ *
+ */
 class FormsController extends FrontendController
 {
     public function submit(): ?\Cake\Http\Response
@@ -42,33 +52,25 @@ class FormsController extends FrontendController
             $this->store($template);
 
             // send email
-            $mailer = new Mailer();
-            $send = $mailer->setFrom($this->getMailFrom(), $this->getMailFromName())
-                ->setTo($this->getReceiver())
-                ->setSubject($this->getSubject())
-                ->setReplyTo($this->request->getData('email'))
-                ->setViewVars(['data' => $this->request->getData()])
-                ->setEmailFormat('html')
-                ->deliver($template);
+            $send = $this->sendMail(
+                subject: $this->getSubject(),
+                template: $template,
+            );
 
             // if there is template for a default response, send that to the user as well
             $replyTpl = 'email/html/reply/' . $this->getTemplateName();
             if (file_exists(ROOT . DS . 'templates' . DS . $replyTpl . '.php')) {
                 $template = $this->getTemplate(reply: true);
-                $mailer = new Mailer();
-                $send = $mailer->setFrom($this->getMailFrom(), $this->getMailFromName())
-                    ->setTo($this->request->getData('email'))
-                    ->setSubject($this->getSubject())
-                    ->setReplyTo($this->getReceiver())
-                    ->setViewVars(['data' => $this->request->getData()])
-                    ->setEmailFormat('html')
-                    ->deliver($template);
+                $this->sendMail(
+                    subject: $this->getSubject(),
+                    template: $template,
+                );
             }
 
             $response = [
                 'send' => 'OK',
                 'humanizer' => 'validated',
-                'log' => (bool)$send
+                'log' => $send
             ];
         } else {
             throw new FatalErrorException(__('Could not send email'));
@@ -162,5 +164,47 @@ class FormsController extends FrontendController
     {
         $settings = $this->getSettings();
         return !empty($settings['mail_to']) ? $settings['mail_to'] : 'gijsjager@gmail.com';
+    }
+
+    /**
+     * Send mail using Mailtrap or default mailer
+     * @param string $subject
+     * @param string $template
+     * @return bool
+     */
+    protected function sendMail(string $subject, string $template): bool
+    {
+        // Send with Mailtrap
+        if (Configure::read('Mailtrap.token', null)) {
+
+            $mailtrap = MailtrapClient::initSendingEmails(
+                apiKey: Configure::read('Mailtrap.token'),
+            );
+
+            $email = (new MailtrapEmail())
+                ->from(new Address($this->getMailFrom(), $this->getMailFromName()))
+                ->to(new Address($this->getReceiver()))
+                ->replyTo($this->request->getData('email'))
+                ->subject($subject)
+                ->html($template)
+                ->category('Website email');
+
+            $response = $mailtrap->send($email);
+            return $response->getStatusCode() === 200;
+        }
+
+        // fallback on normal mailer
+        $mailer = new Mailer('default');
+        $mailer->setTo($this->getReceiver())
+            ->setFrom($this->getMailFrom(), $this->getMailFromName())
+            ->setSubject($subject)
+            ->setEmailFormat('html');
+
+        try {
+            $mailer->deliver($template);
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }
