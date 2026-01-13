@@ -57,14 +57,17 @@ class FormsController extends FrontendController
 
             // send email
             $send = $this->sendMail(
+                receiver: $this->getReceiver(),
                 subject: $this->getSubject(),
                 template: $template,
+                replyTo: $this->request->getData('email'),
             );
 
             // if there is template for a default response, send that to the user as well
             $replyTpl = 'email/html/reply/' . $this->getTemplateName();
             if (file_exists(ROOT . DS . 'templates' . DS . $replyTpl . '.php')) {
                 $this->sendMail(
+                    receiver: $this->request->getData('email'),
                     subject: $this->getSubject(true),
                     template: $this->getTemplate(reply: true),
                 );
@@ -176,11 +179,18 @@ class FormsController extends FrontendController
 
     /**
      * Send mail using Mailtrap or default mailer
+     * @param string $receiver
      * @param string $subject
      * @param string $template
+     * @param string|null $replyTo
      * @return bool
      */
-    protected function sendMail(string $subject, string $template): bool
+    protected function sendMail(
+        string $receiver,
+        string $subject,
+        string $template,
+        string $replyTo = null
+    ): bool
     {
         // Send with Mailtrap
         $config = $this->getConfig();
@@ -195,11 +205,14 @@ class FormsController extends FrontendController
 
             $email = (new MailtrapEmail())
                 ->from(new Address($this->getMailFrom(), $this->getMailFromName()))
-                ->to(new Address($this->getReceiver()))
-                ->replyTo($this->request->getData('email'))
+                ->to(new Address($receiver))
                 ->subject($subject)
                 ->html($template)
                 ->category('Website email');
+
+            if ($replyTo) {
+                $email->replyTo(new Address($replyTo));
+            }
 
             $response = $mailtrap->send($email);
             return $response->getStatusCode() === 200;
