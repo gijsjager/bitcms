@@ -179,6 +179,7 @@ class FormsController extends FrontendController
 
             $mailtrap = MailtrapClient::initSendingEmails(
                 apiKey: Configure::read('Mailtrap.token'),
+                isSandbox: Configure::read('Mailtrap.sandbox', false),
             );
 
             $email = (new MailtrapEmail())
