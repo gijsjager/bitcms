@@ -42,6 +42,12 @@ return [
      * Each key represents a template name located in templates/email/bitcms/
      */
     'mails' => [
+        'recaptha' => false,
+        'honeypot' => false,
+        'mailtrap' => [
+            'token' => '',
+            'sandbox' => true,
+        ],
         'contact' => [
             'fromName' => 'My Application',
             'subject' => __('New contact email'),

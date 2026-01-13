@@ -26,14 +26,18 @@ class FormsController extends FrontendController
     public function submit(): ?\Cake\Http\Response
     {
         // validate recaptcha
-        $recaptcha = new Recaptcha();
-        if (!$recaptcha->validate($this->getRequest())) {
-            return $this->redirect($this->referer() . '?recaptcha_failed=1');
+        $config = $this->getConfig();
+
+        if (!empty($config['mails']['recaptha']) ) {
+            $recaptcha = new Recaptcha();
+            if (!$recaptcha->validate($this->getRequest())) {
+                return $this->redirect($this->referer() . '?recaptcha_failed=1');
+            }
         }
 
         // honeypot check
         if (
-            Configure::read('Forms.honeypot_enabled', true) &&
+            !empty($config['mails']['honeypot']) &&
             $this->request->getData('honey') !== '') {
             return $this->redirect($this->referer() . '?honeypot_failed=1');
         }
@@ -175,11 +179,13 @@ class FormsController extends FrontendController
     protected function sendMail(string $subject, string $template): bool
     {
         // Send with Mailtrap
-        if (Configure::read('Mailtrap.token', null)) {
+        $config = $this->getConfig();
+
+        if (!empty($config['mails']['mailtrap'])) {
 
             $mailtrap = MailtrapClient::initSendingEmails(
-                apiKey: Configure::read('Mailtrap.token'),
-                isSandbox: Configure::read('Mailtrap.sandbox', false),
+                apiKey: $config['mails']['mailtrap']['token'],
+                isSandbox: $config['mails']['mailtrap']['sandbox'] ?? false,
             );
 
             $email = (new MailtrapEmail())
