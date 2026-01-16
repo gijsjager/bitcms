@@ -57,8 +57,6 @@ class PagesController extends AppController
         $url = $this->request->getQuery('url');
         $this->set('url', $url);
         $this->set('seo_title', __('Page not found'));
-
-        $response = $this->getResponse()->withStatus(404);
-        return $response;
+        $this->response = $this->response->withStatus(404);
     }
 }
