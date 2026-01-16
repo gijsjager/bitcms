@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Bitcms\Controller;
 
 use Bitcms\Controller\AppController;
+use Bitcms\Utilities\PageCache;
 use Cake\Cache\Cache;
 
 /**
@@ -31,6 +32,7 @@ class DashboardController extends AppController
     public function clearCache()
     {
         Cache::clearAll();
+        PageCache::clearAll();
         $this->Flash->success(__('Cache successfully cleared'), ['plugin' => 'Bitcms']);
         $this->redirect( $this->referer() );
     }

@@ -1,10 +1,11 @@
 <?php
+
 namespace Bitcms\Controller;
 
-use Cake\Cache\Cache;
+use Bitcms\Utilities\PageCache;
 use Cake\Controller\Controller;
+use Cake\Event\EventInterface;
 use Cake\I18n\I18n;
-use Cake\Utility\Text;
 
 class FrontendController extends Controller
 {
@@ -12,7 +13,7 @@ class FrontendController extends Controller
     {
         parent::initialize();
 
-        if($this->request->is('ajax')){
+        if ($this->request->is('ajax')) {
             $this->viewBuilder()->setLayout('ajax');
         }
 
@@ -23,6 +24,32 @@ class FrontendController extends Controller
         $this->set('menu', $this->getMenu());
         $this->set('humanizer', $this->getHumanizerCode());
         $this->set('languages', $this->fetchTable('Bitcms.Languages')->find()->where(['active' => true])->toArray());
+    }
+
+
+    /**
+     * Before filter check for cache
+     * @param EventInterface $event
+     * @return void
+     */
+    public function beforeFilter(EventInterface $event): void
+    {
+        $cache = PageCache::getForView($event);
+        if ($cache !== null) {
+            $response = $this->response->withStringBody($cache);
+            $event->setResult($response);
+            $event->stopPropagation();
+        }
+    }
+
+    /**
+     * After filter generate cache
+     * @param EventInterface $event
+     * @return void
+     */
+    public function afterFilter(EventInterface $event): void
+    {
+        PageCache::generateForView($event);
     }
 
     /**
@@ -62,7 +89,7 @@ class FrontendController extends Controller
             'created' => date('Y-m-d')
         ]);
 
-        if($q->all()->isEmpty()){
+        if ($q->all()->isEmpty()) {
             $v = $visitors->newEntity([
                 'ipaddress' => md5($browserData['REMOTE_ADDR']),
                 'url' => $this->getRequest()->getRequestTarget(),
@@ -86,7 +113,7 @@ class FrontendController extends Controller
         return $pages->find()
             ->where(['menu', true, 'parent_id IS' => null])
             ->orderByAsc('position')
-            ->contain(['ChildPages' => function($q){
+            ->contain(['ChildPages' => function ($q) {
                 return $q->where(['menu' => 1]);
             }])
             ->cache($cacheName)
@@ -100,7 +127,7 @@ class FrontendController extends Controller
      */
     public function setLanguage(): bool
     {
-        if($this->request->is('post')){
+        if ($this->request->is('post')) {
             return true;
         }
 
@@ -173,8 +200,8 @@ class FrontendController extends Controller
     protected function getSettings()
     {
         return $this->fetchTable('Bitcms.Settings')->find('list',
-        keyField: 'title',
-        valueField: 'value')->cache('settings_' . I18n::getLocale())->toArray();
+            keyField: 'title',
+            valueField: 'value')->cache('settings_' . I18n::getLocale())->toArray();
     }
 
     /**
@@ -192,7 +219,7 @@ class FrontendController extends Controller
      */
     public function getConfig(): array
     {
-        if (file_exists(CONFIG . 'bitcms.php')){
+        if (file_exists(CONFIG . 'bitcms.php')) {
             // phpcs:ignore
             return include CONFIG . 'bitcms.php';
         } else {

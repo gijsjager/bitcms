@@ -2,6 +2,7 @@
 
 namespace Bitcms\Controller;
 
+use Bitcms\Utilities\PageCache;
 use Cake\I18n\I18n;
 
 class TranslationsController extends AppController
@@ -58,6 +59,7 @@ class TranslationsController extends AppController
             }
 
             if ($this->Translations->save($translation)) {
+                PageCache::clearAll();
                 $this->Flash->success(__('The translation has been saved.'));
                 return $this->redirect(['action' => 'index']);
             }
@@ -79,6 +81,7 @@ class TranslationsController extends AppController
             $this->Translations->delete($item);
         }
 
+        PageCache::clearAll();
         $this->Flash->success(__('{0} has been deleted.', $this->request->getData('template_key')));
         return $this->redirect($this->referer());
     }
@@ -102,6 +105,7 @@ class TranslationsController extends AppController
         }
         $this->Translations->patchEntity($entity, $this->request->getData());
         $this->Translations->save($entity);
+        PageCache::clearAll();
 
         $this->disableAutoRender();
         echo 'ok';

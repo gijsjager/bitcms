@@ -2,6 +2,7 @@
 namespace Bitcms\Controller;
 
 use Bitcms\Controller\AppController;
+use Bitcms\Utilities\PageCache;
 use Cake\Cache\Cache;
 use Cake\Utility\Text;
 
@@ -97,7 +98,7 @@ class PagesController extends AppController
                         }
                     }
                 }
-
+                PageCache::clearAll();
             }
         }
     }
@@ -132,6 +133,7 @@ class PagesController extends AppController
                 }
 
                 Cache::clearAll();
+                PageCache::clearAll();
                 $this->Flash->success(__('The page has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -155,6 +157,7 @@ class PagesController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $page = $this->Pages->findById($id)->firstOrFail();
         if ($this->Pages->delete($page)) {
+            PageCache::clearAll();
             $this->Flash->success(__('The page has been deleted.'));
         } else {
             $this->Flash->error(__('The page could not be deleted. Please, try again.'));

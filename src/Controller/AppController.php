@@ -5,10 +5,8 @@ namespace Bitcms\Controller;
 
 use App\Controller\AppController as BaseController;
 use Bitcms\Model\Entity\User;
-use Bitcms\Utilities\PageCache;
 use Cake\Controller\Component\AuthComponent;
 use Cake\Core\Configure;
-use Cake\Event\EventInterface;
 use Cake\I18n\I18n;
 
 class AppController extends BaseController
@@ -34,21 +32,6 @@ class AppController extends BaseController
         $this->set('bitcms', $this->getConfig());
         $this->setLanguages();
         $this->viewBuilder()->setLayout('Bitcms.bitcms');
-    }
-
-    public function beforeFilter(EventInterface $event): void
-    {
-        $cache = PageCache::getForView($event);
-        if ($cache !== null) {
-            $response = $this->response->withStringBody($cache);
-            $event->setResult($response);
-            $event->stopPropagation();
-        }
-    }
-
-    public function afterFilter(EventInterface $event): void
-    {
-        PageCache::generateForView($event);
     }
 
     /**
@@ -169,7 +152,7 @@ class AppController extends BaseController
      */
     public function getConfig(): array
     {
-        if (file_exists(CONFIG . 'bitcms.php')){
+        if (file_exists(CONFIG . 'bitcms.php')) {
             return include_once CONFIG . 'bitcms.php';
         } else {
             return [];

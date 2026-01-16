@@ -2,6 +2,7 @@
 
 namespace Bitcms\Controller;
 
+use Bitcms\Utilities\PageCache;
 use Cake\Database\Connection;
 use Cake\Datasource\ConnectionManager;
 use Cake\Datasource\FactoryLocator;
@@ -41,6 +42,7 @@ class SeoController extends AppController
                 $entities[] = $img;
             }
             if ($table->saveMany($entities)) {
+                PageCache::clearAll();
                 $this->Flash->success(__('Images are updated'), ['plugin' => 'Bitcms']);
                 $this->redirect(['action' => 'images', '?' => ['language' => $this->getRequest()->getQuery('language')]]);
             } else {
@@ -99,6 +101,7 @@ class SeoController extends AppController
                 }
             }
 
+            PageCache::clearAll();
             $this->Flash->success(__('Stored! Let\'s fire up that SEO!'));
             $this->redirect(['action' => 'pages', '?' => ['language' => $this->request->getQuery('language')]]);
 

@@ -52,6 +52,17 @@ abstract class PageCache
         return null;
     }
 
+    public static function clearAll(): void
+    {
+        $cacheDir = ROOT . DS . self::CACHE_DIR;
+        if (is_dir($cacheDir)) {
+            $files = glob($cacheDir . DS . '*.html');
+            foreach ($files as $file) {
+                unlink($file);
+            }
+        }
+    }
+
     protected static function checkCacheDirectory(): void
     {
         $cacheDir = ROOT . DS . self::CACHE_DIR;

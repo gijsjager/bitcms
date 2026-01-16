@@ -4,6 +4,7 @@ namespace Bitcms\Controller;
 
 use Bitcms\Model\Entity\Blueprint;
 use Bitcms\Model\Entity\Item;
+use Bitcms\Utilities\PageCache;
 use Cake\Utility\Text;
 
 /**
@@ -73,6 +74,7 @@ class ItemsController extends AppController
             $item = $this->Items->patchEntity($item, $this->request->getData());
 
             if ($this->Items->save($item)) {
+                PageCache::clearAll();
                 $this->Flash->success(__('The item has been saved.'));
 
                 return $this->redirect(['action' => 'index', $blueprint->id]);
@@ -98,6 +100,7 @@ class ItemsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $item = $this->Items->findById($id)->firstOrFail();
         if ($this->Items->delete($item)) {
+            PageCache::clearAll();
             $this->Flash->success(__('The item has been deleted.'));
         } else {
             $this->Flash->error(__('The item could not be deleted. Please, try again.'));
@@ -138,6 +141,7 @@ class ItemsController extends AppController
         }
 
         if ($this->Items->save($item)) {
+            PageCache::clearAll();
             $this->Flash->success(__('Item added'));
         } else {
             $errorString = __('Could not add item.<br/>');

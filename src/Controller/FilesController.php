@@ -2,6 +2,7 @@
 
 namespace Bitcms\Controller;
 
+use Bitcms\Utilities\PageCache;
 use Bitcms\Utilities\Storage;
 use Cake\Error\FatalErrorException;
 use Cake\View\ViewBuilder;
@@ -26,6 +27,7 @@ class FilesController extends AppController
         if ($this->request->is(['put', 'post'])) {
             $this->Files->patchEntity($file, $this->request->getData());
             if ($this->Files->save($file)) {
+                PageCache::clearAll();
                 echo 'success';
             } else {
                 throw new FatalErrorException(__('Could not save file'));
@@ -139,6 +141,7 @@ class FilesController extends AppController
             'position' => $position + 1
         ]);
         if ($this->Files->save($file)) {
+            PageCache::clearAll();
             echo json_encode($file->toArray());
         } else {
             throw new FatalErrorException(__('Could not add file to the database'));

@@ -1,6 +1,8 @@
 <?php
 namespace Bitcms\Controller;
 
+use Bitcms\Utilities\PageCache;
+
 /**
  * Settings Controller
  *
@@ -49,6 +51,7 @@ class SettingsController extends AppController
         if ($this->request->is('post')) {
             $setting = $this->Settings->patchEntity($setting, $this->request->getData());
             if ($this->Settings->save($setting)) {
+                PageCache::clearAll();
                 $this->Flash->success(__('The setting has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -72,6 +75,7 @@ class SettingsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $setting = $this->Settings->patchEntity($setting, $this->request->getData());
             if ($this->Settings->save($setting)) {
+                PageCache::clearAll();
                 $this->Flash->success(__('The setting has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -94,6 +98,7 @@ class SettingsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $setting = $this->Settings->findById($id)->firstOrFail();
         if ($this->Settings->delete($setting)) {
+            PageCache::clearAll();
             $this->Flash->success(__('The setting has been deleted.'));
         } else {
             $this->Flash->error(__('The setting could not be deleted. Please, try again.'));
