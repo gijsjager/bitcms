@@ -134,19 +134,6 @@ abstract class PageCache
 
         //  get the browser type (chrome / firefox / safari / edge / opera) from the user agent
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
-        if (stripos($userAgent, 'chrome') !== false) {
-            $fileName .= '_chrome';
-        } elseif (stripos($userAgent, 'firefox') !== false) {
-            $fileName .= '_firefox';
-        } elseif (stripos($userAgent, 'safari') !== false) {
-            $fileName .= '_safari';
-        } elseif (stripos($userAgent, 'edge') !== false) {
-            $fileName .= '_edge';
-        } elseif (stripos($userAgent, 'opera') !== false) {
-            $fileName .= '_opera';
-        } else {
-            $fileName .= '_other';
-        }
 
         // check if the user is on mobile or desktop
         $isMobile = preg_match('/Mobile|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i', $userAgent);
