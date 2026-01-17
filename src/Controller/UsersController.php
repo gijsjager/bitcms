@@ -9,7 +9,7 @@ use Bitcms\Controller\AppController;
  */
 class UsersController extends AppController
 {
-    public function beforeFilter(\Cake\Event\EventInterface $event)
+    public function beforeFilter(\Cake\Event\EventInterface $event): void
     {
         parent::beforeFilter($event);
 
