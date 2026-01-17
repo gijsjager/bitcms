@@ -143,7 +143,7 @@ abstract class PageCache
             $fileName .= '_desktop';
         }
 
-        return $fileName . '.html';
+        return md5($fileName) . '.html';
     }
 
     /**
