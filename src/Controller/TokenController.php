@@ -18,7 +18,7 @@ class TokenController extends Controller
             ]));
     }
 
-    private function getCsrfToken(): Response
+    private function getCsrfToken(): string
     {
         // Generate a CSRF token
         $csrfToken = $this->getRequest()->getAttribute('csrfToken');
