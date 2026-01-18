@@ -5,7 +5,6 @@ use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
 
 
-
 return static function (RouteBuilder $routes) {
 
 
@@ -22,7 +21,7 @@ return static function (RouteBuilder $routes) {
         $routes->connect('/sitemap.xml', ['controller' => 'Sitemap', 'action' => 'index']);
 
         // items
-        foreach($blueprints as $blueprint) {
+        foreach ($blueprints as $blueprint) {
             $locale = $routes->params()['locale'];
             $blueprintSlug = isset($blueprint->_translations[$locale]) ? $blueprint->_translations[$locale]->slug : $blueprint->slug;
             $routes->connect(
@@ -40,8 +39,13 @@ return static function (RouteBuilder $routes) {
         });
     };
 
-    $routes->connect('/get/csrf-token', ['controller' => 'CsrfToken', 'action' => 'getToken'])->setExtensions(['json']);
     $routes->connect('/forms/submit', ['controller' => 'Forms', 'action' => 'submit'], ['_name' => 'form_submit']);
+    // CSRF token route for AJAX requests
+    $routes->connect('/get/csrf-token', [
+        'plugin' => 'Bitcms',
+        'controller' => 'CsrfToken',
+        'action' => 'getToken'
+    ])->setExtensions(['json']);
 
     // set correct language for translation use in the routes
     $languages = [['abbreviation' => '', 'locale' => env('APP_DEFAULT_LOCALE')]];
@@ -55,17 +59,9 @@ return static function (RouteBuilder $routes) {
         }
     }
 
-
     foreach ($languages as $lang) {
         $routes->scope('/' . $lang['abbreviation'], ['lang' => $lang['abbreviation'], 'locale' => $lang['locale']], $scopes);
     }
-
-    // CSRF token route for AJAX requests
-    $routes->connect('/get/csrf-token', [
-        'plugin' => 'Bitcms',
-        'controller' => 'CsrfToken',
-        'action' => 'getToken'
-    ])->setExtensions(['json']);
 
     $routes->plugin(
         'Bitcms',
