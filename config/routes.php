@@ -60,6 +60,13 @@ return static function (RouteBuilder $routes) {
         $routes->scope('/' . $lang['abbreviation'], ['lang' => $lang['abbreviation'], 'locale' => $lang['locale']], $scopes);
     }
 
+    // CSRF token route for AJAX requests
+    $routes->connect('/get/csrf-token', [
+        'plugin' => 'Bitcms',
+        'controller' => 'CsrfToken',
+        'action' => 'getToken'
+    ])->setExtensions(['json']);
+
     $routes->plugin(
         'Bitcms',
         ['path' => '/bitcms'],
