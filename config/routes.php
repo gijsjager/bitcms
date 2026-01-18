@@ -40,6 +40,7 @@ return static function (RouteBuilder $routes) {
         });
     };
 
+    $routes->connect('/get/csrf-token', ['controller' => 'CsrfToken', 'action' => 'getToken'])->setExtensions(['json']);
     $routes->connect('/forms/submit', ['controller' => 'Forms', 'action' => 'submit'], ['_name' => 'form_submit']);
 
     // set correct language for translation use in the routes
