@@ -42,12 +42,13 @@ class FormsController extends FrontendController
             return $this->redirect($this->referer() . '?honeypot_failed=1');
         }
 
-        if ($this->request->getData('_hmnzr') !== $this->getHumanizerCode()) {
-            $response = [
-                'send' => 'OK',
-                'humanizer' => 'failed'
-            ];
-        } elseif (filter_var($this->request->getData('email'), FILTER_VALIDATE_EMAIL)) {
+        if (
+            !empty($config['mails']['humanizer']) &&
+            $this->request->getData('_hmnzr') !== $this->getHumanizerCode()) {
+            return $this->redirect($this->referer() . '?humanizer_failed=1');
+        }
+
+        if (filter_var($this->request->getData('email'), FILTER_VALIDATE_EMAIL)) {
 
             // generate view
             $template = $this->getTemplate();
@@ -79,7 +80,7 @@ class FormsController extends FrontendController
                 'log' => $send
             ];
         } else {
-            throw new FatalErrorException(__('Could not send email'));
+            throw new FatalErrorException(__('Could not send email, no email found.'));
         }
 
         if ($this->getRequest()->is('ajax')) {
